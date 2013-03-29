@@ -62,12 +62,15 @@ class Client
      */
     public function call($content, $path = '/', array $parameters = array())
     {
-        $url     = $this->getUrl($path, $parameters);
-        $headers = array();
+        $url = $this->getUrl($path, $parameters);
 
-        if (isset($this->token) && is_string($this->token)) {
-            $headers[] = sprintf('X-Transmission-Session-Id: %s', $this->token);
+        if (!$this->hasToken()) {
+            $this->generateToken();
         }
+
+        $headers = array(
+            sprintf('X-Transmission-Session-Id: %s', $this->getToken())
+        );
 
         try {
             $response = $this->getBrowser()->post($url, $headers, $content);
@@ -113,6 +116,11 @@ class Client
         }
 
         return $url;
+    }
+
+    public function hasToken()
+    {
+        return isset($this->token) && is_string($this->token);
     }
 
     /**

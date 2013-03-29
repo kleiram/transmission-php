@@ -121,6 +121,46 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->call('{"bar":"baz"}');
     }
 
+    public function testMakeApiCallWithNoToken()
+    {
+        $response = $this->getMock('Buzz\Message\Response');
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+
+        $response
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue('{"foo":"bar"}'));
+
+        $browser = $this->getMock('Buzz\Browser');
+        $browser
+            ->expects($this->at(0))
+            ->method('post')
+            ->with('http://localhost:9091/transmission/rpc')
+            ->will($this->returnValue($this->getTokenResponse()));
+
+        $browser
+            ->expects($this->at(1))
+            ->method('post')
+            ->with(
+                'http://localhost:9091/transmission/rpc/',
+                array(
+                    'X-Transmission-Session-Id: foo'
+                ),
+                '{"bar":"baz"}'
+            )
+            ->will($this->returnValue($response));
+
+        $client = new Client();
+        $client->setBrowser($browser);
+        $object = $client->call('{"bar":"baz"}');
+
+        $this->assertInstanceOf('stdClass', $object);
+        $this->assertEquals('bar', $object->foo);
+    }
+
     public function testExceptionInApiCall()
     {
         $this->setExpectedException('Transmission\Exception\ConnectionException');
@@ -145,28 +185,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->call('{"bar":"baz"}');
     }
 
-    public function testGetSessionToken()
+    public function testGenerateSessionToken()
     {
         $client  = new Client();
         $browser = $this->getMock('Buzz\Browser');
-
-        $response = $this->getMock('Buzz\Message\Response');
-        $response
-            ->expects($this->once())
-            ->method('getStatusCode')
-            ->will($this->returnValue(409));
-
-        $response
-            ->expects($this->once())
-            ->method('getHeader')
-            ->with('X-Transmission-Session-Id')
-            ->will($this->returnValue('foo'));
 
         $browser
             ->expects($this->once())
             ->method('post')
             ->with('http://localhost:9091/transmission/rpc')
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($this->getTokenResponse()));
 
         $client->setBrowser($browser);
         $client->generateToken();
@@ -250,5 +278,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'http://example.org:8080/foo',
             $client->getUrl('http://example.org:8080/foo')
         );
+    }
+
+    protected function getTokenResponse()
+    {
+        $response = $this->getMock('Buzz\Message\Response');
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(409));
+
+        $response
+            ->expects($this->once())
+            ->method('getHeader')
+            ->with('X-Transmission-Session-Id')
+            ->will($this->returnValue('foo'));
+
+        return $response;
     }
 }
