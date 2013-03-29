@@ -17,11 +17,6 @@ class Peer
     protected $port;
 
     /**
-     * @var Boolean
-     */
-    protected $protected;
-
-    /**
      * @param string $address
      */
     public function setAddress($address)
@@ -46,18 +41,10 @@ class Peer
     }
 
     /**
-     * @var Boolean $protected
+     * @return integer
      */
-    public function setProtected($protected)
+    public function getPort()
     {
-        $this->protected = (Boolean) $protected;
-    }
-
-    /**
-     * @return Boolean
-     */
-    public function isProtected()
-    {
-        return $this->protected;
+        return $this->port;
     }
 }
