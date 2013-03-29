@@ -24,7 +24,7 @@ class Torrent
     /**
      * @var DateTime
      */
-    protected $doneDate
+    protected $doneDate;
 
     /**
      * @var array
@@ -52,7 +52,7 @@ class Torrent
     /**
      * @return integer
      */
-    public function getId($id)
+    public function getId()
     {
         return $this->id;
     }
@@ -100,7 +100,7 @@ class Torrent
             return;
         }
 
-        $this->doneDate = new \DateTime((integer) $doneDate);
+        $this->doneDate = \DateTime::createFromFormat((integer) $doneDate, 'U');
     }
 
     /**
@@ -156,6 +156,6 @@ class Torrent
      */
     public function getTrackers()
     {
-        return $this->tracker;
+        return $this->trackers;
     }
 }
