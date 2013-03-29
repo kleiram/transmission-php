@@ -100,7 +100,7 @@ class Torrent
             return;
         }
 
-        $this->doneDate = \DateTime::createFromFormat((integer) $doneDate, 'U');
+        $this->doneDate = \DateTime::createFromFormat('U', (integer) $doneDate);
     }
 
     /**
