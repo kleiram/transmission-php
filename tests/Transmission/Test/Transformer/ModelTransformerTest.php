@@ -39,14 +39,6 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
         $transformer->transform((object) array('result' => 'Something went wrong'));
     }
 
-    public function testExceptionWhenInvalidResponseReceived()
-    {
-        $this->setExpectedException('Transmission\Exception\InvalidResponseException');
-
-        $transformer = new ModelTransformer();
-        $transformer->transform((object) array('result' => 'success'));
-    }
-
     protected function assertFiles(array $files)
     {
         $this->assertCount(1, $files);
