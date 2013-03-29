@@ -90,11 +90,11 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
 
     protected function getTorrentData()
     {
-        return array(
+        return (object) array(
             'id' => 1,
             'name' => 'example torrent',
             'doneDate' => 10,
-            'size' => 100,
+            'totalSize' => 100,
             'files' => array($this->getFileData()),
             'peers' => array($this->getPeerData()),
             'trackers' => array($this->getTrackerData())
@@ -103,7 +103,7 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
 
     protected function getFileData()
     {
-        return array(
+        return (object) array(
             'name' => 'Lorem ipsum',
             'bytesCompleted' => 10,
             'length' => 100
@@ -112,7 +112,7 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
 
     protected function getPeerData()
     {
-        return array(
+        return (object) array(
             'address' => 'example.org',
             'port' => 10
         );
@@ -120,7 +120,7 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
 
     protected function getTrackerData()
     {
-        return array(
+        return (object) array(
             'id' => 1,
             'announce' => 'foo',
             'scrape' => 'bar',
