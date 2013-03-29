@@ -1,4 +1,15 @@
 {
+    "name": "kleiram/transmission-php",
+    "description": "PHP Transmission client",
+    "keywords": ["transmission", "torrent", "download"],
+    "type": "library",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Ramon Kleiss",
+            "email": "ramon@cubilon.nl"
+        }
+    ],
     "require": {
         "kriswallsmith/buzz": "v0.9"
     },
