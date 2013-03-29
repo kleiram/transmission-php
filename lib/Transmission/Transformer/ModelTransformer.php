@@ -33,7 +33,11 @@ class ModelTransformer implements TransformerInterface
             return $this->transformTorrents($rootNode->torrents);
         }
 
-        throw new InvalidResponseException('Invalid response received');
+        $torrentAdded = "torrent-added";
+
+        if ($rootNode && isset($rootNode->$torrentAdded)) {
+            return $this->transformTorrent($rootNode->$torrentAdded);
+        }
     }
 
     /**
