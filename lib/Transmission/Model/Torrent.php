@@ -6,6 +6,14 @@ namespace Transmission\Model;
  */
 class Torrent implements ModelInterface
 {
+    const STATUS_STOPPED        = 0;
+    const STATUS_CHECK_WAIT     = 1;
+    const STATUS_CHECK          = 2;
+    const STATUS_DOWNLOAD_WAIT  = 3;
+    const STATUS_DOWNLOAD       = 4;
+    const STATUS_SEED_WAIT      = 5;
+    const STATUS_SEED           = 6;
+
     /**
      * @var integer
      */
@@ -20,6 +28,11 @@ class Torrent implements ModelInterface
      * @var integer
      */
     protected $size;
+
+    /**
+     * @var integer
+     */
+    protected $eta;
 
     /**
      * @var DateTime
@@ -47,6 +60,21 @@ class Torrent implements ModelInterface
     protected $status;
 
     /**
+     * @var double
+     */
+    protected $percentDone;
+
+    /**
+     * @var integer
+     */
+    protected $downloadRate;
+
+    /**
+     * @var integer
+     */
+    protected $uploadRate;
+
+    /**
      * {@inheritDoc}
      */
     public function getFieldMap()
@@ -55,7 +83,12 @@ class Torrent implements ModelInterface
             'id' => 'id',
             'name' => 'name',
             'size' => 'totalSize',
-            'doneDate' => 'doneDate'
+            'eta' => 'eta',
+            'doneDate' => 'doneDate',
+            'status' => 'status',
+            'percentDone' => 'percentDone',
+            'downloadRate' => 'rateDownload',
+            'uploadRate' => 'rateUpload'
         );
     }
 
@@ -105,6 +138,22 @@ class Torrent implements ModelInterface
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * @param integer $eta
+     */
+    public function setEta($eta)
+    {
+        $this->eta = (integer) $eta;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEta()
+    {
+        return $this->eta;
     }
 
     /**
@@ -175,5 +224,69 @@ class Torrent implements ModelInterface
     public function getTrackers()
     {
         return $this->trackers;
+    }
+
+    /**
+     * @param integer $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param double $percentDone
+     */
+    public function setPercentDone($percentDone)
+    {
+        $this->percentDone = (double) $percentDone;
+    }
+
+    /**
+     * @return double
+     */
+    public function getPercentDone()
+    {
+        return $this->percentDone;
+    }
+
+    /**
+     * @var integer
+     */
+    public function setDownloadRate($downloadRate)
+    {
+        $this->downloadRate = (integer) $downloadRate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getDownloadRate()
+    {
+        return $this->downloadRate;
+    }
+
+    /**
+     * @param integer $uploadRate
+     */
+    public function setUploadRate($uploadRate)
+    {
+        $this->uploadRate = (integer) $uploadRate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUploadRate()
+    {
+        return $this->uploadRate;
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Transmission;
 
+use Transmission\Model\Torrent;
+
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Transformer\ModelTransformer;
 use Transmission\Transformer\TransformerInterface;
@@ -69,13 +71,15 @@ class Service
      */
     public function getTorrents()
     {
+        $t = new Torrent();
+
         $response = $this->getClient()->call(json_encode(
             array(
                 'arguments' => array(
-                    'fields' => array(
-                        'id', 'name', 'totalSize', 'doneDate',
-                        'peers', 'files', 'trackers'
-                    )
+                    'fields' => array_merge(
+                        array_values($t->getFieldMap()),
+                        array('files', 'trackers', 'peers')
+                    ),
                 ),
                 'method' => 'torrent-get'
             )
@@ -91,12 +95,14 @@ class Service
      */
     public function getTorrent($id)
     {
+        $t = new Torrent();
+
         $response = $this->getClient()->call(json_encode(
             array(
                 'arguments' => array(
-                    'fields' => array(
-                        'id', 'name', 'totalSize', 'doneDate',
-                        'peers', 'files', 'trackers'
+                    'fields' => array_merge(
+                        array_values($t->getFieldMap()),
+                        array('files', 'trackers', 'peers')
                     ),
                     'ids' => array($id),
                     'method' => 'torrent-get'

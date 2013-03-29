@@ -45,10 +45,15 @@ Each of the `torrent` variables is an instance of the class
  - The torrent ID (`id`)
  - The name of the torrent (`name`)
  - The size of the torrent (`size`)
- - The date the torrent is expected to be done (`doneDate`)
- - The files the torrent contains (`files`)
- - The peers that are used to download the torrent (`peers`)
+ - The expected number of seconds left downloading (`eta`)
+ - The date the download of the torrent was finished (`doneDate`)
+ - The current status of the torrent (`status`)
+ - The percentage of the torrent that is done downloading (`percentDone`)
  - The trackers used to download the torrent (`trackers`)
+ - The current download rate [B/s] (`downloadRate`)
+ - The current upload rate [B/s] (`uploadRate`)- The files the torrent contains (`files`)
+ - The peers that are used to download the torrent (`peers`)
+
 
 ### Files
 
