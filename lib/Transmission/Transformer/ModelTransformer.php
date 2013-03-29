@@ -63,12 +63,11 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformTorrent(\stdClass $torrent)
     {
-        $t = new Torrent();
-
-        $t->setId(isset($torrent->id) ? $torrent->id : 0);
-        $t->setName(isset($torrent->name) ? $torrent->name : '');
-        $t->setSize(isset($torrent->totalSize) ? $torrent->totalSize : 0);
-        $t->setDoneDate(isset($torrent->doneDate) ? $torrent->doneDate : 0);
+        $t = $this->setProperties(
+            Torrent::getFieldMap(),
+            $torrent,
+            new Torrent()
+        );
 
         if (isset($torrent->files)) {
             foreach ($torrent->files as $file) {
@@ -98,12 +97,7 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformPeer(\stdClass $peer)
     {
-        $p = new Peer();
-
-        $p->setAddress(isset($peer->address) ? $peer->address : '');
-        $p->setPort(isset($peer->port) ? $peer->port : 0);
-
-        return $p;
+        return $this->setProperties(Peer::getFieldMap(), $peer, new Peer());
     }
 
     /**
@@ -113,13 +107,7 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformFile(\stdClass $file)
     {
-        $f = new File();
-
-        $f->setName(isset($file->name) ? $file->name : '');
-        $f->setCompleted(isset($file->bytesCompleted) ? $file->bytesCompleted : 0);
-        $f->setSize(isset($file->length) ? $file->length : 0);
-
-        return $f;
+        return $this->setProperties(File::getFieldMap(), $file, new File());
     }
 
     /**
@@ -129,13 +117,31 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformTracker(\stdClass $tracker)
     {
-        $t = new Tracker();
+        return $this->setProperties(
+            Tracker::getFieldMap(),
+            $tracker, new Tracker()
+        );
+    }
 
-        $t->setId(isset($tracker->id) ? $tracker->id : 0);
-        $t->setAnnounce(isset($tracker->announce) ? $tracker->announce : '');
-        $t->setScrape(isset($tracker->scrape) ? $tracker->scrape : '');
-        $t->setTier(isset($tracker->tier) ? $tracker->tier : 0);
+    /**
+     * @param array    $fieldMap
+     * @param stdClass $fields
+     * @param mixed    $object
+     *
+     * @return mixed
+     */
+    protected function setProperties(array $fieldMap, $fields, $object)
+    {
+        foreach ($fieldMap as $property => $field) {
+            if (isset($fields->$field)) {
+                $setter = 'set'. ucfirst($property);
 
-        return $t;
+                if (method_exists($object, $setter)) {
+                    $object->$setter($fields->$field);
+                }
+            }
+        }
+
+        return $object;
     }
 }

@@ -22,6 +22,18 @@ class File
     protected $size;
 
     /**
+     * @return array
+     */
+    public static function getFieldMap()
+    {
+        return array(
+            'name' => 'name',
+            'completed' => 'bytesCompleted',
+            'size' => 'length'
+        );
+    }
+
+    /**
      * @param string $name
      */
     public function setName($name)

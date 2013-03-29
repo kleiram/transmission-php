@@ -17,6 +17,17 @@ class Peer
     protected $port;
 
     /**
+     * @return array
+     */
+    public static function getFieldMap()
+    {
+        return array(
+            'address' => 'address',
+            'port' => 'port'
+        );
+    }
+
+    /**
      * @param string $address
      */
     public function setAddress($address)

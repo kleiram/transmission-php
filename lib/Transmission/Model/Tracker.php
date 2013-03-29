@@ -27,6 +27,19 @@ class Tracker
     protected $tier;
 
     /**
+     * @return array
+     */
+    public static function getFieldMap()
+    {
+        return array(
+            'id' => 'id',
+            'announce' => 'announce',
+            'scrape' => 'scrape',
+            'tier' => 'tier'
+        );
+    }
+
+    /**
      * @param integer $id
      */
     public function setId($id)

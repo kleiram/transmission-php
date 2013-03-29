@@ -42,6 +42,24 @@ class Torrent
     protected $trackers;
 
     /**
+     * @var integer
+     */
+    protected $status;
+
+    /**
+     * @return array
+     */
+    public static function getFieldMap()
+    {
+        return array(
+            'id' => 'id',
+            'name' => 'name',
+            'size' => 'totalSize',
+            'doneDate' => 'doneDate'
+        );
+    }
+
+    /**
      * @param integer $id
      */
     public function setId($id)
