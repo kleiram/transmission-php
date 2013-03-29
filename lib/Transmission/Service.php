@@ -33,6 +33,38 @@ class Service
     }
 
     /**
+     * @param integer $id
+     *
+     * @return mixed
+     */
+    public function get($id = null)
+    {
+        if (is_null($id)) {
+            return $this->getTorrents();
+        }
+
+        return $this->getTorrent($id);
+    }
+
+    /**
+     * @param string $filename
+     *
+     * @return Transmission\Model\Torrent
+     */
+    public function add($filename)
+    {
+        return $this->addTorrent($filename);
+    }
+
+    /**
+     * @param integer $id
+     */
+    public function remove($id)
+    {
+        $this->removeTorrent($id);
+    }
+
+    /**
      * @return array
      */
     public function getTorrents()
