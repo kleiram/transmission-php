@@ -2,11 +2,14 @@
 namespace Transmission\Test;
 
 use Transmission\Service;
+use Transmission\Model\Torrent;
 
 class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetTorrents()
     {
+        $t = new Torrent();
+
         $object = (object) array('foo' => 'bar');
 
         $client = $this->getMock('Transmission\Client');
@@ -16,10 +19,10 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             ->with(json_encode(
                 array(
                     'arguments' => array(
-                        'fields' => array(
-                            'id', 'name', 'totalSize', 'doneDate',
-                            'peers', 'files', 'trackers'
-                        )
+                        'fields' => array_merge(
+                            array_values($t->getFieldMap()),
+                            array('files', 'trackers', 'peers')
+                        ),
                     ),
                     'method' => 'torrent-get'
                 )
@@ -42,6 +45,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTorrent()
     {
+        $t = new Torrent();
+
         $object = (object) array('foo' => 'bar');
 
         $client = $this->getMock('Transmission\Client');
@@ -51,9 +56,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             ->with(json_encode(
                 array(
                     'arguments' => array(
-                        'fields' => array(
-                            'id', 'name', 'totalSize', 'doneDate',
-                            'peers', 'files', 'trackers'
+                        'fields' => array_merge(
+                            array_values($t->getFieldMap()),
+                            array('files', 'trackers', 'peers')
                         ),
                         'ids' => array(1),
                         'method' => 'torrent-get'
