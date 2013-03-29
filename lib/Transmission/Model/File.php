@@ -4,7 +4,7 @@ namespace Transmission\Model;
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
-class File
+class File implements ModelInterface
 {
     /**
      * @var string
@@ -22,9 +22,9 @@ class File
     protected $size;
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public static function getFieldMap()
+    public function getFieldMap()
     {
         return array(
             'name' => 'name',

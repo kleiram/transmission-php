@@ -4,7 +4,7 @@ namespace Transmission\Model;
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
-class Peer
+class Peer implements ModelInterface
 {
     /**
      * @var string
@@ -17,9 +17,9 @@ class Peer
     protected $port;
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public static function getFieldMap()
+    public function getFieldMap()
     {
         return array(
             'address' => 'address',

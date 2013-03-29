@@ -5,6 +5,7 @@ use Transmission\Model\File;
 use Transmission\Model\Peer;
 use Transmission\Model\Tracker;
 use Transmission\Model\Torrent;
+use Transmission\Model\ModelInterface;
 use Transmission\Exception\InvalidResponseException;
 
 /**
@@ -63,11 +64,7 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformTorrent(\stdClass $torrent)
     {
-        $t = $this->setProperties(
-            Torrent::getFieldMap(),
-            $torrent,
-            new Torrent()
-        );
+        $t = $this->setProperties($torrent, new Torrent());
 
         if (isset($torrent->files)) {
             foreach ($torrent->files as $file) {
@@ -97,7 +94,7 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformPeer(\stdClass $peer)
     {
-        return $this->setProperties(Peer::getFieldMap(), $peer, new Peer());
+        return $this->setProperties($peer, new Peer());
     }
 
     /**
@@ -107,7 +104,7 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformFile(\stdClass $file)
     {
-        return $this->setProperties(File::getFieldMap(), $file, new File());
+        return $this->setProperties($file, new File());
     }
 
     /**
@@ -117,10 +114,7 @@ class ModelTransformer implements TransformerInterface
      */
     public function transformTracker(\stdClass $tracker)
     {
-        return $this->setProperties(
-            Tracker::getFieldMap(),
-            $tracker, new Tracker()
-        );
+        return $this->setProperties($tracker, new Tracker());
     }
 
     /**
@@ -130,9 +124,9 @@ class ModelTransformer implements TransformerInterface
      *
      * @return mixed
      */
-    protected function setProperties(array $fieldMap, $fields, $object)
+    protected function setProperties($fields, ModelInterface $object)
     {
-        foreach ($fieldMap as $property => $field) {
+        foreach ($object->getFieldMap() as $property => $field) {
             if (isset($fields->$field)) {
                 $setter = 'set'. ucfirst($property);
 

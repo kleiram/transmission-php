@@ -4,7 +4,7 @@ namespace Transmission\Model;
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
-class Torrent
+class Torrent implements ModelInterface
 {
     /**
      * @var integer
@@ -47,9 +47,9 @@ class Torrent
     protected $status;
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public static function getFieldMap()
+    public function getFieldMap()
     {
         return array(
             'id' => 'id',

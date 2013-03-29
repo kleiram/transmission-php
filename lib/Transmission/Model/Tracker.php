@@ -4,7 +4,7 @@ namespace Transmission\Model;
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
-class Tracker
+class Tracker implements ModelInterface
 {
     /**
      * @var integer
@@ -27,9 +27,9 @@ class Tracker
     protected $tier;
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public static function getFieldMap()
+    public function getFieldMap()
     {
         return array(
             'id' => 'id',
