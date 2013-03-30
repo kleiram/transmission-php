@@ -118,13 +118,12 @@ class ModelTransformer implements TransformerInterface
     }
 
     /**
-     * @param array    $fieldMap
      * @param stdClass $fields
      * @param mixed    $object
      *
      * @return mixed
      */
-    protected function setProperties($fields, ModelInterface $object)
+    protected function setProperties(\stdClass $fields, ModelInterface $object)
     {
         foreach ($object->getFieldMap() as $property => $field) {
             if (isset($fields->$field)) {
