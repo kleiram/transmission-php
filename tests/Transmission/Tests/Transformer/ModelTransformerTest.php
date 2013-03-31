@@ -11,7 +11,6 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldTransformFieldsToModels()
     {
-
         $fields = (object) array(
             'id' => 1,
             'name' => 'foo'
