@@ -61,7 +61,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            'status' => 'success'
+            'result' => 'success'
         );
 
         $client = $this->getMock('Transmission\Client');
@@ -101,7 +101,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            'status' => 'success'
+            'result' => 'success'
         );
 
         $client = $this->getMock('Transmission\Client');
@@ -137,7 +137,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
             'arguments' => (object) array(
                 'torrents' => array()
             ),
-            'status' => 'success'
+            'result' => 'success'
         );
 
         $client = $this->getMock('Transmission\Client');
@@ -171,7 +171,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
                     'hashString' => sha1('foo')
                 )
             ),
-            'status' => 'success'
+            'result' => 'success'
         );
 
         $client = $this->getMock('Transmission\Client');
@@ -203,7 +203,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     {
         $response = (object) array(
             'arguments' => array(),
-            'status' => 'success'
+            'result' => 'success'
         );
 
         $client = $this->getMock('Transmission\Client');
@@ -228,7 +228,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     public function shouldThrowExceptionWhenNoArgumentsAreFound()
     {
         $response = (object) array(
-            'status' => 'success'
+            'result' => 'success'
         );
 
         $transmission = new Transmission();
@@ -257,7 +257,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     {
         $response = (object) array(
             'arguments' => (object) array(),
-            'status' => 'unsuccesfull status'
+            'result' => 'unsuccesfull status'
         );
 
         $transmission = new Transmission();

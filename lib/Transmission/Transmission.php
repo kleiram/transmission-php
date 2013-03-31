@@ -184,16 +184,16 @@ class Transmission
      */
     public function checkResponse($response)
     {
-        if (!isset($response->arguments) || !isset($response->status)) {
+        if (!isset($response->arguments) || !isset($response->result)) {
             throw new InvalidResponseException(sprintf(
                 'Received invalid response: "%s"',
                 json_encode($response)
             ));
         }
 
-        if ($response->status !== 'success') {
+        if ($response->result !== 'success') {
             throw new ErrorException(sprintf(
-                'An error occured: "%s"', $response->status
+                'An error occured: "%s"', $response->result
             ));
         }
     }
