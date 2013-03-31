@@ -2,6 +2,7 @@
 namespace Transmission\Transformer;
 
 use Transmission\Model\ModelInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
@@ -13,11 +14,11 @@ class ModelTransformer implements TransformerInterface
      */
     public function transform(ModelInterface $model, \stdClass $fields)
     {
+        $accessor = PropertyAccess::getPropertyAccessor();
+
         foreach ($model->getMapping() as $property => $field) {
             if (isset($fields->$field)) {
-                $setter = 'set' . ucfirst($property);
-
-                $model->$setter($fields->$field);
+                $accessor->setValue($model, $property, $fields->$field);
             }
         }
 
