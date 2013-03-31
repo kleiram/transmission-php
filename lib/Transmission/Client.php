@@ -3,6 +3,10 @@ namespace Transmission;
 
 use Buzz\Browser;
 
+use Transmission\Exception\ConnectionException;
+use Transmission\Exception\InvalidResponseException;
+use Transmission\Exception\UnexpectedResponseException;
+
 /**
  * Provides communication with the Transmission API
  *
@@ -62,7 +66,7 @@ class Client
         );
 
         // Check if we have an API token, if not, request one
-        if ($this->hasToken()) {
+        if (!$this->hasToken()) {
             $this->setToken($this->requestToken());
         }
 
@@ -73,15 +77,13 @@ class Client
                 $url, $headers, json_encode($request)
             );
         } catch (\Exception $e) {
-            // TODO: Make ConnectionException
-            throw new \Exception(
+            throw new ConnectionException(
                 'Could not connect to Transmission', 0, $e
             );
         }
 
         if ($response->getStatusCode() != 200) {
-            // TODO: Make UnexpectedResponseException
-            throw new \Exception(sprintf(
+            throw new UnexpectedResponseException(sprintf(
                 'Received unexpected %d, expected %d',
                 $response->getStatusCode(),
                 200
@@ -169,14 +171,14 @@ class Client
             $response = $this->getBrowser()->post($this->getUrl());
         } catch (\Exception $e) {
             // TODO: Make ConnectionException
-            throw new \Exception(
+            throw new ConnectionException(
                 'Could not connect to Transmission', 0, $e
             );
         }
 
         if ($response->getStatusCode() != 409) {
             // TODO: Make UnexpectedResponseException
-            throw new \Exception(sprintf(
+            throw new UnexpectedResponseException(sprintf(
                 'Received unexpected %d, expected %d',
                 $response->getStatusCode(),
                 409
@@ -184,8 +186,7 @@ class Client
         }
 
         if (!($token = $response->getHeader(self::TOKEN_HEADER))) {
-            // TODO: Make InvalidResponseException
-            throw new \Exception(
+            throw new InvalidResponseException(
                 'Did not receive API token from Transmission'
             );
         }
@@ -207,5 +208,23 @@ class Client
     public function getBrowser()
     {
         return $this->browser;
+    }
+
+    /**
+     * @param string $response
+     *
+     * @return stdClass
+     */
+    protected function transformResponse($response)
+    {
+        $stdClass = json_decode($response);
+
+        if (!$stdClass) {
+            throw new InvalidResponseException(sprintf(
+                'Invalid response received: %s', $response
+            ));
+        }
+
+        return $stdClass;
     }
 }
