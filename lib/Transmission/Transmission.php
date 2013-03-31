@@ -101,6 +101,18 @@ class Transmission
     }
 
     /**
+     * @param integer $id
+     */
+    public function removeTorrent($id)
+    {
+        $response = $this->client->call('torrent-remove', array(
+            'ids' => array($id)
+        ));
+
+        $this->checkResponse($response);
+    }
+
+    /**
      * @param string $host
      */
     public function setHost($host)

@@ -198,6 +198,31 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function shouldRemoveTorrent()
+    {
+        $response = (object) array(
+            'arguments' => array(),
+            'status' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-remove',
+                array('ids' => array(1))
+            )
+            ->will($this->returnValue($response));
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->removeTorrent(1);
+    }
+
+    /**
+     * @test
      * @expectedException Transmission\Exception\InvalidResponseException
      */
     public function shouldThrowExceptionWhenNoArgumentsAreFound()
