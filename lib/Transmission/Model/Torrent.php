@@ -17,13 +17,37 @@ class Torrent implements ModelInterface
     protected $name;
 
     /**
+     * @var DateTime
+     */
+    protected $eta;
+
+    /**
+     * @var integer
+     */
+    protected $downloadRate;
+
+    /**
+     * @var integer
+     */
+    protected $uploadRate;
+
+    /**
+     * @var integer
+     */
+    protected $totalSize;
+
+    /**
      * {@inheritDoc}
      */
     public static function getMapping()
     {
         return array(
             'id' => 'id',
-            'name' => 'name'
+            'name' => 'name',
+            'eta' => 'eta',
+            'downloadRate' => 'rateDownload',
+            'uploadRate' => 'rateUpload',
+            'totalSize' => 'totalSize'
         );
     }
 
@@ -57,5 +81,74 @@ class Torrent implements ModelInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param integer $eta
+     */
+    public function setEta($eta)
+    {
+        if ($eta > 0) {
+            $this->eta = date_create_from_format('U', $eta);
+        }
+        else {
+            $this->eta = null;
+        }
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getEta()
+    {
+        return $this->eta;
+    }
+
+    /**
+     * @param integer $rate
+     */
+    public function setDownloadRate($rate)
+    {
+        $this->downloadRate = (integer) $rate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getDownloadRate()
+    {
+        return $this->downloadRate;
+    }
+
+    /**
+     * @param integer $rate
+     */
+    public function setUploadRate($rate)
+    {
+        $this->uploadRate = (integer) $rate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUploadRate($rate)
+    {
+        return $this->uploadRate;
+    }
+
+    /**
+     * @param integer $size
+     */
+    public function setTotalSize($size)
+    {
+        $this->totalSize = (integer) $totalSize;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTotalSize()
+    {
+        return $this->totalSize;
     }
 }
