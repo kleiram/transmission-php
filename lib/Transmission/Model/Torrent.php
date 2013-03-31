@@ -42,6 +42,11 @@ class Torrent implements ModelInterface
     protected $finished;
 
     /**
+     * @var string
+     */
+    protected $error;
+
+    /**
      * {@inheritDoc}
      */
     public static function getMapping()
@@ -53,7 +58,8 @@ class Torrent implements ModelInterface
             'downloadRate' => 'rateDownload',
             'uploadRate' => 'rateUpload',
             'totalSize' => 'totalSize',
-            'finished' => 'isFinished'
+            'finished' => 'isFinished',
+            'error' => 'errorString'
         );
     }
 
@@ -172,5 +178,29 @@ class Torrent implements ModelInterface
     public function isFinished()
     {
         return $this->finished;
+    }
+
+    /**
+     * @param string $error
+     */
+    public function setError($error)
+    {
+        $this->error = (string) $error;
+    }
+
+    /**
+     * @return Boolean
+     */
+    public function hasError()
+    {
+        return !is_null($this->error);
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 }
