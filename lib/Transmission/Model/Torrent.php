@@ -37,6 +37,11 @@ class Torrent implements ModelInterface
     protected $totalSize;
 
     /**
+     * @var Boolean
+     */
+    protected $finished;
+
+    /**
      * {@inheritDoc}
      */
     public static function getMapping()
@@ -47,7 +52,8 @@ class Torrent implements ModelInterface
             'eta' => 'eta',
             'downloadRate' => 'rateDownload',
             'uploadRate' => 'rateUpload',
-            'totalSize' => 'totalSize'
+            'totalSize' => 'totalSize',
+            'finished' => 'isFinished'
         );
     }
 
@@ -150,5 +156,21 @@ class Torrent implements ModelInterface
     public function getTotalSize()
     {
         return $this->totalSize;
+    }
+
+    /**
+     * @param Boolean $finished
+     */
+    public function setFinished($finished)
+    {
+        $this->finished = (Boolean) $finished;
+    }
+
+    /**
+     * @return Boolean
+     */
+    public function isFinished()
+    {
+        return $this->finished;
     }
 }
