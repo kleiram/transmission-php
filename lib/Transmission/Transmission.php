@@ -80,6 +80,27 @@ class Transmission
     }
 
     /**
+     * @param string $uri
+     *
+     * @return Transmission\Model\Torrent
+     */
+    public function addTorrent($uri)
+    {
+        $response = $this->client->call('torrent-add', array(
+            'filename' => $uri
+        ));
+
+        $this->checkResponse($response);
+
+        $property = 'torrent-added';
+
+        return $this->transformer->transform(
+            new Torrent(),
+            $response->arguments->$property
+        );
+    }
+
+    /**
      * @param string $host
      */
     public function setHost($host)

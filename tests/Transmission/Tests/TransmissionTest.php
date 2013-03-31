@@ -160,6 +160,44 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function shouldAddTorrent()
+    {
+        $response = (object) array(
+            'arguments' => (object) array(
+                'torrent-added' => (object) array(
+                    'id' => 1,
+                    'name' => 'foo',
+                    'hashString' => sha1('foo')
+                )
+            ),
+            'status' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-add',
+                array(
+                    'filename' => 'foo'
+                )
+            )
+            ->will($this->returnValue($response));
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+
+        $torrent = $transmission->addTorrent('foo');
+
+        $this->assertInstanceOf('Transmission\Model\Torrent', $torrent);
+        $this->assertEquals(1, $torrent->getId());
+        $this->assertEquals('foo', $torrent->getName());
+    }
+
+    /**
+     * @test
      * @expectedException Transmission\Exception\InvalidResponseException
      */
     public function shouldThrowExceptionWhenNoArgumentsAreFound()
