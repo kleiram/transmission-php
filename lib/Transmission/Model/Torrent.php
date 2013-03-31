@@ -4,6 +4,7 @@ namespace Transmission\Model;
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
+// @codeCoverageIgnoreStart
 class Torrent implements ModelInterface
 {
     /**
@@ -204,3 +205,4 @@ class Torrent implements ModelInterface
         return $this->error;
     }
 }
+// @codeCoverageIgnoreEnd
