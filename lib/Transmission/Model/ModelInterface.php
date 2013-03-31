@@ -9,5 +9,5 @@ interface ModelInterface
     /**
      * @return array
      */
-    public function getMapping();
+    public static function getMapping();
 }

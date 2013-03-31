@@ -19,7 +19,7 @@ class Torrent implements ModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getMapping()
+    public static function getMapping()
     {
         return array(
             'id' => 'id',
