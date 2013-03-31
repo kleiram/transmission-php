@@ -1,6 +1,7 @@
 <?php
 namespace Transmission\Tests\Transformer;
 
+use Transmission\Model\Torrent;
 use Transmission\Transformer\ModelTransformer;
 
 class ModelTransformerTest extends \PHPUnit_Framework_TestCase
@@ -10,29 +11,6 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldTransformFieldsToModels()
     {
-        $model = $this->getMock('Transmission\Model\ModelInterface', array(
-            'setId',
-            'setName',
-            'getMapping'
-        ));
-
-        $model
-            ->expects($this->once())
-            ->method('getMapping')
-            ->will($this->returnValue(array(
-                'id' => 'id',
-                'name' => 'name'
-            )));
-
-        $model
-            ->expects($this->once())
-            ->method('setId')
-            ->with(1);
-
-        $model
-            ->expects($this->once())
-            ->method('setName')
-            ->with('foo');
 
         $fields = (object) array(
             'id' => 1,
@@ -40,6 +18,9 @@ class ModelTransformerTest extends \PHPUnit_Framework_TestCase
         );
 
         $transformer = new ModelTransformer();
-        $this->assertEquals($model, $transformer->transform($model, $fields));
+        $model = $transformer->transform(new Torrent(), $fields);
+
+        $this->assertEquals(1, $model->getId());
+        $this->assertEquals('foo', $model->getName());
     }
 }
