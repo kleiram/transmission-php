@@ -101,12 +101,12 @@ class Transmission
     }
 
     /**
-     * @param integer $id
+     * @param Transmission\Torrent\Model $torrent
      */
-    public function removeTorrent($id)
+    public function removeTorrent(Torrent $torrent)
     {
         $response = $this->client->call('torrent-remove', array(
-            'ids' => array($id)
+            'ids' => array($torrent->getId())
         ));
 
         $this->checkResponse($response);

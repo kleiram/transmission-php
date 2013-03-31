@@ -216,9 +216,12 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($response));
 
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
         $transmission = new Transmission();
         $transmission->setClient($client);
-        $transmission->removeTorrent(1);
+        $transmission->removeTorrent($torrent);
     }
 
     /**
