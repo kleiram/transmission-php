@@ -11,6 +11,8 @@ interface TransformerInterface
     /**
      * @param Transmission\Model\ModelInterface $model
      * @param stdClass                          $fields
+     *
+     * @return Transmission\Model\ModelInterface
      */
-    public function tranform(ModelInterface $model, \stdClass $fields);
+    public function transform(ModelInterface $model, \stdClass $fields);
 }
