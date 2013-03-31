@@ -12,7 +12,7 @@
     ],
     "require": {
         "kriswallsmith/buzz": "v0.9",
-        "symfony/property-access": "v2.2.0"
+        "symfony/property-access": ">=v2.2.0"
     },
     "autoload": {
         "psr-0": {
