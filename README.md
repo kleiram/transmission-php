@@ -41,6 +41,10 @@ $torrent->delete();
 
 // Or if you want to delete all local data too
 $torrent->delete(true);
+
+// You can also get the Trackers that the torrent currently uses
+// These are instances of the Transmission\Tracker class
+$trackers = $torrent->getTrackers();
 ```
 
 To find out which information is contained by the torrent, check
