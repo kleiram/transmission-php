@@ -86,6 +86,45 @@ class Torrent
         );
     }
 
+    /**
+     * @param string              $torrent
+     * @param Transmission\Client $client
+     * @param boolean             $meta
+     */
+    public static function add($torrent, Client $client = null, $meta = false)
+    {
+        $client = $client ?: new Client();
+
+        $arguments[!$meta ? 'torrent' : 'metainfo'] = $torrent;
+
+        $response     = $client->call('torrent-add', $arguments);
+        $torrentField = 'torrent-added';
+
+        if (!isset($response->result)) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        if ($response->result !== 'success') {
+            throw new \RuntimeException($response->result);
+        }
+
+        if (!isset($response->arguments) ||
+            !isset($response->arguments->$torrentField) ||
+            empty($response->arguments->$torrentField)) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        return ResponseTransformer::transform(
+            $response->arguments->$torrentField,
+            new Torrent($client),
+            self::getMapping()
+        );
+    }
+
     protected static function getMapping()
     {
         return array(
