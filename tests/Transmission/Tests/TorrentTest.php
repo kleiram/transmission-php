@@ -233,6 +233,73 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         Torrent::add('foo', $client);
     }
 
+    /**
+     * @test
+     */
+    public function shouldRemoveTorrents()
+    {
+        $response = (object) array(
+            'result' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-remove',
+                array(
+                    'ids' => array(1),
+                    'delete-local-data' => false
+                )
+            )
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->delete();
+    }
+
+    /**
+     * @test
+     * @expectedException RuntimeException
+     */
+    public function shouldThrowExceptionOnUnsuccesfullRemoveTorrentResultMessage()
+    {
+        $response = (object) array(
+            'result' => 'Something went wrong'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->delete();
+    }
+
+    /**
+     * @test
+     * @expectedException Transmission\Exception\InvalidResponseException
+     */
+    public function shouldThrowExceptionOnMissingFieldsInRemoveTorrentRequest()
+    {
+        $response = (object) array();
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->delete();
+    }
+
     public function invalidTorrentGetResponseProvider()
     {
         $responses = array();

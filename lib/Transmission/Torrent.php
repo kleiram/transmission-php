@@ -45,6 +45,26 @@ class Torrent
         return $this->client;
     }
 
+    public function delete($deleteLocalData = false)
+    {
+        $arguments = array(
+            'ids' => array($this->getId()),
+            'delete-local-data' => $deleteLocalData
+        );
+
+        $response = $this->getClient()->call('torrent-remove', $arguments);
+
+        if (!isset($response->result)) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        if ($response->result !== 'success') {
+            throw new \RuntimeException($response->result);
+        }
+    }
+
     public static function get($id, Client $client = null)
     {
         $client = $client ?: new Client();
