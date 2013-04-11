@@ -2,19 +2,25 @@
 namespace Transmission;
 
 use Buzz\Browser;
-
 use Transmission\Exception\ConnectionException;
 use Transmission\Exception\InvalidResponseException;
 use Transmission\Exception\UnexpectedResponseException;
 
 /**
- * Provides communication with the Transmission API
+ * The Client is used to connect to the Transmission client
  *
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
 class Client
 {
-    const RPC_PATH     = '/transmission/rpc';
+    /**
+     * @var string
+     */
+    const RPC_PATH = '/transmission/rpc';
+
+    /**
+     * @var string
+     */
     const TOKEN_HEADER = 'X-Transmission-Session-Id';
 
     /**
@@ -40,8 +46,8 @@ class Client
     /**
      * Constructor
      *
-     * @param string  $host (optional) The hostname of the Transmission server
-     * @param integer $port (optional) The port the Transmission server is listening on
+     * @param string  $host
+     * @param integer $port
      */
     public function __construct($host = null, $port = null)
     {
@@ -55,26 +61,29 @@ class Client
      *
      * @param string $method
      * @param array  $arguments
+     * @param string $tag
+     * @return stdClass
+     * @throws Transmission\Exception\ConnectionException
+     * @throws Transmission\Exception\InvalidResponseException
      */
-    public function call($method, array $arguments)
+    public function call($method, array $arguments = array(), $tag = null)
     {
-        $url     = $this->getUrl();
-        $headers = array();
-        $request = array(
-            'method' => (string) $method,
-            'arguments' => $arguments
-        );
+        $content = array('method' => (string) $method);
 
-        // Check if we have an API token, if not, request one
-        if (!$this->hasToken()) {
-            $this->setToken($this->requestToken());
+        if ($arguments) {
+            $content['arguments'] = $arguments;
+        }
+        if ($tag) {
+            $content['tag'] = (string) $tag;
         }
 
-        $headers[] = sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken());
-
         try {
-            $response = $this->getBrowser()->post(
-                $url, $headers, json_encode($request)
+            $response = $this->browser->post(
+                $this->getUrl(),
+                array(sprintf(
+                    '%s: %s', self::TOKEN_HEADER, $this->getToken()
+                )),
+                json_encode($content)
             );
         } catch (\Exception $e) {
             throw new ConnectionException(
@@ -82,36 +91,38 @@ class Client
             );
         }
 
-        if ($response->getStatusCode() != 200) {
-            throw new UnexpectedResponseException(sprintf(
-                'Received unexpected %d, expected %d',
-                $response->getStatusCode(),
-                200
-            ));
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode === 409) {
+            if ($response->getHeader(self::TOKEN_HEADER) == null) {
+                throw new InvalidResponseException(
+                    'Invalid response received from Transmission'
+                );
+            }
+
+            $this->setToken($response->getHeader(self::TOKEN_HEADER));
+
+            return $this->call($method, $arguments, $tag);
+        }
+
+        if ($statusCode !== 200) {
+            throw new UnexpectedResponseException(
+                'Unexpected response received from Transmission'
+            );
         }
 
         return $this->transformResponse($response->getContent());
     }
 
     /**
-     * @return string
-     */
-    public function getUrl()
-    {
-        return sprintf(
-            'http://%s:%d%s',
-            $this->getHost(),
-            $this->getPort(),
-            self::RPC_PATH
-        );
-    }
-
-    /**
      * @param string $host
+     * @return Transmission\Client
      */
     public function setHost($host)
     {
         $this->host = (string) $host;
+
+        return $this;
     }
 
     /**
@@ -124,10 +135,13 @@ class Client
 
     /**
      * @param integer $port
+     * @return Transmission\Client
      */
     public function setPort($port)
     {
         $this->port = (integer) $port;
+
+        return $this;
     }
 
     /**
@@ -139,19 +153,33 @@ class Client
     }
 
     /**
+     * @param Buzz\Browser $browser
+     * @return Transmission\Client
+     */
+    public function setBrowser(Browser $browser)
+    {
+        $this->browser = $browser;
+
+        return $this;
+    }
+
+    /**
+     * @return Buzz\Browser
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
+    }
+
+    /**
      * @param string $token
+     * @return Transmission\Client
      */
     public function setToken($token)
     {
         $this->token = (string) $token;
-    }
 
-    /**
-     * @return Boolean
-     */
-    public function hasToken()
-    {
-        return !is_null($this->token);
+        return $this;
     }
 
     /**
@@ -165,64 +193,28 @@ class Client
     /**
      * @return string
      */
-    public function requestToken()
+    protected function getUrl()
     {
-        try {
-            $response = $this->getBrowser()->post($this->getUrl());
-        } catch (\Exception $e) {
-            // TODO: Make ConnectionException
-            throw new ConnectionException(
-                'Could not connect to Transmission', 0, $e
-            );
-        }
-
-        if ($response->getStatusCode() != 409) {
-            // TODO: Make UnexpectedResponseException
-            throw new UnexpectedResponseException(sprintf(
-                'Received unexpected %d, expected %d',
-                $response->getStatusCode(),
-                409
-            ));
-        }
-
-        if (!($token = $response->getHeader(self::TOKEN_HEADER))) {
-            throw new InvalidResponseException(
-                'Did not receive API token from Transmission'
-            );
-        }
-
-        return $token;
-    }
-
-    /**
-     * @param Buzz\Browser $browser
-     */
-    public function setBrowser(Browser $browser)
-    {
-        $this->browser = $browser;
-    }
-
-    /**
-     * @return Buzz\Browser
-     */
-    public function getBrowser()
-    {
-        return $this->browser;
+        return sprintf(
+            'http://%s:%d%s',
+            $this->getHost(),
+            $this->getPort(),
+            self::RPC_PATH
+        );
     }
 
     /**
      * @param string $response
-     *
      * @return stdClass
      */
     protected function transformResponse($response)
     {
         $stdClass = json_decode($response);
 
-        if (!$stdClass) {
-            throw new InvalidResponseException(sprintf(
-                'Invalid response received: %s', $response
-            ));
+        if ($stdClass === null) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
         }
 
         return $stdClass;

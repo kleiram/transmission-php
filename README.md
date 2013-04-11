@@ -24,29 +24,57 @@ Using the library is as easy as installing it:
 
 ```php
 <?php
-use Transmission\Transmission;
+use Transmission\Torrent;
 
-// This will connect to localhost:9091 (the defaults)
-$transmission = new Transmission();
+// Getting all the torrents currently in the download queue
+$torrents = Torrent::all();
 
-// This will connect to example.org:8081
-$transmission = new Transmission('example.org', 8081);
+// Getting a specific torrent from the download queue
+$torrent = Torrent::get(1);
 
-// This will get a list of torrents
-$torrents = $transmission->getTorrents();
+// Adding a torrent to the download queue
+$torrent = Torrent::add(/* path to torrent */);
 
-// This will get the torrent with id 1
-$torrent = $transmission->getTorrent(1);
+// Removing a torrent from the download queue
+$torrent = Torrent::get(1);
+$torrent->delete();
 
-// This will add a torrent using the path of the torrent file (or magnet link!)
-$torrent = $transmission->addTorrent(/* path to torrent file */);
-
-// This will remove a torrent from Transmission
-$transmission->removeTorrent($torrent);
+// Or if you want to delete all local data too
+$torrent->delete(true);
 ```
 
 To find out which information is contained by the torrent, check
-[Transmission\Model\Torrent](https://github.com/kleiram/transmission-php/tree/master/lib/Transmission/Model/Torrent.php).
+[Transmission\Torrent](https://github.com/kleiram/transmission-php/tree/master/lib/Transmission/Torrent.php).
+
+By default, the library will try to connect to `localhost:9091`. If you want to
+connect to an other host or port you can create a new `Transmission\Client' and
+pass that to the static methods described above:
+
+```php
+<?php
+use Transmission\Client;
+use Transmission\Torrent;
+
+$client = new Client('example.com', 33);
+
+$torrents = Torrent::all($client);
+$torrent  = Torrent::get(1, $client);
+$torrent  = Torrent::add(/* path to torrent */, $client);
+
+// When you already have a torrent, you don't have to pass the client again
+$torrent->delete();
+```
+
+It is also possible to pass the torrent data directly instead of using a file
+but the metadata must be base64-encoded:
+
+```php
+<?php
+use Transmission\Torrent;
+
+// Instead of null you can pass a Transmission\Client instance
+$torrent = Torrent::add(/* base64-encoded metainfo */, null, true);
+```
 
 ## License
 

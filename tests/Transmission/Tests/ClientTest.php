@@ -1,7 +1,6 @@
 <?php
 namespace Transmission\Tests;
 
-use Mockery as Mock;
 use Transmission\Client;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
@@ -9,25 +8,42 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldHaveDefaultConnectionValues()
+    public function shouldHaveDefaultConnectionDetails()
     {
         $client = new Client();
 
-        $this->assertEquals('localhost', $client->getHost());
-        $this->assertEquals(9091, $client->getPort());
-        $this->assertEquals(null, $client->getToken());
-        $this->assertInstanceOf('Buzz\Browser', $client->getBrowser());
+        $this->assertEquals(
+            'localhost',
+            $client->getHost()
+        );
+        $this->assertEquals(
+            9091,
+            $client->getPort()
+        );
+        $this->assertNull(
+            $client->getToken()
+        );
+        $this->assertInstanceOf(
+            'Buzz\Browser',
+            $client->getBrowser()
+        );
     }
 
     /**
      * @test
      */
-    public function shouldHandleCustomConnectionValues()
+    public function shouldHandleCustomConnectionDetails()
     {
-        $client = new Client('example.org', 80);
+        $client = new Client('example.com', 80);
 
-        $this->assertEquals('example.org', $client->getHost());
-        $this->assertEquals(80, $client->getPort());
+        $this->assertEquals(
+            'example.com',
+            $client->getHost()
+        );
+        $this->assertEquals(
+            80,
+            $client->getPort()
+        );
     }
 
     /**
@@ -40,111 +56,138 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(200));
-
         $response
             ->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue('{"foo":"bar"}'));
+
+        $browser = $this->getMock('Buzz\Browser');
+        $browser
+            ->expects($this->once())
+            ->method('post')
+            ->with(
+                'http://localhost:9091/transmission/rpc',
+                array('X-Transmission-Session-Id: foo'),
+                '{"method":"foo","arguments":{"bar":"baz"},"tag":"foo"}'
+            )
+            ->will($this->returnValue($response));
+
+        $client = new Client();
+        $client->setToken('foo');
+        $client->setBrowser($browser);
+
+        $stdClass = $client->call(
+            'foo',
+            array('bar' => 'baz'),
+            'foo'
+        );
+
+        $this->assertInstanceOf(
+            'stdClass',
+            $stdClass
+        );
+        $this->assertObjectHasAttribute(
+            'foo',
+            $stdClass
+        );
+        $this->assertEquals(
+            'bar',
+            $stdClass->foo
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHandle409ResponseWhenMakingApiCalls()
+    {
+        $validResponse = $this->getMock(
+            'Buzz\Message\Response'
+        );
+        $validResponse
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+        $validResponse
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue('{"foo":"bar"}'));
+
+        $invalidResponse = $this->getMock(
+            'Buzz\Message\Response'
+        );
+        $invalidResponse
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(409));
+        $invalidResponse
+            ->expects($this->exactly(2))
+            ->method('getHeader')
+            ->with('X-Transmission-Session-Id')
+            ->will($this->returnValue('foo'));
 
         $browser = $this->getMock('Buzz\Browser');
         $browser
             ->expects($this->at(0))
             ->method('post')
-            ->with(
-                'http://localhost:9091/transmission/rpc',
-                $this->contains('X-Transmission-Session-Id: some-secret-token'),
-                '{"method":"foo","arguments":{"foo":"bar"}}'
-            )
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($invalidResponse));
 
-        $client = new Client();
-        $client->setToken('some-secret-token');
-        $client->setBrowser($browser);
-
-        $object = $client->call('foo', array('foo' => 'bar'));
-
-        $this->assertInstanceOf('stdClass', $object);
-        $this->assertObjectHasAttribute('foo', $object);
-        $this->assertEquals('bar', $object->foo);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldRequestTokenWhenMakingApiCallsWithoutToken()
-    {
-        $tokenResponse = $this->getMock('Buzz\Message\Response');
-        $tokenResponse
-            ->expects($this->once())
-            ->method('getStatusCode')
-            ->will($this->returnValue(409));
-
-        $tokenResponse
-            ->expects($this->once())
-            ->method('getHeader')
-            ->with('X-Transmission-Session-Id')
-            ->will($this->returnValue('some-secret-token'));
-
-        $response = $this->getMock('Buzz\Message\Response');
-        $response
-            ->expects($this->once())
-            ->method('getStatusCode')
-            ->will($this->returnValue(200));
-
-        $response
-            ->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue('{"foo":"bar"}'));
-
-        $browser = $this->getMock('Buzz\Browser');
         $browser
-            ->expects($this->exactly(2))
+            ->expects($this->at(1))
             ->method('post')
-            ->will($this->onConsecutiveCalls(
-                $this->returnValue($tokenResponse),
-                $this->returnValue($response)
-            ));
+            ->will($this->returnValue($validResponse));
 
         $client = new Client();
         $client->setBrowser($browser);
 
-        $object = $client->call('foo', array('foo' => 'bar'));
+        $stdClass = $client->call('foo');
 
-        $this->assertInstanceOf('stdClass', $object);
-        $this->assertObjectHasAttribute('foo', $object);
-        $this->assertEquals('bar', $object->foo);
-        $this->assertEquals('some-secret-token', $client->getToken());
+        $this->assertEquals(
+            'foo',
+            $client->getToken()
+        );
+        $this->assertInstanceOf(
+            'stdClass',
+            $stdClass
+        );
+        $this->assertObjectHasAttribute(
+            'foo',
+            $stdClass
+        );
+        $this->assertEquals(
+            'bar',
+            $stdClass->foo
+        );
     }
 
     /**
      * @test
      * @expectedException Transmission\Exception\ConnectionException
      */
-    public function shouldHandleExceptionWhenMakingApiCalls()
+    public function shouldHandleConnectionExceptionsWhenMakingApiCalls()
     {
         $browser = $this->getMock('Buzz\Browser');
         $browser
             ->expects($this->once())
             ->method('post')
-            ->will($this->throwException(new \Exception()));
+            ->will($this->throwException(new \RuntimeException()));
 
         $client = new Client();
-        $client->setToken('foo');
         $client->setBrowser($browser);
-        $client->call('foo', array('bar' => 'baz'));
+        $client->call('foo');
     }
 
     /**
      * @test
-     * @expectedException Transmission\Exception\UnexpectedResponseException
+     * @expectedException Transmission\Exception\InvalidResponseException
      */
-    public function shouldThrowExceptionWhenNon200StatusCodeIsReceived()
+    public function shouldThrowExceptionWithUnsetHeaderOn409Response()
     {
         $response = $this->getMock('Buzz\Message\Response');
         $response
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('getStatusCode')
-            ->will($this->returnValue(201));
+            ->will($this->returnValue(409));
 
         $browser = $this->getMock('Buzz\Browser');
         $browser
@@ -153,16 +196,38 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         $client = new Client();
-        $client->setToken('foo');
         $client->setBrowser($browser);
-        $client->call('foo', array('bar' => 'baz'));
+        $client->call('foo');
+    }
+
+    /**
+     * @test
+     * @expectedException Transmission\Exception\UnexpectedResponseException
+     */
+    public function shouldThrowExceptionOnInvalidStatusCode()
+    {
+        $response = $this->getMock('Buzz\Message\Response');
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(302));
+
+        $browser = $this->getMock('Buzz\Browser');
+        $browser
+            ->expects($this->once())
+            ->method('post')
+            ->will($this->returnValue($response));
+
+        $client = new Client();
+        $client->setBrowser($browser);
+        $client->call('foo');
     }
 
     /**
      * @test
      * @expectedException Transmission\Exception\InvalidResponseException
      */
-    public function shouldThrowExceptionWhenInvalidContentIsReceived()
+    public function shouldThrowExceptionOnInvalidContent()
     {
         $response = $this->getMock('Buzz\Message\Response');
         $response
@@ -173,48 +238,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response
             ->expects($this->once())
             ->method('getContent')
-            ->will($this->returnValue('non-json content'));
-
-        $browser = $this->getMock('Buzz\Browser');
-        $browser
-            ->expects($this->once())
-            ->method('post')
-            ->will($this->returnValue($response));
-
-        $client = new Client();
-        $client->setToken('foo');
-        $client->setBrowser($browser);
-        $client->call('foo', array('bar' => 'baz'));
-    }
-
-    /**
-     * @test
-     * @expectedException Transmission\Exception\ConnectionException
-     */
-    public function shouldHandleExceptionWhenRequestingApiToken()
-    {
-        $browser = $this->getMock('Buzz\Browser');
-        $browser
-            ->expects($this->once())
-            ->method('post')
-            ->will($this->throwException(new \Exception()));
-
-        $client = new Client();
-        $client->setBrowser($browser);
-        $client->requestToken();
-    }
-
-    /**
-     * @test
-     * @expectedException Transmission\Exception\UnexpectedResponseException
-     */
-    public function shouldThrowExceptionWhenNon409StatusCodeIsReceived()
-    {
-        $response = $this->getMock('Buzz\Message\Response');
-        $response
-            ->expects($this->exactly(2))
-            ->method('getStatusCode')
-            ->will($this->returnValue(200));
+            ->will($this->returnValue('Invalid JSON'));
 
         $browser = $this->getMock('Buzz\Browser');
         $browser
@@ -224,35 +248,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client();
         $client->setBrowser($browser);
-        $client->requestToken();
-    }
-
-    /**
-     * @test
-     * @expectedException Transmission\Exception\InvalidResponseException
-     */
-    public function shouldThrowExceptionWhenNoTokenHeaderIsFound()
-    {
-        $response = $this->getMock('Buzz\Message\Response');
-        $response
-            ->expects($this->once())
-            ->method('getStatusCode')
-            ->will($this->returnValue(409));
-
-        $response
-            ->expects($this->once())
-            ->method('getHeader')
-            ->with('X-Transmission-Session-Id')
-            ->will($this->returnValue(null));
-
-        $browser = $this->getMock('Buzz\Browser');
-        $browser
-            ->expects($this->once())
-            ->method('post')
-            ->will($this->returnValue($response));
-
-        $client = new Client();
-        $client->setBrowser($browser);
-        $client->requestToken();
+        $client->call('foo');
     }
 }
