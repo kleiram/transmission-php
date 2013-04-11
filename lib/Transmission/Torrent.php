@@ -22,6 +22,11 @@ class Torrent extends BaseTorrent
     protected $name;
 
     /**
+     * @var array
+     */
+    protected $trackers;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -29,6 +34,8 @@ class Torrent extends BaseTorrent
     public function __construct(Client $client = null)
     {
         parent::__construct($client);
+
+        $this->trackers = array();
     }
 
     /**
@@ -64,6 +71,22 @@ class Torrent extends BaseTorrent
     }
 
     /**
+     * @param Transmission\Tracker $tracker
+     */
+    public function addTracker(Tracker $tracker)
+    {
+        $this->trackers[] = $tracker;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTrackers()
+    {
+        return $this->trackers;
+    }
+
+    /**
      * Remove the torrent from Transmissions download queue
      *
      * @param boolean $deleteLocalData
@@ -85,11 +108,23 @@ class Torrent extends BaseTorrent
         $result   = array();
 
         foreach ($torrents as $torrent) {
-            $result[] = ResponseTransformer::transform(
+            $t = ResponseTransformer::transform(
                 $torrent,
                 new Torrent($client),
                 self::getMapping()
             );
+
+            if (isset($torrent->trackers)) {
+                foreach ($torrent->trackers as $tracker) {
+                    $t->addTracker(ResponseTransformer::transform(
+                        $tracker,
+                        new Tracker(),
+                        Tracker::getMapping()
+                    ));
+                }
+            }
+
+            $result[] = $t;
         }
 
         return $result;
@@ -106,11 +141,23 @@ class Torrent extends BaseTorrent
     {
         $torrent = parent::_get($id, $client, array_keys(self::getMapping()));
 
-        return ResponseTransformer::transform(
+        $t = ResponseTransformer::transform(
             $torrent,
             new Torrent($client),
             self::getMapping()
         );
+
+        if (isset($torrent->trackers)) {
+            foreach ($torrent->trackers as $tracker) {
+                $t->addTracker(ResponseTransformer::transform(
+                    $tracker,
+                    new Tracker(),
+                    Tracker::getMapping()
+                ));
+            }
+        }
+
+        return $t;
     }
 
     /**
