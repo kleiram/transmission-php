@@ -9,7 +9,7 @@ use Transmission\Exception\InvalidResponseException;
  *
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
-class Torrent
+class Torrent extends BaseTorrent
 {
     /**
      * @var integer
@@ -22,18 +22,13 @@ class Torrent
     protected $name;
 
     /**
-     * @var Transmission\Client
-     */
-    protected $client;
-
-    /**
      * Constructor
      *
      * @param Transmission\Client $client
      */
     public function __construct(Client $client = null)
     {
-        $this->setClient($client ?: new Client());
+        parent::__construct($client);
     }
 
     /**
@@ -69,44 +64,13 @@ class Torrent
     }
 
     /**
-     * @param Transmission\Client $client
-     */
-    public function setClient(Client $client)
-    {
-        $this->client = $client;
-    }
-
-    /**
-     * @return Transmission\Client
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
      * Remove the torrent from Transmissions download queue
      *
      * @param boolean $deleteLocalData
      */
     public function delete($deleteLocalData = false)
     {
-        $arguments = array(
-            'ids' => array($this->getId()),
-            'delete-local-data' => $deleteLocalData
-        );
-
-        $response = $this->getClient()->call('torrent-remove', $arguments);
-
-        if (!isset($response->result)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
-
-        if ($response->result !== 'success') {
-            throw new \RuntimeException($response->result);
-        }
+        parent::_delete($this->getId(), $deleteLocalData);
     }
 
     /**
@@ -114,48 +78,21 @@ class Torrent
      *
      * @param Transmission\Client $client
      * @return array
-     * @throws RuntimeException
-     * @throws Transmission\Exception\InvalidResponseException
      */
     public static function all(Client $client = null)
     {
-        $client = $client ?: new Client();
+        $torrents = parent::_all($client, array_keys(self::getMapping()));
+        $result   = array();
 
-        $arguments = array(
-            'fields' => array_keys(self::getMapping()),
-            'ids' => array()
-        );
-
-        $response = $client->call('torrent-get', $arguments);
-
-        if (!isset($response->result)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
-
-        if ($response->result !== 'success') {
-            throw new \RuntimeException($response->result);
-        }
-
-        if (!isset($response->arguments) ||
-            !isset($response->arguments->torrents)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
-
-        $torrents = array();
-
-        foreach ($response->arguments->torrents as $torrent) {
-            $torrents[] = ResponseTransformer::transform(
+        foreach ($torrents as $torrent) {
+            $result[] = ResponseTransformer::transform(
                 $torrent,
                 new Torrent($client),
                 self::getMapping()
             );
         }
 
-        return $torrents;
+        return $result;
     }
 
     /**
@@ -164,46 +101,13 @@ class Torrent
      * @param integer $id
      * @param Transmission\Client $client
      * @return Transmission\Torrent
-     * @throws RuntimeException
-     * @throws Transmission\Exception\NoSuchTorrentException
-     * @throws Transmission\Exception\InvalidResponseException
      */
     public static function get($id, Client $client = null)
     {
-        $client = $client ?: new Client();
-
-        $arguments = array(
-            'fields' => array_keys(self::getMapping()),
-            'ids' => array($id)
-        );
-
-        $response = $client->call('torrent-get', $arguments);
-
-        if (!isset($response->result)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
-
-        if ($response->result !== 'success') {
-            throw new \RuntimeException($response->result);
-        }
-
-        if (!isset($response->arguments) ||
-            !isset($response->arguments->torrents)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
-
-        if (count($response->arguments->torrents) == 0) {
-            throw new NoSuchTorrentException(sprintf(
-                'Torrent with ID %d not found', $id
-            ));
-        }
+        $torrent = parent::_get($id, $client, array_keys(self::getMapping()));
 
         return ResponseTransformer::transform(
-            $response->arguments->torrents[0],
+            $torrent,
             new Torrent($client),
             self::getMapping()
         );
@@ -215,39 +119,13 @@ class Torrent
      * @param string              $torrent
      * @param Transmission\Client $client
      * @param boolean             $meta
-     * @return Transmission\Torrent
-     * @throws RuntimeException
-     * @throws Transmission\Exception\InvalidResponseException
      */
     public static function add($torrent, Client $client = null, $meta = false)
     {
-        $client = $client ?: new Client();
-
-        $arguments[!$meta ? 'torrent' : 'metainfo'] = $torrent;
-
-        $response     = $client->call('torrent-add', $arguments);
-        $torrentField = 'torrent-added';
-
-        if (!isset($response->result)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
-
-        if ($response->result !== 'success') {
-            throw new \RuntimeException($response->result);
-        }
-
-        if (!isset($response->arguments) ||
-            !isset($response->arguments->$torrentField) ||
-            empty($response->arguments->$torrentField)) {
-            throw new InvalidResponseException(
-                'Invalid response received from Transmission'
-            );
-        }
+        $torrent = parent::_add($torrent, $client, $meta);
 
         return ResponseTransformer::transform(
-            $response->arguments->$torrentField,
+            $torrent,
             new Torrent($client),
             self::getMapping()
         );
