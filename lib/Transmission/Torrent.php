@@ -4,47 +4,91 @@ namespace Transmission;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
 
+/**
+ * The Torrent class represents a torrent in Transmissions download queue
+ *
+ * @author Ramon Kleiss <ramon@cubilon.nl>
+ */
 class Torrent
 {
+    /**
+     * @var integer
+     */
     protected $id;
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var Transmission\Client
+     */
     protected $client;
 
+    /**
+     * Constructor
+     *
+     * @param Transmission\Client $client
+     */
     public function __construct(Client $client = null)
     {
         $this->setClient($client ?: new Client());
     }
 
+    /**
+     * @param integer $id
+     */
     public function setId($id)
     {
         $this->id = (integer) $id;
     }
 
+    /**
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param string $name
+     */
     public function setName($name)
     {
         $this->name = (string) $name;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param Transmission\Client $client
+     */
     public function setClient(Client $client)
     {
         $this->client = $client;
     }
 
+    /**
+     * @return Transmission\Client
+     */
     public function getClient()
     {
         return $this->client;
     }
 
+    /**
+     * Remove the torrent from Transmissions download queue
+     *
+     * @param boolean $deleteLocalData
+     */
     public function delete($deleteLocalData = false)
     {
         $arguments = array(
@@ -65,6 +109,16 @@ class Torrent
         }
     }
 
+    /**
+     * Get a torrents info
+     *
+     * @param integer $id
+     * @param Transmission\Client $client
+     * @return Transmission\Torrent
+     * @throws RuntimeException
+     * @throws Transmission\Exception\NoSuchTorrentException
+     * @throws Transmission\Exception\InvalidResponseException
+     */
     public static function get($id, Client $client = null)
     {
         $client = $client ?: new Client();
@@ -107,9 +161,14 @@ class Torrent
     }
 
     /**
+     * Add a torrent to Transmissions download queue
+     *
      * @param string              $torrent
      * @param Transmission\Client $client
      * @param boolean             $meta
+     * @return Transmission\Torrent
+     * @throws RuntimeException
+     * @throws Transmission\Exception\InvalidResponseException
      */
     public static function add($torrent, Client $client = null, $meta = false)
     {
@@ -145,6 +204,9 @@ class Torrent
         );
     }
 
+    /**
+     * @return array
+     */
     protected static function getMapping()
     {
         return array(
