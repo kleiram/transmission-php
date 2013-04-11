@@ -11,4 +11,4 @@ EOM;
     exit(1);
 }
 
-$loader->add('Transmission\Test', __DIR__);
+$loader->add('Transmission\Tests', __DIR__);
