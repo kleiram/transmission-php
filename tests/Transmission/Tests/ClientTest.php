@@ -12,10 +12,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client();
 
-        $this->assertEquals('localhost', $client->getHost());
-        $this->assertEquals(9091, $client->getPort());
-        $this->assertNull($client->getToken());
-        $this->assertInstanceOf('Buzz\Browser', $client->getBrowser());
+        $this->assertEquals(
+            'localhost',
+            $client->getHost()
+        );
+        $this->assertEquals(
+            9091,
+            $client->getPort()
+        );
+        $this->assertNull(
+            $client->getToken()
+        );
+        $this->assertInstanceOf(
+            'Buzz\Browser',
+            $client->getBrowser()
+        );
     }
 
     /**
@@ -25,8 +36,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client('example.com', 80);
 
-        $this->assertEquals('example.com', $client->getHost());
-        $this->assertEquals(80, $client->getPort());
+        $this->assertEquals(
+            'example.com',
+            $client->getHost()
+        );
+        $this->assertEquals(
+            80,
+            $client->getPort()
+        );
     }
 
     /**
@@ -39,7 +56,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(200));
-
         $response
             ->expects($this->once())
             ->method('getContent')
@@ -60,11 +76,24 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->setToken('foo');
         $client->setBrowser($browser);
 
-        $stdClass = $client->call('foo', array('bar' => 'baz'), 'foo');
+        $stdClass = $client->call(
+            'foo',
+            array('bar' => 'baz'),
+            'foo'
+        );
 
-        $this->assertInstanceOf('stdClass', $stdClass);
-        $this->assertObjectHasAttribute('foo', $stdClass);
-        $this->assertEquals('bar', $stdClass->foo);
+        $this->assertInstanceOf(
+            'stdClass',
+            $stdClass
+        );
+        $this->assertObjectHasAttribute(
+            'foo',
+            $stdClass
+        );
+        $this->assertEquals(
+            'bar',
+            $stdClass->foo
+        );
     }
 
     /**
@@ -72,23 +101,25 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldHandle409ResponseWhenMakingApiCalls()
     {
-        $validResponse = $this->getMock('Buzz\Message\Response');
+        $validResponse = $this->getMock(
+            'Buzz\Message\Response'
+        );
         $validResponse
             ->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(200));
-
         $validResponse
             ->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue('{"foo":"bar"}'));
 
-        $invalidResponse = $this->getMock('Buzz\Message\Response');
+        $invalidResponse = $this->getMock(
+            'Buzz\Message\Response'
+        );
         $invalidResponse
             ->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(409));
-
         $invalidResponse
             ->expects($this->exactly(2))
             ->method('getHeader')
@@ -111,10 +142,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $stdClass = $client->call('foo');
 
-        $this->assertEquals('foo', $client->getToken());
-        $this->assertInstanceOf('stdClass', $stdClass);
-        $this->assertObjectHasAttribute('foo', $stdClass);
-        $this->assertEquals('bar', $stdClass->foo);
+        $this->assertEquals(
+            'foo',
+            $client->getToken()
+        );
+        $this->assertInstanceOf(
+            'stdClass',
+            $stdClass
+        );
+        $this->assertObjectHasAttribute(
+            'foo',
+            $stdClass
+        );
+        $this->assertEquals(
+            'bar',
+            $stdClass->foo
+        );
     }
 
     /**
