@@ -4,6 +4,7 @@ namespace Transmission;
 use Buzz\Browser;
 use Transmission\Exception\ConnectionException;
 use Transmission\Exception\InvalidResponseException;
+use Transmission\Exception\UnexpectedResponseException;
 
 /**
  * The Client is used to connect to the Transmission client
@@ -67,7 +68,50 @@ class Client
      */
     public function call($method, array $arguments = array(), $tag = null)
     {
+        $content = array('method' => (string) $method);
 
+        if ($arguments) {
+            $content['arguments'] = $arguments;
+        }
+        if ($tag) {
+            $content['tag'] = (string) $tag;
+        }
+
+        try {
+            $response = $this->browser->post(
+                $this->getUrl(),
+                array(sprintf(
+                    '%s: %s', self::TOKEN_HEADER, $this->getToken()
+                )),
+                json_encode($content)
+            );
+        } catch (\Exception $e) {
+            throw new ConnectionException(
+                'Could not connect to Transmission', 0, $e
+            );
+        }
+
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode === 409) {
+            if ($response->getHeader(self::TOKEN_HEADER) == null) {
+                throw new InvalidResponseException(
+                    'Invalid response received from Transmission'
+                );
+            }
+
+            $this->setToken($response->getHeader(self::TOKEN_HEADER));
+
+            return $this->call($method, $arguments, $tag);
+        }
+
+        if ($statusCode !== 200) {
+            throw new UnexpectedResponseException(
+                'Unexpected response received from Transmission'
+            );
+        }
+
+        return $this->transformResponse($response->getContent());
     }
 
     /**
@@ -157,5 +201,22 @@ class Client
             $this->getPort(),
             self::RPC_PATH
         );
+    }
+
+    /**
+     * @param string $response
+     * @return stdClass
+     */
+    protected function transformResponse($response)
+    {
+        $stdClass = json_decode($response);
+
+        if ($stdClass === null) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        return $stdClass;
     }
 }
