@@ -110,6 +110,55 @@ class Torrent
     }
 
     /**
+     * Get all the torrents in the download queue
+     *
+     * @param Transmission\Client $client
+     * @return array
+     * @throws RuntimeException
+     * @throws Transmission\Exception\InvalidResponseException
+     */
+    public static function all(Client $client = null)
+    {
+        $client = $client ?: new Client();
+
+        $arguments = array(
+            'fields' => array_keys(self::getMapping()),
+            'ids' => array()
+        );
+
+        $response = $client->call('torrent-get', $arguments);
+
+        if (!isset($response->result)) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        if ($response->result !== 'success') {
+            throw new \RuntimeException($response->result);
+        }
+
+        if (!isset($response->arguments) ||
+            !isset($response->arguments->torrents)) {
+            throw new InvalidResponseException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        $torrents = array();
+
+        foreach ($response->arguments->torrents as $torrent) {
+            $torrents[] = ResponseTransformer::transform(
+                $torrent,
+                new Torrent($client),
+                self::getMapping()
+            );
+        }
+
+        return $torrents;
+    }
+
+    /**
      * Get a torrents info
      *
      * @param integer $id

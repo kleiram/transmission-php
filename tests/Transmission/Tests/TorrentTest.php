@@ -8,7 +8,98 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldProcessASuccesfullGetTorrentRequest()
+    public function shouldGetAllTorrents()
+    {
+        $response = (object) array(
+            'result' => 'success',
+            'arguments' => (object) array(
+                'torrents' => array(
+                    (object) array(
+                        'id' => 1,
+                        'name' => 'Example 1'
+                    ),
+                    (object) array(
+                        'id' => 2,
+                        'name' => 'Example 2'
+                    )
+                )
+            )
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with('torrent-get')
+            ->will($this->returnValue($response));
+
+        $torrents = Torrent::all($client);
+
+        $this->assertInternalType(
+            'array',
+            $torrents
+        );
+        $this->assertCount(
+            2,
+            $torrents
+        );
+        $this->assertEquals(
+            1,
+            $torrents[0]->getId()
+        );
+        $this->assertEquals(
+            'Example 1',
+            $torrents[0]->getName()
+        );
+        $this->assertEquals(
+            2,
+            $torrents[1]->getId()
+        );
+        $this->assertEquals(
+            'Example 2',
+            $torrents[1]->getName()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException RuntimeException
+     */
+    public function shouldThrowExceptionOnUnsuccesfullAllTorrentsResultMessage()
+    {
+        $response = (object) array(
+            'result' => 'Something went wrong'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->will($this->returnValue($response));
+
+        Torrent::all($client);
+    }
+
+    /**
+     * @test
+     * @expectedException Transmission\Exception\InvalidResponseException
+     * @dataProvider invalidTorrentAllProvider
+     */
+    public function shouldThrowExceptionOnMissingFieldsInAllTorrentsRequest($response)
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->will($this->returnValue($response));
+
+        Torrent::all($client);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetTorrent()
     {
         $response = (object) array(
             'result' => 'success',
@@ -298,6 +389,33 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $torrent = new Torrent($client);
         $torrent->setId(1);
         $torrent->delete();
+    }
+
+    public function invalidTorrentAllProvider()
+    {
+        $responses = array();
+
+        $responses[] = array((object) array(
+            'arguments' => (object) array(
+                'torrents' => array(
+                    (object) array(
+                        'id' => 1,
+                        'name' => 'Example'
+                    )
+                )
+            )
+        ));
+
+        $responses[] = array((object) array(
+            'result' => 'success'
+        ));
+
+        $responses[] = array((object) array(
+            'result' => 'success',
+            'arguments' => (object) array()
+        ));
+
+        return $responses;
     }
 
     public function invalidTorrentGetResponseProvider()
