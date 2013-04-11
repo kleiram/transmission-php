@@ -33,12 +33,13 @@ class ResponseTransformerTest extends \PHPUnit_Framework_TestCase
             'foo' => 'baz'
         );
 
-        ResponseTransformer::transform(
+        $result = ResponseTransformer::transform(
             $response,
             $subject,
             array('id', 'foo' => 'bar')
         );
 
+        $this->assertInstanceOf('Transmission\Tests\Foo', $result);
         $this->assertEquals(1, $subject->id);
         $this->assertEquals('baz', $subject->getBar());
     }

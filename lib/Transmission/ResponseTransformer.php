@@ -12,6 +12,7 @@ class ResponseTransformer
      * @param stdClass $response
      * @param mixed    $subject
      * @param array    $mapping
+     * @return mixed
      */
     public static function transform(\stdClass $response, $subject, array $mapping)
     {
@@ -24,5 +25,7 @@ class ResponseTransformer
                 $accessor->getValue($response, is_string($k) ? $k : $v)
             );
         }
+
+        return $subject;
     }
 }
