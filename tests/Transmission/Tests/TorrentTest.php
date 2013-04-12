@@ -24,6 +24,18 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                                 'scrape' => 'foo',
                                 'announce' => 'bar'
                             )
+                        ),
+                        'files' => array(
+                            (object) array(
+                                'name' => 'foo',
+                                'length' => 100,
+                                'bytesCompleted' => 10
+                            ),
+                            (object) array(
+                                'name' => 'bar',
+                                'length' => 100,
+                                'bytesCompleted' => 100
+                            )
                         )
                     ),
                     (object) array(
@@ -49,12 +61,23 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Example 1', $torrents[0]->getName());
         $this->assertInternalType('array', $torrents[0]->getTrackers());
         $this->assertCount(1, ($trackers = $torrents[0]->getTrackers()));
+        $this->assertCount(2, ($files = $torrents[0]->getFiles()));
 
         $this->assertInstanceOf('Transmission\Model\Tracker', $trackers[0]);
         $this->assertEquals(1, $trackers[0]->getId());
         $this->assertEquals(1, $trackers[0]->getTier());
         $this->assertEquals('foo', $trackers[0]->getScrape());
         $this->assertEquals('bar', $trackers[0]->getAnnounce());
+
+        $this->assertInstanceOf('Transmission\Model\File', $files[0]);
+        $this->assertEquals('foo', $files[0]->getName());
+        $this->assertEquals(100, $files[0]->getSize());
+        $this->assertEquals(10, $files[0]->getBytesCompleted());
+
+        $this->assertInstanceOf('Transmission\Model\File', $files[1]);
+        $this->assertEquals('bar', $files[1]->getName());
+        $this->assertEquals(100, $files[1]->getSize());
+        $this->assertEquals(100, $files[1]->getBytesCompleted());
 
         $this->assertEquals(2, $torrents[1]->getId());
         $this->assertEquals('Example 2', $torrents[1]->getName());
@@ -116,6 +139,13 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                                 'scrape' => 'foo',
                                 'announce' => 'bar'
                             )
+                        ),
+                        'files' => array(
+                            (object) array(
+                                'name' => 'foo',
+                                'length' => 1000,
+                                'bytesCompleted' => 0
+                            )
                         )
                     )
                 )
@@ -137,12 +167,17 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Example', $torrent->getName());
         $this->assertInternalType('array', $torrent->getTrackers());
         $this->assertCount(1, ($trackers = $torrent->getTrackers()));
+        $this->assertCount(1, ($files = $torrent->getFiles()));
 
         $this->assertInstanceOf('Transmission\Model\Tracker', $trackers[0]);
         $this->assertEquals(1, $trackers[0]->getId());
         $this->assertEquals(1, $trackers[0]->getTier());
         $this->assertEquals('foo', $trackers[0]->getScrape());
         $this->assertEquals('bar', $trackers[0]->getAnnounce());
+
+        $this->assertEquals('foo', $files[0]->getName());
+        $this->assertEquals(1000, $files[0]->getSize());
+        $this->assertEquals(0, $files[0]->getBytesCompleted());
     }
 
     /**

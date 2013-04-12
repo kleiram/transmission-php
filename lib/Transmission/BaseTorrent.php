@@ -1,6 +1,8 @@
 <?php
 namespace Transmission;
 
+use Transmission\Model\File;
+use Transmission\Model\Tracker;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
 
@@ -201,5 +203,31 @@ class BaseTorrent
                 'Invalid response received from Transmission'
             );
         }
+    }
+
+    /**
+     * @param stdClass $data
+     * @return Transmission\Model\Tracker
+     */
+    protected static function parseTracker($data)
+    {
+        return ResponseTransformer::transform(
+            $data,
+            new Tracker(),
+            Tracker::getMapping()
+        );
+    }
+
+    /**
+     * @param stdClass $data
+     * @return Transmission\Model\File
+     */
+    protected static function parseFile($data)
+    {
+        return ResponseTransformer::transform(
+            $data,
+            new File(),
+            File::getMapping()
+        );
     }
 }

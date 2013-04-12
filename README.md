@@ -45,6 +45,10 @@ $torrent->delete(true);
 // You can also get the Trackers that the torrent currently uses
 // These are instances of the Transmission\Model\Tracker class
 $trackers = $torrent->getTrackers();
+
+// Getting the files downloaded by the torrent are available too
+// These are instances of Transmission\Model\File
+$files = $torrent->getFiles();
 ```
 
 To find out which information is contained by the torrent, check

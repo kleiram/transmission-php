@@ -1,6 +1,7 @@
 <?php
 namespace Transmission;
 
+use Transmission\Model\File;
 use Transmission\Model\Tracker;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
@@ -28,6 +29,11 @@ class Torrent extends BaseTorrent
     protected $trackers;
 
     /**
+     * @var array
+     */
+    protected $files;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -36,6 +42,7 @@ class Torrent extends BaseTorrent
     {
         parent::__construct($client);
 
+        $this->files    = array();
         $this->trackers = array();
     }
 
@@ -72,7 +79,7 @@ class Torrent extends BaseTorrent
     }
 
     /**
-     * @param Transmission\Tracker $tracker
+     * @param Transmission\Model\Tracker $tracker
      */
     public function addTracker(Tracker $tracker)
     {
@@ -85,6 +92,22 @@ class Torrent extends BaseTorrent
     public function getTrackers()
     {
         return $this->trackers;
+    }
+
+    /**
+     * @param Transmission\Model\File $file
+     */
+    public function addFile(File $file)
+    {
+        $this->files[] = $file;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**
@@ -117,11 +140,13 @@ class Torrent extends BaseTorrent
 
             if (isset($torrent->trackers)) {
                 foreach ($torrent->trackers as $tracker) {
-                    $t->addTracker(ResponseTransformer::transform(
-                        $tracker,
-                        new Tracker(),
-                        Tracker::getMapping()
-                    ));
+                    $t->addTracker(self::parseTracker($tracker));
+                }
+            }
+
+            if (isset($torrent->files)) {
+                foreach ($torrent->files as $file) {
+                    $t->addFile(self::parseFile($file));
                 }
             }
 
@@ -150,11 +175,13 @@ class Torrent extends BaseTorrent
 
         if (isset($torrent->trackers)) {
             foreach ($torrent->trackers as $tracker) {
-                $t->addTracker(ResponseTransformer::transform(
-                    $tracker,
-                    new Tracker(),
-                    Tracker::getMapping()
-                ));
+                $t->addTracker(self::parseTracker($tracker));
+            }
+        }
+
+        if (isset($torrent->files)) {
+            foreach ($torrent->files as $file) {
+                $t->addFile(self::parseFile($file));
             }
         }
 
