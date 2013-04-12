@@ -1,5 +1,5 @@
 <?php
-namespace Transmission;
+namespace Transmission\Model;
 
 class Tracker
 {

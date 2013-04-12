@@ -1,6 +1,7 @@
 <?php
 namespace Transmission;
 
+use Transmission\Model\Tracker;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
 

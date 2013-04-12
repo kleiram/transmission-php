@@ -43,7 +43,7 @@ $torrent->delete();
 $torrent->delete(true);
 
 // You can also get the Trackers that the torrent currently uses
-// These are instances of the Transmission\Tracker class
+// These are instances of the Transmission\Model\Tracker class
 $trackers = $torrent->getTrackers();
 ```
 

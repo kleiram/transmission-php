@@ -71,7 +71,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $trackers = $torrents[0]->getTrackers();
 
         $this->assertInstanceOf(
-            'Transmission\Tracker',
+            'Transmission\Model\Tracker',
             $trackers[0]
         );
         $this->assertEquals(
@@ -205,7 +205,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $trackers = $torrent->getTrackers();
 
         $this->assertInstanceOf(
-            'Transmission\Tracker',
+            'Transmission\Model\Tracker',
             $trackers[0]
         );
         $this->assertEquals(
