@@ -346,7 +346,9 @@ class Torrent extends BaseTorrent
             'id' => 'id',
             'name' => 'name',
             'status' => 'status',
-            'sizeWhenDone' => 'size'
+            'sizeWhenDone' => 'size',
+            'trackers' => null,
+            'files' => null
         );
     }
 }
