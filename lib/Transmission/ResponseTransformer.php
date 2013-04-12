@@ -19,11 +19,15 @@ class ResponseTransformer
         $accessor = PropertyAccess::getPropertyAccessor();
 
         foreach ($mapping as $from => $to) {
-            $accessor->setValue(
-                $subject,
-                $to,
-                $accessor->getValue($response, is_string($from) ? $from : $to)
-            );
+            $from = is_string($from) ? $from : $to;
+
+            if (isset($response->$from)) {
+                $accessor->setValue(
+                    $subject,
+                    $to,
+                    $accessor->getValue($response, $from)
+                );
+            }
         }
 
         return $subject;
