@@ -32,6 +32,8 @@ class BaseTorrent
     }
 
     /**
+     * Set the client used to make API calls
+     *
      * @param Transmission\Client $client
      */
     public function setClient(Client $client)
@@ -40,6 +42,8 @@ class BaseTorrent
     }
 
     /**
+     * Get the client used to make API calls
+     *
      * @return Transmission\Client
      */
     public function getClient()
@@ -127,6 +131,8 @@ class BaseTorrent
     /**
      * @param stdClass $response
      * @param string   $method
+     * @throws RuntimeException
+     * @throws Transmission\Exception\InvalidResponseException
      */
     protected static function validateResponse(\stdClass $response, $method = null)
     {
@@ -160,6 +166,8 @@ class BaseTorrent
 
     /**
      * @param stdClass $response
+     * @throws Transmission\Exception\NoSuchTorrentException
+     * @throws Transmission\Exception\InvalidResponseException
      */
     protected static function validateGetResponse(\stdClass $response)
     {
@@ -177,6 +185,7 @@ class BaseTorrent
 
     /**
      * @param stdClass $response
+     * @throws Transmission\Exception\InvalidResponseException
      */
     protected static function validateAllResponse(\stdClass $response)
     {
@@ -190,6 +199,7 @@ class BaseTorrent
 
     /**
      * @param stdClass $response
+     * @throws Transmission\Exception\InvalidResponseException
      */
     protected static function validateAddResponse(\stdClass $response)
     {

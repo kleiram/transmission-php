@@ -115,6 +115,8 @@ class Client
     }
 
     /**
+     * Set the hostname of the Transmission server
+     *
      * @param string $host
      * @return Transmission\Client
      */
@@ -126,6 +128,8 @@ class Client
     }
 
     /**
+     * Get the hostname of the Transmission server
+     *
      * @return string
      */
     public function getHost()
@@ -134,6 +138,8 @@ class Client
     }
 
     /**
+     * Set the port the Transmission server is listening on
+     *
      * @param integer $port
      * @return Transmission\Client
      */
@@ -145,6 +151,8 @@ class Client
     }
 
     /**
+     * Get the port the Transmission server is listening on
+     *
      * @return integer
      */
     public function getPort()
@@ -153,6 +161,8 @@ class Client
     }
 
     /**
+     * Set the browser used to make API calls
+     *
      * @param Buzz\Browser $browser
      * @return Transmission\Client
      */
@@ -164,6 +174,8 @@ class Client
     }
 
     /**
+     * Get the browser used to make API calls
+     *
      * @return Buzz\Browser
      */
     public function getBrowser()
@@ -172,6 +184,8 @@ class Client
     }
 
     /**
+     * Set the API token
+     *
      * @param string $token
      * @return Transmission\Client
      */
@@ -183,6 +197,8 @@ class Client
     }
 
     /**
+     * Get the API token
+     *
      * @return string
      */
     public function getToken()
@@ -191,6 +207,8 @@ class Client
     }
 
     /**
+     * Get the URL used to connect to transmission
+     *
      * @return string
      */
     protected function getUrl()
@@ -206,6 +224,7 @@ class Client
     /**
      * @param string $response
      * @return stdClass
+     * @throws Transmission\Exception\InvalidResponseException
      */
     protected function transformResponse($response)
     {
