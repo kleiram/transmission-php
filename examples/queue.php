@@ -24,3 +24,17 @@ foreach ($queue as $torrent) {
     $size = formatBytes($torrent->getSize(), 2);
     echo "#{$torrent->getId()}: {$torrent->getName()} ({$size})\n";
 }
+
+echo "\n";
+
+foreach ($queue as $torrent) {
+    $count = count($torrent->getFiles());
+
+    echo "{$count} files in {$torrent->getName()}:\n";
+
+    foreach ($torrent->getFiles() as $file) {
+        echo "- {$file->getName()}\n";
+    }
+
+    echo "\n";
+}
