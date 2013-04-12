@@ -1,0 +1,10 @@
+{
+    "result": "success",
+    "arguments": {
+        "torrent-added": {
+            "id": 1,
+            "name": "Some+Added+Torrent",
+            "hashString": "loremipsumdolorsitamet"
+        }
+    }
+}

@@ -10,49 +10,12 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetAllTorrents()
     {
-        $response = (object) array(
-            'result' => 'success',
-            'arguments' => (object) array(
-                'torrents' => array(
-                    (object) array(
-                        'id' => 1,
-                        'name' => 'Example 1',
-                        'sizeWhenDone' => 200,
-                        'trackers' => array(
-                            (object) array(
-                                'id' => 1,
-                                'tier' => 1,
-                                'scrape' => 'foo',
-                                'announce' => 'bar'
-                            )
-                        ),
-                        'files' => array(
-                            (object) array(
-                                'name' => 'foo',
-                                'length' => 100,
-                                'bytesCompleted' => 10
-                            ),
-                            (object) array(
-                                'name' => 'bar',
-                                'length' => 100,
-                                'bytesCompleted' => 100
-                            )
-                        )
-                    ),
-                    (object) array(
-                        'id' => 2,
-                        'name' => 'Example 2'
-                    )
-                )
-            )
-        );
-
         $client = $this->getMock('Transmission\Client');
         $client
             ->expects($this->once())
             ->method('call')
             ->with('torrent-get')
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($this->loadFixture('get_all_torrents')));
 
         $torrents = Torrent::all($client);
 
@@ -127,39 +90,12 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetTorrent()
     {
-        $response = (object) array(
-            'result' => 'success',
-            'arguments' => (object) array(
-                'torrents' => array(
-                    (object) array(
-                        'id' => 1,
-                        'name' => 'Example',
-                        'trackers' => array(
-                            (object) array(
-                                'id' => 1,
-                                'tier' => 1,
-                                'scrape' => 'foo',
-                                'announce' => 'bar'
-                            )
-                        ),
-                        'files' => array(
-                            (object) array(
-                                'name' => 'foo',
-                                'length' => 1000,
-                                'bytesCompleted' => 0
-                            )
-                        )
-                    )
-                )
-            )
-        );
-
         $client = $this->getMock('Transmission\Client');
         $client
             ->expects($this->once())
             ->method('call')
             ->with('torrent-get')
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($this->loadFixture("get_torrent")));
 
         $torrent = Torrent::get(1, $client);
 
@@ -244,17 +180,6 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldAddTorrentsByFilename()
     {
-        $response = (object) array(
-            'result' => 'success',
-            'arguments' => (object) array(
-                'torrent-added' => (object) array(
-                    'id' => 1,
-                    'name' => 'Some+Added+Torrent',
-                    'hashString' => md5('foo')
-                )
-            )
-        );
-
         $client = $this->getMock('Transmission\Client');
         $client
             ->expects($this->once())
@@ -263,7 +188,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                 'torrent-add',
                 array('torrent' => 'foo')
             )
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($this->loadFixture('add_torrent')));
 
         $torrent = Torrent::add('foo', $client);
 
@@ -278,17 +203,6 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldAddTorrentsByMetaInfo()
     {
-        $response = (object) array(
-            'result' => 'success',
-            'arguments' => (object) array(
-                'torrent-added' => (object) array(
-                    'id' => 1,
-                    'name' => 'Some+Added+Torrent',
-                    'hashString' => md5('foo')
-                )
-            )
-        );
-
         $client = $this->getMock('Transmission\Client');
         $client
             ->expects($this->once())
@@ -297,7 +211,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                 'torrent-add',
                 array('metainfo' => sha1('foo'))
             )
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($this->loadFixture('add_torrent')));
 
         $torrent = Torrent::add(sha1('foo'), $client, true);
 
@@ -347,10 +261,6 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldRemoveTorrents()
     {
-        $response = (object) array(
-            'result' => 'success'
-        );
-
         $client = $this->getMock('Transmission\Client');
         $client
             ->expects($this->once())
@@ -362,7 +272,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                     'delete-local-data' => false
                 )
             )
-            ->will($this->returnValue($response));
+            ->will($this->returnValue($this->loadFixture('remove_torrent')));
 
         $torrent = new Torrent($client);
         $torrent->setId(1);
@@ -483,5 +393,16 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         ));
 
         return $responses;
+    }
+
+    protected function loadFixture($fixture)
+    {
+        $path = __DIR__."/../../fixtures/". $fixture .".json";
+
+        if (file_exists($path)) {
+            return json_decode(file_get_contents($path));
+        }
+
+        return array();
     }
 }
