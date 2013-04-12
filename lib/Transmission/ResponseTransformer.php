@@ -21,7 +21,7 @@ class ResponseTransformer
         foreach ($mapping as $from => $to) {
             $from = is_string($from) ? $from : $to;
 
-            if (isset($response->$from)) {
+            if (isset($response->$from) && !is_null($to)) {
                 $accessor->setValue(
                     $subject,
                     $to,
