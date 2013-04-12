@@ -28,10 +28,7 @@ class ResponseTransformerTest extends \PHPUnit_Framework_TestCase
     public function shouldTransform()
     {
         $subject  = new Foo();
-        $response = (object) array(
-            'id' => 1,
-            'foo' => 'baz'
-        );
+        $response = (object) array('id' => 1, 'foo' => 'baz');
 
         $result = ResponseTransformer::transform(
             $response,
@@ -39,17 +36,8 @@ class ResponseTransformerTest extends \PHPUnit_Framework_TestCase
             array('id', 'foo' => 'bar')
         );
 
-        $this->assertInstanceOf(
-            'Transmission\Tests\Foo',
-            $result
-        );
-        $this->assertEquals(
-            1,
-            $subject->id
-        );
-        $this->assertEquals(
-            'baz',
-            $subject->getBar()
-        );
+        $this->assertInstanceOf('Transmission\Tests\Foo', $result);
+        $this->assertEquals(1, $subject->id);
+        $this->assertEquals('baz', $subject->getBar());
     }
 }

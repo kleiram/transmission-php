@@ -43,69 +43,23 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
 
         $torrents = Torrent::all($client);
 
-        $this->assertInternalType(
-            'array',
-            $torrents
-        );
-        $this->assertCount(
-            2,
-            $torrents
-        );
-        $this->assertEquals(
-            1,
-            $torrents[0]->getId()
-        );
-        $this->assertEquals(
-            'Example 1',
-            $torrents[0]->getName()
-        );
-        $this->assertInternalType(
-            'array',
-            $torrents[0]->getTrackers()
-        );
-        $this->assertCount(
-            1,
-            $torrents[0]->getTrackers()
-        );
+        $this->assertInternalType('array', $torrents);
+        $this->assertCount(2, $torrents);
+        $this->assertEquals(1, $torrents[0]->getId());
+        $this->assertEquals('Example 1', $torrents[0]->getName());
+        $this->assertInternalType('array', $torrents[0]->getTrackers());
+        $this->assertCount(1, ($trackers = $torrents[0]->getTrackers()));
 
-        $trackers = $torrents[0]->getTrackers();
+        $this->assertInstanceOf('Transmission\Model\Tracker', $trackers[0]);
+        $this->assertEquals(1, $trackers[0]->getId());
+        $this->assertEquals(1, $trackers[0]->getTier());
+        $this->assertEquals('foo', $trackers[0]->getScrape());
+        $this->assertEquals('bar', $trackers[0]->getAnnounce());
 
-        $this->assertInstanceOf(
-            'Transmission\Model\Tracker',
-            $trackers[0]
-        );
-        $this->assertEquals(
-            1,
-            $trackers[0]->getId()
-        );
-        $this->assertEquals(
-            1,
-            $trackers[0]->getTier()
-        );
-        $this->assertEquals(
-            'foo',
-            $trackers[0]->getScrape()
-        );
-        $this->assertEquals(
-            'bar',
-            $trackers[0]->getAnnounce()
-        );
-
-        $this->assertEquals(
-            2,
-            $torrents[1]->getId()
-        );
-        $this->assertEquals(
-            'Example 2',
-            $torrents[1]->getName()
-        );
-        $this->assertInternalType(
-            'array',
-            $torrents[1]->getTrackers()
-        );
-        $this->assertEmpty(
-            $torrents[1]->getTrackers()
-        );
+        $this->assertEquals(2, $torrents[1]->getId());
+        $this->assertEquals('Example 2', $torrents[1]->getName());
+        $this->assertInternalType('array', $torrents[1]->getTrackers());
+        $this->assertEmpty($torrents[1]->getTrackers());
     }
 
     /**
@@ -177,53 +131,18 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
 
         $torrent = Torrent::get(1, $client);
 
-        $this->assertInstanceOf(
-            'Transmission\Torrent',
-            $torrent
-        );
-        $this->assertEquals(
-            $client,
-            $torrent->getClient()
-        );
-        $this->assertEquals(
-            1,
-            $torrent->getId()
-        );
-        $this->assertEquals(
-            'Example',
-            $torrent->getName()
-        );
-        $this->assertInternalType(
-            'array',
-            $torrent->getTrackers()
-        );
-        $this->assertCount(
-            1,
-            $torrent->getTrackers()
-        );
+        $this->assertInstanceOf('Transmission\Torrent', $torrent);
+        $this->assertEquals($client, $torrent->getClient());
+        $this->assertEquals(1, $torrent->getId());
+        $this->assertEquals('Example', $torrent->getName());
+        $this->assertInternalType('array', $torrent->getTrackers());
+        $this->assertCount(1, ($trackers = $torrent->getTrackers()));
 
-        $trackers = $torrent->getTrackers();
-
-        $this->assertInstanceOf(
-            'Transmission\Model\Tracker',
-            $trackers[0]
-        );
-        $this->assertEquals(
-            1,
-            $trackers[0]->getId()
-        );
-        $this->assertEquals(
-            1,
-            $trackers[0]->getTier()
-        );
-        $this->assertEquals(
-            'foo',
-            $trackers[0]->getScrape()
-        );
-        $this->assertEquals(
-            'bar',
-            $trackers[0]->getAnnounce()
-        );
+        $this->assertInstanceOf('Transmission\Model\Tracker', $trackers[0]);
+        $this->assertEquals(1, $trackers[0]->getId());
+        $this->assertEquals(1, $trackers[0]->getTier());
+        $this->assertEquals('foo', $trackers[0]->getScrape());
+        $this->assertEquals('bar', $trackers[0]->getAnnounce());
     }
 
     /**
@@ -311,22 +230,10 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
 
         $torrent = Torrent::add('foo', $client);
 
-        $this->assertInstanceOf(
-            'Transmission\Torrent',
-            $torrent
-        );
-        $this->assertEquals(
-            $client,
-            $torrent->getClient()
-        );
-        $this->assertEquals(
-            1,
-            $torrent->getId()
-        );
-        $this->assertEquals(
-            'Some+Added+Torrent',
-            $torrent->getName()
-        );
+        $this->assertInstanceOf('Transmission\Torrent', $torrent);
+        $this->assertEquals($client, $torrent->getClient());
+        $this->assertEquals(1, $torrent->getId());
+        $this->assertEquals('Some+Added+Torrent', $torrent->getName());
     }
 
     /**
@@ -357,22 +264,10 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
 
         $torrent = Torrent::add(sha1('foo'), $client, true);
 
-        $this->assertInstanceOf(
-            'Transmission\Torrent',
-            $torrent
-        );
-        $this->assertEquals(
-            $client,
-            $torrent->getClient()
-        );
-        $this->assertEquals(
-            1,
-            $torrent->getId()
-        );
-        $this->assertEquals(
-            'Some+Added+Torrent',
-            $torrent->getName()
-        );
+        $this->assertInstanceOf('Transmission\Torrent', $torrent);
+        $this->assertEquals($client, $torrent->getClient());
+        $this->assertEquals(1, $torrent->getId());
+        $this->assertEquals('Some+Added+Torrent', $torrent->getName());
     }
 
     /**
