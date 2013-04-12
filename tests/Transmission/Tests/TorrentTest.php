@@ -17,6 +17,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                     (object) array(
                         'id' => 1,
                         'name' => 'Example 1',
+                        'sizeWhenDone' => 200,
                         'trackers' => array(
                             (object) array(
                                 'id' => 1,
@@ -59,6 +60,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $torrents);
         $this->assertEquals(1, $torrents[0]->getId());
         $this->assertEquals('Example 1', $torrents[0]->getName());
+        $this->assertEquals(200, $torrents[0]->getSize());
         $this->assertInternalType('array', $torrents[0]->getTrackers());
         $this->assertCount(1, ($trackers = $torrents[0]->getTrackers()));
         $this->assertCount(2, ($files = $torrents[0]->getFiles()));
