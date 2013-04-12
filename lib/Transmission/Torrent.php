@@ -24,6 +24,11 @@ class Torrent extends BaseTorrent
     protected $name;
 
     /**
+     * @var integer
+     */
+    protected $size;
+
+    /**
      * @var array
      */
     protected $trackers;
@@ -76,6 +81,22 @@ class Torrent extends BaseTorrent
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param integer $size
+     */
+    public function setSize($size)
+    {
+        $this->size = (integer) $size;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 
     /**
@@ -213,7 +234,8 @@ class Torrent extends BaseTorrent
     {
         return array(
             'id' => 'id',
-            'name' => 'name'
+            'name' => 'name',
+            'sizeWhenDone' => 'size'
         );
     }
 }
