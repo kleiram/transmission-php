@@ -1,0 +1,26 @@
+{
+    "result": "success",
+    "arguments": {
+        "torrents": [
+            {
+                "id": 1,
+                "name": "Example",
+                "trackers": [
+                    {
+                        "id": 1,
+                        "tier": 1,
+                        "scrape": "foo",
+                        "announce": "bar"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "foo",
+                        "length": 1000,
+                        "bytesCompleted": 0
+                    }
+                ]
+            }
+        ]
+    }
+}

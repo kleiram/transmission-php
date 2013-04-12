@@ -16,7 +16,7 @@ class Client
     /**
      * @var string
      */
-    const RPC_PATH = '/transmission/rpc';
+    const DEFAULT_PATH = '/transmission/rpc';
 
     /**
      * @var string
@@ -217,7 +217,7 @@ class Client
             'http://%s:%d%s',
             $this->getHost(),
             $this->getPort(),
-            self::RPC_PATH
+            self::DEFAULT_PATH
         );
     }
 
