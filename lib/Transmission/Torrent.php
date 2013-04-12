@@ -14,6 +14,55 @@ use Transmission\Exception\InvalidResponseException;
 class Torrent extends BaseTorrent
 {
     /**
+     * Torrent is stopped
+     *
+     * @var integer
+     */
+    const STATUS_STOPPED = 0;
+
+    /**
+     * Torrent is queued to check files
+     *
+     * @var integer
+     */
+    const STATUS_CHECK_WAIT = 1;
+
+    /**
+     * Checking files
+     *
+     * @var integer
+     */
+    const STATUS_CHECK = 2;
+
+    /**
+     * Queued to download
+     *
+     * @var integer
+     */
+    const STATUS_DOWNLOAD_WAIT = 3;
+
+    /**
+     * Torrent is downloading
+     *
+     * @var integer
+     */
+    const STATUS_DOWNLOAD = 4;
+
+    /**
+     * Torrent is queued for seeding
+     *
+     * @var integer
+     */
+    const STATUS_SEED_WAIT = 5;
+
+    /**
+     * Torrent is seeding
+     *
+     * @var integer
+     */
+    const STATUS_SEED = 6;
+
+    /**
      * @var integer
      */
     protected $id;
@@ -27,6 +76,11 @@ class Torrent extends BaseTorrent
      * @var integer
      */
     protected $size;
+
+    /**
+     * @var integer
+     */
+    protected $status;
 
     /**
      * @var array
@@ -97,6 +151,62 @@ class Torrent extends BaseTorrent
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * @param integer $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = (integer) $status;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStopped()
+    {
+        return $this->status == self::STATUS_STOPPED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isQueued()
+    {
+        return $this->status == self::STATUS_DOWNLOAD_WAIT;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDownloading()
+    {
+        return $this->status == self::STATUS_DOWNLOAD;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSeeding()
+    {
+        return $this->status == self::STATUS_SEED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChecking()
+    {
+        return $this->status == self::STATUS_CHECK;
     }
 
     /**
@@ -235,6 +345,7 @@ class Torrent extends BaseTorrent
         return array(
             'id' => 'id',
             'name' => 'name',
+            'status' => 'status',
             'sizeWhenDone' => 'size'
         );
     }

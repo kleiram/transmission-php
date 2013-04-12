@@ -120,6 +120,27 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function shouldGetTorrentStatus()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->will($this->returnValue($this->loadFixture('get_torrent_status')));
+
+        $torrents = Torrent::all($client);
+
+        $this->assertCount(5, $torrents);
+        $this->assertTrue($torrents[0]->isStopped());
+        $this->assertTrue($torrents[1]->isQueued());
+        $this->assertTrue($torrents[2]->isDownloading());
+        $this->assertTrue($torrents[3]->isChecking());
+        $this->assertTrue($torrents[4]->isSeeding());
+    }
+
+    /**
+     * @test
      * @expectedException RuntimeException
      */
     public function shouldThrowExceptionOnUnsuccesfullGetTorrentResultMessage()
