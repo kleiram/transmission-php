@@ -67,13 +67,12 @@ class BaseTorrent
      * @param array               $fields
      * @return array
      */
-    protected static function _all(Client $client, array $fields)
+    protected static function _all(Client $client = null, array $fields)
     {
         $client = $client ?: new Client();
 
         $arguments = array(
-            'fields' => $fields,
-            'ids' => array()
+            'fields' => $fields
         );
 
         $response = $client->call('torrent-get', $arguments);
