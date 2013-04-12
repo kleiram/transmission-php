@@ -7,9 +7,8 @@ use Transmission\Exception\InvalidResponseException;
 /**
  * Base class for the Torrent class
  *
- * This class handles the actual communication
- * with the Transmission server and validates
- * the responses received.
+ * This class handles the actual communication with the Transmission server
+ * and validates the received responses.
  *
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
