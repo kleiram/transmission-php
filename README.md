@@ -84,6 +84,10 @@ use Transmission\Torrent;
 $torrent = Torrent::add(/* base64-encoded metainfo */, null, true);
 ```
 
+For more examples, see the
+[`examples`](https://github.com/kleiram/transmission-php/tree/master/examples)
+directory.
+
 ## License
 
 This library is licensed under the BSD 2-clause license.
