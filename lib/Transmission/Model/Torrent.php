@@ -81,6 +81,11 @@ class Torrent extends AbstractModel
     protected $size;
 
     /**
+     * @var integer
+     */
+    protected $eta;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -247,6 +252,22 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @param integer $eta
+     */
+    public function setEta($eta)
+    {
+        $this->eta = (integer) $eta;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEta()
+    {
+        return $this->eta;
+    }
+
+    /**
      * @return array
      */
     public function getFiles()
@@ -299,6 +320,7 @@ class Torrent extends AbstractModel
             'rateDownload' => 'downloadRate',
             'rateUpload' => 'uploadRate',
             'sizeWhenDone' => 'size',
+            'eta' => 'eta',
             'files' => null,
             'trackers' => null
         );
