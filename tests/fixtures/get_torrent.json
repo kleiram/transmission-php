@@ -9,6 +9,7 @@
                 "finished": false,
                 "rateDownload": 1000,
                 "rateUpload": 50,
+                "sizeWhenDone": 10000,
                 "trackers": [
                     {
                         "id": 1,
