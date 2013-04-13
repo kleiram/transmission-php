@@ -5,6 +5,7 @@
             {
                 "id": 1,
                 "name": "Example",
+                "status": 0,
                 "trackers": [
                     {
                         "id": 1,

@@ -13,12 +13,37 @@ class Torrent extends AbstractModel
     /**
      * @var integer
      */
+    const STATUS_STOPPED = 0;
+
+    /**
+     * @var integer
+     */
+    const STATUS_CHECK = 2;
+
+    /**
+     * @var integer
+     */
+    const STATUS_DOWNLOAD = 4;
+
+    /**
+     * @var integer
+     */
+    const STATUS_SEED = 6;
+
+    /**
+     * @var integer
+     */
     protected $id;
 
     /**
      * @var string
      */
     protected $name;
+
+    /**
+     * @var integer
+     */
+    protected $status;
 
     /**
      * @var array
@@ -76,6 +101,54 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @var integer
+     */
+    public function setStatus($status)
+    {
+        $this->status = (integer) $status;
+    }
+
+    /**
+     * @var integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStopped()
+    {
+        return $this->getStatus() === self::STATUS_STOPPED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChecking()
+    {
+        return $this->getStatus() === self::STATUS_CHECK;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDownloading()
+    {
+        return $this->getStatus() === self::STATUS_DOWNLOAD;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSeeding()
+    {
+        return $this->getStatus() === self::STATUS_SEED;
+    }
+
+    /**
      * @param Transmission\Model\File $file
      */
     public function addFile(File $file)
@@ -115,6 +188,7 @@ class Torrent extends AbstractModel
         return array(
             'id' => 'id',
             'name' => 'name',
+            'status' => 'status',
             'files' => null,
             'trackers' => null
         );
