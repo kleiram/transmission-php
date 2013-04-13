@@ -7,5 +7,7 @@ $queue = Transmission\Torrent::all();
 echo sprintf("Found %d torrents\n", count($queue));
 
 foreach ($queue as $torrent) {
+    $size = $torrent->getSize();
+
     echo "#{$torrent->getId()}: {$torrent->getName()} ({$size})\n";
 }
