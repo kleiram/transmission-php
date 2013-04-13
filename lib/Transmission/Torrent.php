@@ -127,7 +127,8 @@ class Torrent extends BaseTorrent
         self::validateResponse($response, 'add');
 
         return self::transformTorrent(
-            $response->arguments->$property, $client
+            $response->arguments->$property,
+            $client
         );
     }
 
@@ -214,9 +215,12 @@ class Torrent extends BaseTorrent
         }
 
         if ($response->result !== 'success') {
-            throw new \RuntimeException(sprintf(
-                'An error occured: "%s"', $response->result
-            ));
+            throw new \RuntimeException(
+                sprintf(
+                    'An error occured: "%s"',
+                    $response->result
+                )
+            );
         }
 
         switch ($method) {

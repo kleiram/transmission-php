@@ -115,7 +115,9 @@ class Client
             );
         } catch (\Exception $e) {
             throw new ConnectionException(
-                'Could not connect to Transmission', 0, $e
+                'Could not connect to Transmission',
+                0,
+                $e
             );
         }
 
