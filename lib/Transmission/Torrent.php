@@ -2,6 +2,7 @@
 namespace Transmission;
 
 use Transmission\Model\File;
+use Transmission\Model\Peer;
 use Transmission\Model\Tracker;
 use Transmission\Model\Torrent as BaseTorrent;
 use Transmission\Exception\NoSuchTorrentException;
@@ -40,6 +41,12 @@ class Torrent extends BaseTorrent
             if (isset($t->trackers)) {
                 foreach ($t->trackers as $tracker) {
                     $torrent->addTracker(self::transformTracker($tracker));
+                }
+            }
+
+            if (isset($t->peers)) {
+                foreach ($t->peers as $peer) {
+                    $torrent->addPeer(self::transformPeer($peer));
                 }
             }
 
@@ -82,6 +89,12 @@ class Torrent extends BaseTorrent
         if (isset($response->arguments->torrents[0]->trackers)) {
             foreach ($response->arguments->torrents[0]->trackers as $tracker) {
                 $torrent->addTracker(self::transformTracker($tracker));
+            }
+        }
+
+        if (isset($response->arguments->torrents[0]->peers)) {
+            foreach ($response->arguments->torrents[0]->peers as $peer) {
+                $torrent->addPeer(self::transformPeer($peer));
             }
         }
 
@@ -167,6 +180,19 @@ class Torrent extends BaseTorrent
             $trackerData,
             new Tracker(),
             Tracker::getMapping()
+        );
+    }
+
+    /**
+     * @param stdClass $peerData
+     * @return Transmission\Model\Peer
+     */
+    private static function transformPeer(\stdClass $peerData)
+    {
+        return ResponseTransformer::transform(
+            $peerData,
+            new Peer(),
+            Peer::getMapping()
         );
     }
 

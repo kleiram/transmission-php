@@ -99,6 +99,16 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $trackers[0]->getTier());
         $this->assertEquals('foo', $trackers[0]->getScrape());
         $this->assertEquals('bar', $trackers[0]->getAnnounce());
+
+        $this->assertInternalType('array', $torrent->getPeers());
+        $this->assertCount(1, ($peers = $torrent->getPeers()));
+        $this->assertEquals('10.0.0.1', $peers[0]->getAddress());
+        $this->assertEquals(54352, $peers[0]->getPort());
+        $this->assertEquals('foo', $peers[0]->getClient());
+        $this->assertFalse($peers[0]->isUtp());
+        $this->assertTrue($peers[0]->isEncrypted());
+        $this->assertTrue($peers[0]->isUploading());
+        $this->assertTrue($peers[0]->isDownloading());
     }
 
     /**

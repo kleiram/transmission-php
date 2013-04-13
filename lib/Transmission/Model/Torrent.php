@@ -56,6 +56,11 @@ class Torrent extends AbstractModel
     protected $trackers;
 
     /**
+     * @var array
+     */
+    protected $peers;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -64,6 +69,7 @@ class Torrent extends AbstractModel
     {
         parent::__construct($client);
 
+        $this->peers = array();
         $this->files = array();
         $this->tracker = array();
     }
@@ -178,6 +184,22 @@ class Torrent extends AbstractModel
     public function getTrackers()
     {
         return $this->trackers;
+    }
+
+    /**
+     * @param Transmission\Model\Peer $peer
+     */
+    public function addPeer(Peer $peer)
+    {
+        $this->peers[] = $peer;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPeers()
+    {
+        return $this->peers;
     }
 
     /**

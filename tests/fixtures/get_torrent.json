@@ -20,6 +20,17 @@
                         "length": 1000,
                         "bytesCompleted": 0
                     }
+                ],
+                "peers": [
+                    {
+                        "address": "10.0.0.1",
+                        "port": 54352,
+                        "client": "foo",
+                        "isUTP": false,
+                        "isEncrypted": true,
+                        "isDownloading": true,
+                        "isUploading": true
+                    }
                 ]
             }
         ]
