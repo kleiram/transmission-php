@@ -52,7 +52,7 @@ $files = $torrent->getFiles();
 ```
 
 To find out which information is contained by the torrent, check
-[Transmission\Torrent](https://github.com/kleiram/transmission-php/tree/master/lib/Transmission/Torrent.php).
+[Transmission\Model\Torrent](https://github.com/kleiram/transmission-php/tree/master/lib/Transmission/Model/Torrent.php).
 
 By default, the library will try to connect to `localhost:9091`. If you want to
 connect to an other host or port you can create a new `Transmission\Client` and
@@ -82,6 +82,21 @@ use Transmission\Torrent;
 
 // Instead of null you can pass a Transmission\Client instance
 $torrent = Torrent::add(/* base64-encoded metainfo */, null, true);
+```
+
+If the Transmission server is secured with a username and password you can
+authenticate using the `Client` class:
+
+```php
+<?php
+use Transmission\Client;
+use Transmission\Torrent;
+
+$client = new Client();
+$client->authenticate('username', 'password');
+
+// And you should pass the client to any static method you call!
+$torrent = Torrent::get(1, $client);
 ```
 
 For more examples, see the

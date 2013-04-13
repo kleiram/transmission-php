@@ -2,7 +2,9 @@
 namespace Transmission;
 
 use Buzz\Browser;
+use Buzz\Listener\BasicAuthListener;
 use Transmission\Exception\ConnectionException;
+use Transmission\Exception\AuthenticationException;
 use Transmission\Exception\InvalidResponseException;
 use Transmission\Exception\UnexpectedResponseException;
 
@@ -44,6 +46,11 @@ class Client
     protected $browser;
 
     /**
+     * @var string
+     */
+    protected $authDigest;
+
+    /**
      * Constructor
      *
      * @param string  $host
@@ -54,6 +61,17 @@ class Client
         $this->setHost($host ?: 'localhost');
         $this->setPort($port ?: 9091);
         $this->setBrowser(new Browser());
+    }
+
+    /**
+     * Authenticate against the Transmission server
+     *
+     * @param string $username
+     * @param string $password
+     */
+    public function authenticate($username, $password)
+    {
+        $this->authDigest = base64_encode($username .':'. $password);
     }
 
     /**
@@ -77,12 +95,20 @@ class Client
             $content['tag'] = (string) $tag;
         }
 
+        $headers = array();
+
+        if (is_string($this->getToken())) {
+            $headers[] = sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken());
+        }
+
+        if (is_string($this->authDigest)) {
+            $headers[] = sprintf('Authorization: Basic %s', $this->authDigest);
+        }
+
         try {
             $response = $this->browser->post(
                 $this->getUrl(),
-                array(sprintf(
-                    '%s: %s', self::TOKEN_HEADER, $this->getToken()
-                )),
+                $headers,
                 json_encode($content)
             );
         } catch (\Exception $e) {
@@ -103,6 +129,12 @@ class Client
             $this->setToken($response->getHeader(self::TOKEN_HEADER));
 
             return $this->call($method, $arguments, $tag);
+        }
+
+        if ($statusCode === 401) {
+            throw new AuthenticationException(
+                'Access to the Transmission server requires authentication'
+            );
         }
 
         if ($statusCode !== 200) {

@@ -70,6 +70,65 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldAuthenticate()
+    {
+        $response = $this->getMock('Buzz\Message\Response');
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+
+        $response
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue('{"foo":"bar"}'));
+
+        $browser = $this->getMock('Buzz\Browser');
+        $browser
+            ->expects($this->once())
+            ->method('post')
+            ->with(
+                'http://localhost:9091/transmission/rpc',
+                array(
+                    'X-Transmission-Session-Id: foo',
+                    'Authorization: Basic '. base64_encode('foo:bar')
+                )
+            )
+            ->will($this->returnValue($response));
+
+        $client = new Client();
+        $client->setToken('foo');
+        $client->setBrowser($browser);
+        $client->authenticate('foo', 'bar');
+        $client->call('foo');
+    }
+
+    /**
+     * @test
+     * @expectedException Transmission\Exception\AuthenticationException
+     */
+    public function shouldThrowExceptionOnAuthenticationError()
+    {
+        $response = $this->getMock('Buzz\Message\Response');
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(401));
+
+        $browser = $this->getMock('Buzz\Browser');
+        $browser
+            ->expects($this->once())
+            ->method('post')
+            ->will($this->returnValue($response));
+
+        $client = new Client();
+        $client->setBrowser($browser);
+        $client->call('foo');
+    }
+
+    /**
+     * @test
+     */
     public function shouldHandle409ResponseWhenMakingApiCalls()
     {
         $validResponse = $this->getMock('Buzz\Message\Response');
