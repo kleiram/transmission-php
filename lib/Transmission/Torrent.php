@@ -2,6 +2,7 @@
 namespace Transmission;
 
 use Transmission\Model\File;
+use Transmission\Model\Tracker;
 use Transmission\Model\Torrent as BaseTorrent;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
@@ -33,6 +34,12 @@ class Torrent extends BaseTorrent
             if (isset($t->files)) {
                 foreach ($t->files as $file) {
                     $torrent->addFile(self::transformFile($file));
+                }
+            }
+
+            if (isset($t->trackers)) {
+                foreach ($t->trackers as $tracker) {
+                    $torrent->addTracker(self::transformTracker($tracker));
                 }
             }
 
@@ -69,6 +76,12 @@ class Torrent extends BaseTorrent
         if (isset($response->arguments->torrents[0]->files)) {
             foreach ($response->arguments->torrents[0]->files as $file) {
                 $torrent->addFile(self::transformFile($file));
+            }
+        }
+
+        if (isset($response->arguments->torrents[0]->trackers)) {
+            foreach ($response->arguments->torrents[0]->trackers as $tracker) {
+                $torrent->addTracker(self::transformTracker($tracker));
             }
         }
 
@@ -131,12 +144,29 @@ class Torrent extends BaseTorrent
         );
     }
 
+    /**
+     * @param stdClass $fileData
+     * @return Transmission\Model\File
+     */
     private static function transformFile(\stdClass $fileData)
     {
         return ResponseTransformer::transform(
             $fileData,
             new File(),
             File::getMapping()
+        );
+    }
+
+    /**
+     * @param stdClass $trackerData
+     * @return Transmission\Model\Tracker
+     */
+    private static function transformTracker(\stdClass $trackerData)
+    {
+        return ResponseTransformer::transform(
+            $trackerData,
+            new Tracker(),
+            Tracker::getMapping()
         );
     }
 
