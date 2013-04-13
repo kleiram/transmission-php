@@ -82,6 +82,11 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($client, $torrent->getClient());
         $this->assertEquals(1, $torrent->getId());
         $this->assertEquals('Example', $torrent->getName());
+        $this->assertInternalType('array', $torrent->getFiles());
+        $this->assertCount(1, ($files = $torrent->getFiles()));
+        $this->assertEquals('foo', $files[0]->getName());
+        $this->assertEquals(1000, $files[0]->getSize());
+        $this->assertEquals(0, $files[0]->getCompleted());
     }
 
     /**

@@ -21,6 +21,11 @@ class Torrent extends AbstractModel
     protected $name;
 
     /**
+     * @var array
+     */
+    protected $files;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -28,6 +33,8 @@ class Torrent extends AbstractModel
     public function __construct(Client $client = null)
     {
         parent::__construct($client);
+
+        $this->files = array();
     }
 
     /**
@@ -63,13 +70,30 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @param Transmission\Model\File $file
+     */
+    public function addFile(File $file)
+    {
+        $this->files[] = $file;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    /**
      * @return array
      */
     protected static function getMapping()
     {
         return array(
             'id' => 'id',
-            'name' => 'name'
+            'name' => 'name',
+            'files' => null
         );
     }
 }

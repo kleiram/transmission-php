@@ -1,6 +1,7 @@
 <?php
 namespace Transmission;
 
+use Transmission\Model\File;
 use Transmission\Model\Torrent as BaseTorrent;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
@@ -27,7 +28,15 @@ class Torrent extends BaseTorrent
         $torrents = array();
 
         foreach ($response->arguments->torrents as $t) {
-            $torrents[] = self::transformTorrent($t, $client);
+            $torrent = self::transformTorrent($t, $client);
+
+            if (isset($t->files)) {
+                foreach ($t->files as $file) {
+                    $torrent->addFile(self::transformFile($file));
+                }
+            }
+
+            $torrents[] = $torrent;
         }
 
         return $torrents;
@@ -52,10 +61,18 @@ class Torrent extends BaseTorrent
 
         self::validateResponse($response, 'get');
 
-        return self::transformTorrent(
+        $torrent = self::transformTorrent(
             $response->arguments->torrents[0],
             $client
         );
+
+        if (isset($response->arguments->torrents[0]->files)) {
+            foreach ($response->arguments->torrents[0]->files as $file) {
+                $torrent->addFile(self::transformFile($file));
+            }
+        }
+
+        return $torrent;
     }
 
     /**
@@ -111,6 +128,15 @@ class Torrent extends BaseTorrent
             $torrentData,
             new Torrent($client),
             self::getMapping()
+        );
+    }
+
+    private static function transformFile(\stdClass $fileData)
+    {
+        return ResponseTransformer::transform(
+            $fileData,
+            new File(),
+            File::getMapping()
         );
     }
 
