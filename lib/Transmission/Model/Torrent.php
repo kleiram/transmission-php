@@ -66,6 +66,16 @@ class Torrent extends AbstractModel
     protected $peers;
 
     /**
+     * @var integer
+     */
+    protected $downloadRate;
+
+    /**
+     * @var integer
+     */
+    protected $uploadRate;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -184,6 +194,38 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @param integer $downloadRate
+     */
+    public function setDownloadRate($downloadRate)
+    {
+        $this->downloadRate = (integer) $downloadRate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getDownloadRate()
+    {
+        return $this->downloadRate;
+    }
+
+    /**
+     * @param integer $uploadRate
+     */
+    public function setUploadRate($uploadRate)
+    {
+        $this->uploadRate = (integer) $uploadRate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUploadRate()
+    {
+        return $this->uploadRate;
+    }
+
+    /**
      * @return array
      */
     public function getFiles()
@@ -233,6 +275,8 @@ class Torrent extends AbstractModel
             'name' => 'name',
             'status' => 'status',
             'finished' => 'finished',
+            'rateDownload' => 'downloadRate',
+            'rateUpload' => 'uploadRate',
             'files' => null,
             'trackers' => null
         );
