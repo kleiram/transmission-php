@@ -20,7 +20,7 @@ class Torrent extends BaseTorrent
     {
         $client    = $client ?: new Client();
         $arguments = array(
-            'fields' => array(array_keys(self::getMapping()))
+            'fields' => array_keys(self::getMapping())
         );
 
         $response = $client->call('torrent-get', $arguments);
@@ -67,7 +67,7 @@ class Torrent extends BaseTorrent
     {
         $client    = $client ?: new Client();
         $arguments = array(
-            'fields' => array(array_keys(self::getMapping())),
+            'fields' => array_keys(self::getMapping()),
             'ids' => array($id)
         );
 

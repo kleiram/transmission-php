@@ -73,7 +73,25 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $client
             ->expects($this->once())
             ->method('call')
-            ->with('torrent-get')
+            ->with(
+                'torrent-get',
+                array(
+                    'fields' => array(
+                        'id',
+                        'name',
+                        'status',
+                        'finished',
+                        'rateDownload',
+                        'rateUpload',
+                        'sizeWhenDone',
+                        'percentDone',
+                        'eta',
+                        'files',
+                        'trackers',
+                    ),
+                    'ids' => array(1)
+                )
+            )
             ->will($this->returnValue($this->loadFixture("get_torrent")));
 
         $torrent = Torrent::get(1, $client);
@@ -92,6 +110,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10000, $torrent->getSize());
         $this->assertInstanceOf('DateInterval', $torrent->getEta());
         $this->assertEquals(7200, $torrent->getEta()->s);
+        $this->assertEquals(10.05, $torrent->getPercentDone());
 
         $this->assertInternalType('array', $torrent->getFiles());
         $this->assertCount(1, ($files = $torrent->getFiles()));

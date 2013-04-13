@@ -11,6 +11,7 @@
                 "rateUpload": 50,
                 "sizeWhenDone": 10000,
                 "eta": 7200,
+                "percentDone": 10.05,
                 "trackers": [
                     {
                         "id": 1,

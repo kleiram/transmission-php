@@ -86,6 +86,11 @@ class Torrent extends AbstractModel
     protected $eta;
 
     /**
+     * @var double
+     */
+    protected $percentDone;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
@@ -268,6 +273,22 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @param double $percentDone
+     */
+    public function setPercentDone($percentDone)
+    {
+        $this->percentDone = (double) $percentDone;
+    }
+
+    /**
+     * @return double
+     */
+    public function getPercentDone()
+    {
+        return $this->percentDone;
+    }
+
+    /**
      * @return array
      */
     public function getFiles()
@@ -320,6 +341,7 @@ class Torrent extends AbstractModel
             'rateDownload' => 'downloadRate',
             'rateUpload' => 'uploadRate',
             'sizeWhenDone' => 'size',
+            'percentDone' => 'percentDone',
             'eta' => 'eta',
             'files' => null,
             'trackers' => null
