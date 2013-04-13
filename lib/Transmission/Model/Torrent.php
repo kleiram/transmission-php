@@ -256,11 +256,11 @@ class Torrent extends AbstractModel
      */
     public function setEta($eta)
     {
-        $this->eta = (integer) $eta;
+        $this->eta = new \DateInterval(sprintf('PT%dS', $eta));
     }
 
     /**
-     * @return integer
+     * @return DateInterval
      */
     public function getEta()
     {

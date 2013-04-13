@@ -10,7 +10,7 @@
                 "rateDownload": 1000,
                 "rateUpload": 50,
                 "sizeWhenDone": 10000,
-                "eta": 10,
+                "eta": 7200,
                 "trackers": [
                     {
                         "id": 1,
