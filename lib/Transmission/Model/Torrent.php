@@ -93,7 +93,8 @@ class Torrent extends AbstractModel
     /**
      * Constructor
      *
-     * @param Transmission\Client $client
+     * @param Transmission\Client $client The client used to connect to
+     *                            Transmission
      */
     public function __construct(Client $client = null)
     {
@@ -105,7 +106,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $id
+     * Set the ID of the torrent
+     *
+     * @param integer $id The ID of the torrent
      */
     public function setId($id)
     {
@@ -113,6 +116,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the ID of the torrent
+     *
      * @return integer
      */
     public function getId()
@@ -121,7 +126,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * Set the name of the torrent
+     *
+     * @param string $name The name of the torrent
      */
     public function setName($name)
     {
@@ -129,6 +136,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the name of the torrent
+     *
      * @return string
      */
     public function getName()
@@ -137,7 +146,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @var integer
+     * Set the status of the torrent
+     *
+     * @param integer $status
      */
     public function setStatus($status)
     {
@@ -145,7 +156,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @var integer
+     * Get the status of the torrent
+     *
+     * @return integer
      */
     public function getStatus()
     {
@@ -153,6 +166,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Check if the torrent is stopped
+     *
      * @return boolean
      */
     public function isStopped()
@@ -161,6 +176,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Check if Transmission is checking the files downloaded using this torrent
+     *
      * @return boolean
      */
     public function isChecking()
@@ -169,6 +186,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Check if Transmission is downloading this torrent
+     *
      * @return boolean
      */
     public function isDownloading()
@@ -177,6 +196,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Check if this torrent is being seeded
+     *
      * @return boolean
      */
     public function isSeeding()
@@ -185,15 +206,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param Transmission\Model\File $file
-     */
-    public function addFile(File $file)
-    {
-        $this->files[] = $file;
-    }
-
-    /**
-     * @param boolean $finished
+     * Set if this torrent is finished downloading
+     *
+     * @param boolean $finished Whether the torrent is finished
      */
     public function setFinished($finished)
     {
@@ -201,6 +216,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Check if this torrent has finished downloading
+     *
      * @return boolean
      */
     public function isFinished()
@@ -209,7 +226,10 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $downloadRate
+     * Set the download rate (in bytes per second) that this torrent
+     * is being downloaded
+     *
+     * @param integer $downloadRate The download rate (in B/s)
      */
     public function setDownloadRate($downloadRate)
     {
@@ -217,6 +237,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the download rate of this torrent (in B/s)
+     *
      * @return integer
      */
     public function getDownloadRate()
@@ -225,7 +247,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $uploadRate
+     * Set the upload rate (in B/s) that this torrent is being uploaded
+     *
+     * @param integer $uploadRate The upload rate (in B/s)
      */
     public function setUploadRate($uploadRate)
     {
@@ -233,6 +257,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the upload rate (in B/s) that this torrent is being uploaded
+     *
      * @return integer
      */
     public function getUploadRate()
@@ -241,7 +267,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $size
+     * Set the size of this download
+     *
+     * @param integer $size The size of the download
      */
     public function setSize($size)
     {
@@ -249,6 +277,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the size of this download
+     *
      * @return integer
      */
     public function getSize()
@@ -257,6 +287,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Set the ETA (in seconds) until this torrent is done downloading
+     *
      * @param integer $eta
      */
     public function setEta($eta)
@@ -265,6 +297,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the ETA until this torrent is done downloading
+     *
      * @return DateInterval
      */
     public function getEta()
@@ -273,7 +307,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param double $percentDone
+     * Set the percentage of the torrent that is done downloading
+     *
+     * @param double $percentDone The percentage that is done downloading
      */
     public function setPercentDone($percentDone)
     {
@@ -281,6 +317,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the percentage of the torrent that is done downloading
+     *
      * @return double
      */
     public function getPercentDone()
@@ -288,7 +326,20 @@ class Torrent extends AbstractModel
         return $this->percentDone;
     }
 
+
     /**
+     * Add a file that this torrent downloads
+     *
+     * @param Transmission\Model\File $file The file this torrent downloads
+     */
+    public function addFile(File $file)
+    {
+        $this->files[] = $file;
+    }
+
+    /**
+     * Get the files that are being downloaded by this torrent
+     *
      * @return array
      */
     public function getFiles()
@@ -297,7 +348,9 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param Transmission\Model\Tracker $tracker
+     * Add a tracker that is used to download this torrent
+     *
+     * @param Transmission\Model\Tracker $tracker The tracker used
      */
     public function addTracker(Tracker $tracker)
     {
@@ -305,6 +358,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the trackers that are used to download this torrent
+     *
      * @return array
      */
     public function getTrackers()
@@ -313,6 +368,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Add a peer that is connect with this torrent
+     *
      * @param Transmission\Model\Peer $peer
      */
     public function addPeer(Peer $peer)
@@ -321,6 +378,8 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Get the peers that are connected to this torrent
+     *
      * @return array
      */
     public function getPeers()

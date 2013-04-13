@@ -9,22 +9,30 @@ namespace Transmission\Model;
 class File
 {
     /**
+     * The name of the file
+     *
      * @var string
      */
     protected $name;
 
     /**
+     * The size of the file (in bytes)
+     *
      * @var integer
      */
     protected $size;
 
     /**
+     * The number of bytes that are downloaded
+     *
      * @var integer
      */
     protected $completed;
 
     /**
-     * @param string $name
+     * Set the name of the file
+     *
+     * @param string $name The name of the file
      */
     public function setName($name)
     {
@@ -32,6 +40,8 @@ class File
     }
 
     /**
+     * Get the name of the file
+     *
      * @return string
      */
     public function getName()
@@ -40,7 +50,9 @@ class File
     }
 
     /**
-     * @param integer $size
+     * Set the size of the file
+     *
+     * @param integer $size The size of the file (in bytes)
      */
     public function setSize($size)
     {
@@ -48,6 +60,8 @@ class File
     }
 
     /**
+     * Get the size of the file (in bytes)
+     *
      * @return integer
      */
     public function getSize()
@@ -56,6 +70,8 @@ class File
     }
 
     /**
+     * Set the number of bytes that are downloaded
+     *
      * @param integer $completed
      */
     public function setCompleted($completed)
@@ -64,6 +80,8 @@ class File
     }
 
     /**
+     * Get the number of bytes that are downloaded
+     *
      * @return integer
      */
     public function getCompleted()

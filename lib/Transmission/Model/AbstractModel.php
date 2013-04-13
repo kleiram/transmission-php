@@ -11,6 +11,8 @@ use Transmission\Client;
 abstract class AbstractModel
 {
     /**
+     * The client used to connect to Transmission
+     *
      * @var Transmission\Client
      */
     protected $client;
@@ -18,7 +20,8 @@ abstract class AbstractModel
     /**
      * Constructor
      *
-     * @param Transmission\Client $client
+     * @param Transmission\Client $client The client that should be used to
+     *                            connect to Transmission
      */
     public function __construct(Client $client = null)
     {
@@ -26,14 +29,18 @@ abstract class AbstractModel
     }
 
     /**
-    * @param Transmission\Client $client
-    */
+     * Set the client used to connect to Transmission
+     *
+     * @param Transmission\Client $client The client that should be used
+     */
     public function setClient(Client $client)
     {
         $this->client = $client;
     }
 
     /**
+     * Get the client used to connect to Transmission
+     *
      * @return Transmission\Client
      */
     public function getClient()

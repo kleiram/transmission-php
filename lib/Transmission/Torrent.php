@@ -8,6 +8,11 @@ use Transmission\Model\Torrent as BaseTorrent;
 use Transmission\Exception\NoSuchTorrentException;
 use Transmission\Exception\InvalidResponseException;
 
+/**
+ * The main entry point to the Transmission API
+ *
+ * @author Ramon Kleiss <ramon@cubilon.nl>
+ */
 class Torrent extends BaseTorrent
 {
     /**

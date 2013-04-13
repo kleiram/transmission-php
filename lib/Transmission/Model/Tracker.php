@@ -9,11 +9,15 @@ namespace Transmission\Model;
 class Tracker
 {
     /**
+     * The ID of the tracker
+     *
      * @var integer
      */
     protected $id;
 
     /**
+     * The tier the tracker is on
+     *
      * @var integer
      */
     protected $tier;
@@ -29,7 +33,9 @@ class Tracker
     protected $announce;
 
     /**
-     * @param integer $id
+     * Set the ID of the tracker
+     *
+     * @param integer $id The ID of the tracker
      */
     public function setId($id)
     {
@@ -37,6 +43,8 @@ class Tracker
     }
 
     /**
+     * Get the ID of the tracker
+     *
      * @return integer
      */
     public function getId()
@@ -45,7 +53,9 @@ class Tracker
     }
 
     /**
-     * @param integer $tier
+     * Set the tier the tracker is on
+     *
+     * @param integer $tier The tier the tracker is on
      */
     public function setTier($tier)
     {
@@ -53,6 +63,8 @@ class Tracker
     }
 
     /**
+     * Get the tier the tracker is on
+     *
      * @return integer
      */
     public function getTier()

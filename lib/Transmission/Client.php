@@ -82,7 +82,9 @@ class Client
      * @param string $tag
      * @return stdClass
      * @throws Transmission\Exception\ConnectionException
+     * @throws Transmission\Exception\AuthenticationException
      * @throws Transmission\Exception\InvalidResponseException
+     * @throws Transmission\Exception\UnexpectedResponseException
      */
     public function call($method, array $arguments = array(), $tag = null)
     {
