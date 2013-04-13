@@ -71,7 +71,11 @@ class Client
      */
     public function authenticate($username, $password)
     {
-        $this->authDigest = base64_encode($username .':'. $password);
+        if ($username && $password) {
+            $this->authDigest = base64_encode($username .':'. $password);
+        } else {
+            $this->authDigest = null;
+        }
     }
 
     /**
