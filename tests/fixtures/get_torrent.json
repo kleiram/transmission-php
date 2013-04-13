@@ -6,6 +6,7 @@
                 "id": 1,
                 "name": "Example",
                 "status": 0,
+                "finished": false,
                 "trackers": [
                     {
                         "id": 1,

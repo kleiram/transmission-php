@@ -46,6 +46,11 @@ class Torrent extends AbstractModel
     protected $status;
 
     /**
+     * @var boolean
+     */
+    protected $finished;
+
+    /**
      * @var array
      */
     protected $files;
@@ -163,6 +168,22 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @param boolean $finished
+     */
+    public function setFinished($finished)
+    {
+        $this->finished = (boolean) $finished;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isFinished()
+    {
+        return $this->finished;
+    }
+
+    /**
      * @return array
      */
     public function getFiles()
@@ -211,6 +232,7 @@ class Torrent extends AbstractModel
             'id' => 'id',
             'name' => 'name',
             'status' => 'status',
+            'finished' => 'finished',
             'files' => null,
             'trackers' => null
         );
