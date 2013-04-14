@@ -105,6 +105,41 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function shouldNotAuthenticate()
+    {
+        $response = $this->getMock('Buzz\Message\Response');
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+
+        $response
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue('{"foo":"bar"}'));
+
+        $browser = $this->getMock('Buzz\Browser');
+        $browser
+            ->expects($this->once())
+            ->method('post')
+            ->with(
+                'http://localhost:9091/transmission/rpc',
+                array(
+                    'X-Transmission-Session-Id: foo',
+                )
+            )
+            ->will($this->returnValue($response));
+
+        $client = new Client();
+        $client->setToken('foo');
+        $client->setBrowser($browser);
+        $client->authenticate(null, null);
+        $client->call('foo');
+    }
+
+    /**
+     * @test
      * @expectedException Transmission\Exception\AuthenticationException
      */
     public function shouldThrowExceptionOnAuthenticationError()
