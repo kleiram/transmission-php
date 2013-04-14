@@ -337,6 +337,106 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $torrent->delete();
     }
 
+    /**
+     * @test
+     */
+    public function shouldStartTorrent()
+    {
+        $response = (object) array(
+            'arguments' => (object) array(),
+            'result' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-start',
+                array('ids' => array(1))
+            )
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->start();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStartTorrentNow()
+    {
+        $response = (object) array(
+            'arguments' => (object) array(),
+            'result' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-start-now',
+                array('ids' => array(1))
+            )
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->start(true);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStopTorrent()
+    {
+        $response = (object) array(
+            'arguments' => (object) array(),
+            'result' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-stop',
+                array('ids' => array(1))
+            )
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->stop();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldVerifyTorrent()
+    {
+        $response = (object) array(
+            'arguments' => (object) array(),
+            'result' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-verify',
+                array('ids' => array(1))
+            )
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->verify();
+    }
+
     public function invalidTorrentAllProvider()
     {
         $responses = array();

@@ -133,6 +133,53 @@ class Torrent extends BaseTorrent
     }
 
     /**
+     * Start downloading of the torrent
+     *
+     * @param boolean $now Whether to start downloading right now
+     */
+    public function start($now = false)
+    {
+        $method   = $now ? 'torrent-start-now' : 'torrent-start';
+        $validate = $now ? 'start-now' : 'start';
+
+        $arguments = array(
+            'ids' => array($this->getId())
+        );
+
+        $response = $this->getClient()->call($method, $arguments);
+
+        self::validateResponse($response, $validate);
+    }
+
+    /**
+     * Stop the downloading of the torrent
+     */
+    public function stop()
+    {
+        $arguments = array(
+            'ids' => array($this->getId())
+        );
+
+        $response = $this->getClient()->call('torrent-stop', $arguments);
+
+        self::validateResponse($response, 'stop');
+    }
+
+    /**
+     * Verify the torrent
+     */
+    public function verify()
+    {
+        $arguments = array(
+            'ids' => array($this->getId())
+        );
+
+        $response = $this->getClient()->call('torrent-verify', $arguments);
+
+        self::validateResponse($response, 'verify');
+    }
+
+    /**
      * Remove a torrent from the download queue
      *
      * @param boolean $localData
