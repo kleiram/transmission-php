@@ -49,6 +49,14 @@ $trackers = $torrent->getTrackers();
 // Getting the files downloaded by the torrent are available too
 // These are instances of Transmission\Model\File
 $files = $torrent->getFiles();
+
+// You can start, stop, verify the torrent and ask the tracker for
+// more peers to connect to
+$torrent->stop();
+$torrent->start();
+$torrent->start(true); // Pass true if you want to start the torrent immediatly
+$torrent->verify();
+$torrent->reannounce();
 ```
 
 To find out which information is contained by the torrent, check
