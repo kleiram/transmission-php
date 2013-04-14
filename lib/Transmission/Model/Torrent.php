@@ -293,11 +293,11 @@ class Torrent extends AbstractModel
      */
     public function setEta($eta)
     {
-        if ($eta > -1) {
-            $this->eta = new \DateInterval(sprintf('PT%dS', $eta));
-        } else {
-            $this->eta = new \DateInterval();
-        }
+        $this->eta = new \DateInterval(
+            sprintf('PT%dS'
+                ($eta > -1) ? $eta : 0
+            )
+        );
     }
 
     /**
