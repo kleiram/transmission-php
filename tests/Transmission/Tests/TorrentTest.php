@@ -437,6 +437,31 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $torrent->verify();
     }
 
+    /**
+     * @test
+     */
+    public function shouldReannounceTorrent()
+    {
+        $response = (object) array(
+            'arguments' => (object) array(),
+            'result' => 'success'
+        );
+
+        $client = $this->getMock('Transmission\Client');
+        $client
+            ->expects($this->once())
+            ->method('call')
+            ->with(
+                'torrent-reannounce',
+                array('ids' => array(1))
+            )
+            ->will($this->returnValue($response));
+
+        $torrent = new Torrent($client);
+        $torrent->setId(1);
+        $torrent->reannounce();
+    }
+
     public function invalidTorrentAllProvider()
     {
         $responses = array();

@@ -180,6 +180,20 @@ class Torrent extends BaseTorrent
     }
 
     /**
+     * Ask the tracker for more peers to connect to
+     */
+    public function reannounce()
+    {
+        $arguments = array(
+            'ids' => array($this->getId())
+        );
+
+        $response = $this->getClient()->call('torrent-reannounce', $arguments);
+
+        self::validateResponse($response, 'reannounce');
+    }
+
+    /**
      * Remove a torrent from the download queue
      *
      * @param boolean $localData
