@@ -60,7 +60,7 @@ $torrent->reannounce();
 ```
 
 To find out which information is contained by the torrent, check
-[Transmission\Model\Torrent](https://github.com/kleiram/transmission-php/tree/master/lib/Transmission/Model/Torrent.php).
+[`Transmission\Model\Torrent`](https://github.com/kleiram/transmission-php/tree/master/lib/Transmission/Model/Torrent.php).
 
 By default, the library will try to connect to `localhost:9091`. If you want to
 connect to an other host or port you can create a new `Transmission\Client` and
