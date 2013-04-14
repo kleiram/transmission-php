@@ -51,7 +51,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with(
                 'http://localhost:9091/transmission/rpc',
-                array('X-Transmission-Session-Id: foo'),
+                array(
+                    'User-agent: transmission-rpc/0.4.0',
+                    'X-Transmission-Session-Id: foo',
+                ),
                 '{"method":"foo","arguments":{"bar":"baz"},"tag":"foo"}'
             )
             ->will($this->returnValue($response));
@@ -89,10 +92,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with(
                 'http://localhost:9091/transmission/rpc',
-                array(
-                    'X-Transmission-Session-Id: foo',
-                    'Authorization: Basic '. base64_encode('foo:bar')
-                )
+                $this->contains('Authorization: Basic '. base64_encode('foo:bar'))
             )
             ->will($this->returnValue($response));
 
@@ -125,9 +125,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with(
                 'http://localhost:9091/transmission/rpc',
-                array(
-                    'X-Transmission-Session-Id: foo',
-                )
+                $this->contains('X-Transmission-Session-Id: foo')
             )
             ->will($this->returnValue($response));
 

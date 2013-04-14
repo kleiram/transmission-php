@@ -18,6 +18,11 @@ class Client
     /**
      * @var string
      */
+    const USER_AGENT = 'transmission-rpc/0.4.0';
+
+    /**
+     * @var string
+     */
     const DEFAULT_PATH = '/transmission/rpc';
 
     /**
@@ -101,7 +106,9 @@ class Client
             $content['tag'] = (string) $tag;
         }
 
-        $headers = array();
+        $headers = array(
+            sprintf('User-agent: %s', self::USER_AGENT)
+        );
 
         if (is_string($this->getToken())) {
             $headers[] = sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken());
