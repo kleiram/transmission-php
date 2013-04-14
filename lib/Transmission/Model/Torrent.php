@@ -294,7 +294,8 @@ class Torrent extends AbstractModel
     public function setEta($eta)
     {
         $this->eta = new \DateInterval(
-            sprintf('PT%dS'
+            sprintf(
+                'PT%dS',
                 ($eta > -1) ? $eta : 0
             )
         );
