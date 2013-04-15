@@ -111,6 +111,18 @@ For more examples, see the
 [`examples`](https://github.com/kleiram/transmission-php/tree/master/examples)
 directory.
 
+## Testing
+
+Testing is done using [PHPUnit](https://github.com/sebastianbergmann/phpunit). To
+test the application, you have to install the dependencies using Composer before
+running the tests:
+
+```bash
+$ curl -s https://getcomposer.org/installer | php
+$ php composer.phar install
+$ phpunit --coverage-text
+```
+
 ## Changelog
 
     Version     Changes
