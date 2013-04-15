@@ -9,27 +9,33 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class ResponseTransformer
 {
     /**
-     * @param stdClass $response
-     * @param mixed    $subject
+     * @param stdClass $source
+     * @param mixed    $dest
      * @param array    $mapping
      * @return mixed
      */
-    public static function transform(\stdClass $response, $subject, array $mapping)
+    public static function transform(\stdClass $source, $dest, array $mapping)
     {
+        if (!is_object($dest)) {
+            throw new \InvalidArgumentException(
+                sprintf('$dest should be an object, %s given', $dest)
+            );
+        }
+
         $accessor = PropertyAccess::getPropertyAccessor();
 
         foreach ($mapping as $from => $to) {
             $from = is_string($from) ? $from : $to;
 
-            if (isset($response->$from) && !is_null($to)) {
+            if (isset($source->$from) && !is_null($to)) {
                 $accessor->setValue(
-                    $subject,
+                    $dest,
                     $to,
-                    $accessor->getValue($response, $from)
+                    $accessor->getValue($source, $from)
                 );
             }
         }
 
-        return $subject;
+        return $dest;
     }
 }

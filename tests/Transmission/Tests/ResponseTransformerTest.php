@@ -78,4 +78,20 @@ class ResponseTransformerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $subject->id);
         $this->assertNull($subject->getBar());
     }
+
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     */
+    public function shouldThrowExceptionWhenNonObjectPassed()
+    {
+        $dest = 'foo';
+        $source = (object) array('id' => 1, 'foo' => 'bar');
+
+        $result = ResponseTransformer::transform(
+            $source,
+            $dest,
+            array('id', 'foo')
+        );
+    }
 }
