@@ -133,6 +133,21 @@ $ phpunit --coverage-text
 
     0.3.0       - Added support for authentication
 
+    0.4.0       - The library now requires at least PHP 5.3.2
+                - Added support for getting files downloaded by torrent
+                - Added support for getting trackers used by a torrent
+                - Added support for getting peers connected to
+                - The torrent now contains:
+                    * Whether it is finished
+                    * The up- and download rate (in bytes/s)
+                    * The size of the download (when completed)
+                    * The ETA of the download
+                    * The percentage of the download completed
+                - Made the authentication more flexible
+                - The client now sends an User-Agent header with each request
+                - Added support for starting, stopping, veryfing and
+                  requesting a reannounce of torrents
+
 ## License
 
 This library is licensed under the BSD 2-clause license.
