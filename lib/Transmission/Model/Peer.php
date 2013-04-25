@@ -56,6 +56,13 @@ class Peer
     protected $downloading;
 
     /**
+     * The progress of the download from the peer
+     *
+     * @var double
+     */
+    protected $progress;
+
+    /**
      * Set the remote address of the peer
      *
      * @param string $address The remote address of the peer
@@ -193,6 +200,26 @@ class Peer
     public function isDownloading()
     {
         return $this->downloading;
+    }
+
+    /**
+     * Set the progress of the download
+     *
+     * @param double $progress
+     */
+    public function setProgress($progress)
+    {
+        $this->progress = (double) $progress;
+    }
+
+    /**
+     * Get the progress of the download
+     *
+     * @return double
+     */
+    public function getProgress()
+    {
+        return $this->progress;
     }
 
     /**
