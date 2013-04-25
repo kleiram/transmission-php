@@ -85,6 +85,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                         'rateUpload',
                         'sizeWhenDone',
                         'percentDone',
+                        'downloadDir',
                         'eta',
                         'files',
                         'trackers',

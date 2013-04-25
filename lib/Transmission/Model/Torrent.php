@@ -91,6 +91,11 @@ class Torrent extends AbstractModel
     protected $percentDone;
 
     /**
+     * @var string
+     */
+    protected $downloadDir;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client The client used to connect to
@@ -393,6 +398,26 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * Set the directory the torrent is downloaded to
+     *
+     * @param string $downloadDir
+     */
+    public function setDownloadDir($downloadDir)
+    {
+        $this->downloadDir = (string) $downloadDir;
+    }
+
+    /**
+     * Get the directory the torrent is downloaded to
+     *
+     * @return string
+     */
+    public function getDownloadDir()
+    {
+        return $this->downloadDir;
+    }
+
+    /**
      * @return array
      */
     protected static function getMapping()
@@ -406,6 +431,7 @@ class Torrent extends AbstractModel
             'rateUpload' => 'uploadRate',
             'sizeWhenDone' => 'size',
             'percentDone' => 'percentDone',
+            'downloadDir' => 'downloadDir',
             'eta' => 'eta',
             'files' => null,
             'trackers' => null
