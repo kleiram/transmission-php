@@ -137,8 +137,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             }));
 
         $this->getClient()->setClient($client);
-        $this->getClient()->call('foo', array());
+        $response = $this->getClient()->call('foo', array());
+
         $this->assertEquals('foo', $this->getClient()->getToken());
+        $this->assertInstanceOf('stdClass', $response);
+        $this->assertObjectHasAttribute('foo', $response);
+        $this->assertEquals('bar', $response->foo);
     }
 
     public function setup()

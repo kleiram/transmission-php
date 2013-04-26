@@ -100,7 +100,8 @@ class Client
 
         if ($response->getStatusCode() == 409) {
             $this->setToken($response->getHeader(self::TOKEN_HEADER));
-            $this->call($method, $arguments);
+
+            return $this->call($method, $arguments);
         }
 
         return json_decode($response->getContent());
