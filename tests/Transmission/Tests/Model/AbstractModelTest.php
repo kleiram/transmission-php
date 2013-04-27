@@ -21,6 +21,25 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->getModel()->getMapping());
     }
 
+    /**
+     * @test
+     */
+    public function shouldHaveNoClientByDefault()
+    {
+        $this->assertNull($this->getModel()->getClient());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHaveClientIfSetByUser()
+    {
+        $client = $this->getMock('Transmission\Client');
+
+        $this->getModel()->setClient($client);
+        $this->assertEquals($client, $this->getModel()->getClient());
+    }
+
     public function setup()
     {
         $this->model = $this->getMockForAbstractClass('Transmission\Model\AbstractModel');
