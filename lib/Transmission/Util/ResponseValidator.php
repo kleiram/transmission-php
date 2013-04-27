@@ -43,6 +43,8 @@ class ResponseValidator
                 'Invalid response received from Transmission'
             );
         }
+
+        return $response->arguments->torrents;
     }
 
     /**
@@ -60,5 +62,7 @@ class ResponseValidator
                 'Invalid response received from Transmission'
             );
         }
+
+        return $response->arguments->$torrentField;
     }
 }

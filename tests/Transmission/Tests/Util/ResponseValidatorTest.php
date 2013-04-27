@@ -43,7 +43,9 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->getValidator()->validate('torrent-get', $response);
+        $expected  = array((object) array('foo' => 'bar'));
+        $container = $this->getValidator()->validate('torrent-get', $response);
+        $this->assertEquals($expected, $container);
     }
 
     /**
@@ -82,7 +84,9 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->getValidator()->validate('torrent-add', $response);
+        $expected  = (object) array('foo' => 'bar');
+        $container = $this->getValidator()->validate('torrent-add', $response);
+        $this->assertEquals($expected, $container);
     }
 
     /**
@@ -113,7 +117,7 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldThrowExceptionOnEmptyTorrentFieldInTorrentAddResponse()
     {
-        $response = (object) array('result' => 'success', 'arguments' => (object) array('torrent-addres' => (object) array()));
+        $response = (object) array('result' => 'success', 'arguments' => (object) array('torrent-added' => array()));
 
         $this->getValidator()->validate('torrent-add', $response);
     }
@@ -125,7 +129,8 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $response = (object) array('result' => 'success');
 
-        $this->getValidator()->validate('torrent-remove', $response);
+        $container = $this->getValidator()->validate('torrent-remove', $response);
+        $this->assertNull($container);
     }
 
     public function setup()
