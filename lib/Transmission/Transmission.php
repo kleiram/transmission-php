@@ -39,6 +39,8 @@ class Transmission
     }
 
     /**
+     * Get all the torrents in the download queue
+     *
      * @return array
      */
     public function all()
@@ -61,8 +63,11 @@ class Transmission
     }
 
     /**
+     * Get a specific torrent from the download queue
+     *
      * @param integer $id
      * @return Transmission\Model\Torrent
+     * @throws RuntimeException
      */
     public function get($id)
     {
@@ -93,6 +98,8 @@ class Transmission
     }
 
     /**
+     * Add a torrent to the download queue
+     *
      * @param string  $filename
      * @param boolean $metainfo
      * @return Transmission\Model\Torrent
@@ -111,6 +118,8 @@ class Transmission
     }
 
     /**
+     * Set the client used to connect to Transmission
+     *
      * @param Transmission\Client $client
      */
     public function setClient(Client $client)
@@ -119,6 +128,8 @@ class Transmission
     }
 
     /**
+     * Get the client used to connect to Transmission
+     *
      * @return Transmission\Client
      */
     public function getClient()
@@ -127,6 +138,8 @@ class Transmission
     }
 
     /**
+     * Set the hostname of the Transmission server
+     *
      * @param string $host
      */
     public function setHost($host)
@@ -135,6 +148,8 @@ class Transmission
     }
 
     /**
+     * Get the hostname of the Transmission server
+     *
      * @return string
      */
     public function getHost()
@@ -143,6 +158,8 @@ class Transmission
     }
 
     /**
+     * Set the port the Transmission server is listening on
+     *
      * @param integer $port
      */
     public function setPort($port)
@@ -150,12 +167,19 @@ class Transmission
         return $this->getClient()->setPort($port);
     }
 
+    /**
+     * Get the port the Transmission server is listening on
+     *
+     * @return integer
+     */
     public function getPort()
     {
         return $this->getClient()->getPort();
     }
 
     /**
+     * Set the mapper used to map responses from Transmission to models
+     *
      * @param Transmission\Util\PropertyMapper $mapper
      */
     public function setMapper(PropertyMapper $mapper)
@@ -164,6 +188,8 @@ class Transmission
     }
 
     /**
+     * Get the mapper used to map responses from Transmission to models
+     *
      * @return Transmission\Util\PropertyMapper
      */
     public function getMapper()
@@ -172,6 +198,8 @@ class Transmission
     }
 
     /**
+     * Set the validator used to validate Transmission responses
+     *
      * @param Transmission\Util\ResponseValidator $validator
      */
     public function setValidator(ResponseValidator $validator)
@@ -180,6 +208,8 @@ class Transmission
     }
 
     /**
+     * Get the validator used to validate Transmission responses
+     *
      * @return Transmission\Util\ResponseValidator
      */
     public function getValidator()

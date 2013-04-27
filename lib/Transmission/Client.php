@@ -73,6 +73,8 @@ class Client
     }
 
     /**
+     * Authenticate against the Transmission server
+     *
      * @param string $username
      * @param string $password
      */
@@ -132,6 +134,8 @@ class Client
     }
 
     /**
+     * Get the URL used to connect to Transmission
+     *
      * @return string
      */
     public function getUrl()
@@ -144,6 +148,8 @@ class Client
     }
 
     /**
+     * Set the hostname of the Transmission server
+     *
      * @param string $host
      */
     public function setHost($host)
@@ -152,6 +158,8 @@ class Client
     }
 
     /**
+     * Get the hostname of the Transmission server
+     *
      * @return string
      */
     public function getHost()
@@ -160,6 +168,8 @@ class Client
     }
 
     /**
+     * Set the port the Transmission server is listening on
+     *
      * @param integer $port
      */
     public function setPort($port)
@@ -168,6 +178,8 @@ class Client
     }
 
     /**
+     * Get the port the Transmission server is listening on
+     *
      * @return integer
      */
     public function getPort()
@@ -176,6 +188,8 @@ class Client
     }
 
     /**
+     * Set the CSRF-token of the Transmission client
+     *
      * @param string $token
      */
     public function setToken($token)
@@ -184,6 +198,8 @@ class Client
     }
 
     /**
+     * Get the CSRF-token for the Transmission client
+     *
      * @return string
      */
     public function getToken()
@@ -192,6 +208,8 @@ class Client
     }
 
     /**
+     * Set the Buzz client used to connect to Transmission
+     *
      * @param Buzz\Client\ClientInterface $client
      */
     public function setClient(ClientInterface $client)
@@ -200,6 +218,8 @@ class Client
     }
 
     /**
+     * Get the Buzz client used to connect to Transmission
+     *
      * @return Buzz\Client\ClientInterface
      */
     public function getClient()
