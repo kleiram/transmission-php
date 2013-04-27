@@ -59,6 +59,21 @@ class Torrent extends AbstractModel
     protected $status;
 
     /**
+     * @var boolean
+     */
+    protected $finished;
+
+    /**
+     * @var integer
+     */
+    protected $uploadRate;
+
+    /**
+     * @var integer
+     */
+    protected $downloadRate;
+
+    /**
      * @var array
      */
     protected $files = array();
@@ -119,6 +134,54 @@ class Torrent extends AbstractModel
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @param boolean $finished
+     */
+    public function setFinished($finished)
+    {
+        $this->finished = (boolean) $finished;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isFinished()
+    {
+        return $this->finished;
+    }
+
+    /**
+     * @var integer $rate
+     */
+    public function setUploadRate($rate)
+    {
+        $this->uploadRate = (integer) $rate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUploadRate()
+    {
+        return $this->uploadRate;
+    }
+
+    /**
+     * @param integer $rate
+     */
+    public function setDownloadRate($rate)
+    {
+        $this->downloadRate = (integer) $rate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getDownloadRate()
+    {
+        return $this->downloadRate;
     }
 
     /**
@@ -225,6 +288,9 @@ class Torrent extends AbstractModel
             'id' => 'id',
             'name' => 'name',
             'status' => 'status',
+            'isFinished' => 'finished',
+            'uploadRate' => 'uploadRate',
+            'downloadRate' => 'downloadRate',
             'files' => 'files',
             'peers' => 'peers',
             'trackers' => 'trackers'

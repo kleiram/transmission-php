@@ -34,6 +34,9 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'name' => 'foo',
             'status' => 0,
+            'isFinished' => false,
+            'uploadRate' => 10,
+            'downloadRate' => 100,
             'files' => array(
                 (object) array()
             ),
@@ -53,6 +56,9 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->getTorrent()->getId());
         $this->assertEquals('foo', $this->getTorrent()->getName());
         $this->assertEquals(0, $this->getTorrent()->getStatus());
+        $this->assertFalse($this->getTorrent()->isFinished());
+        $this->assertEquals(10, $this->getTorrent()->getUploadRate());
+        $this->assertEquals(100, $this->getTorrent()->getDownloadRate());
         $this->assertCount(1, $this->getTorrent()->getFiles());
         $this->assertCount(2, $this->getTorrent()->getPeers());
         $this->assertCount(3, $this->getTorrent()->getTrackers());
