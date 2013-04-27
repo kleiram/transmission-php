@@ -80,7 +80,7 @@ class File extends AbstractModel
     /**
      * {@inheritDoc}
      */
-    public function getMapping()
+    public static function getMapping()
     {
         return array(
             'name' => 'name',

@@ -11,7 +11,7 @@ abstract class AbstractModel implements ModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getMapping()
+    public static function getMapping()
     {
         return array();
     }

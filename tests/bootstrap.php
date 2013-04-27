@@ -11,4 +11,5 @@ EOM;
     exit(1);
 }
 
+$loader->add('Transmission\Mock', __DIR__);
 $loader->add('Transmission\Tests', __DIR__);

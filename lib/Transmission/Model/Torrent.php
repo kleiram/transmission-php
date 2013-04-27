@@ -282,7 +282,7 @@ class Torrent extends AbstractModel
     /**
      * {@inheritDoc}
      */
-    public function getMapping()
+    public static function getMapping()
     {
         return array(
             'id' => 'id',

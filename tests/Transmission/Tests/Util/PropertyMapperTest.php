@@ -19,33 +19,13 @@ class PropertyMapperTest extends \PHPUnit_Framework_TestCase
             'unused' => false
         );
 
-        $model = $this->getMock('Transmission\Model\ModelInterface', array(
-            'getMapping',
-            'setFo',
-            'setBar',
-            'setUnused'
-        ));
-
-        $model->expects($this->any())
-            ->method('getMapping')
-            ->will($this->returnValue(array(
-                'foo' => 'fo',
-                'bar' => 'bar',
-                'unused' => null,
-            )));
-
-        $model->expects($this->once())
-            ->method('setFo')
-            ->with('this');
-
-        $model->expects($this->once())
-            ->method('setBar')
-            ->with('that');
-
-        $model->expects($this->never())
-            ->method('setUnused');
+        $model = new \Transmission\Mock\Model();
 
         $this->getMapper()->map($model, $source);
+
+        $this->assertEquals('this', $model->getFo());
+        $this->assertEquals('that', $model->getBar());
+        $this->assertNull($model->getUnused());
     }
 
     public function setup()
