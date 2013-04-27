@@ -159,6 +159,36 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(9091, $this->getTransmission()->getClient()->getPort());
     }
 
+    /**
+     * @test
+     */
+    public function shouldProvideFacadeForClient()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('setHost')
+            ->with('example.org');
+
+        $client->expects($this->once())
+            ->method('getHost')
+            ->will($this->returnValue('example.org'));
+
+        $client->expects($this->once())
+            ->method('setPort')
+            ->with(80);
+
+        $client->expects($this->once())
+            ->method('getPort')
+            ->will($this->returnValue(80));
+
+        $this->getTransmission()->setClient($client);
+        $this->getTransmission()->setHost('example.org');
+        $this->getTransmission()->setPort(80);
+
+        $this->assertEquals('example.org', $this->getTransmission()->getHost());
+        $this->assertEquals(80, $this->getTransmission()->getPort());
+    }
+
     public function setup()
     {
         $this->transmission = new Transmission();

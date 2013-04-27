@@ -127,6 +127,35 @@ class Transmission
     }
 
     /**
+     * @param string $host
+     */
+    public function setHost($host)
+    {
+        return $this->getClient()->setHost($host);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->getClient()->getHost();
+    }
+
+    /**
+     * @param integer $port
+     */
+    public function setPort($port)
+    {
+        return $this->getClient()->setPort($port);
+    }
+
+    public function getPort()
+    {
+        return $this->getClient()->getPort();
+    }
+
+    /**
      * @param Transmission\Util\PropertyMapper $mapper
      */
     public function setMapper(PropertyMapper $mapper)
