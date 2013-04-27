@@ -2,6 +2,7 @@
 namespace Transmission\Model;
 
 use Transmission\Util\PropertyMapper;
+use Transmission\Util\ResponseValidator;
 
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
@@ -277,6 +278,21 @@ class Torrent extends AbstractModel
     {
         return ($this->getStatus() == self::STATUS_SEED ||
                 $this->getStatus() == self::STATUS_SEED_WAIT);
+    }
+
+    public function remove()
+    {
+        if (!($client = $this->getClient())) {
+            return;
+        }
+
+        ResponseValidator::validate(
+            'torrent-remove',
+            $client->call(
+                'torrent-remove',
+                array('ids' => array($this->getId()))
+            )
+        );
     }
 
     /**

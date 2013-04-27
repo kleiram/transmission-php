@@ -84,6 +84,34 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @test
+     */
+    public function shouldBeAbleToRemoveItselfFromTheDownloadQueue()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-remove', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $this->getTorrent()->setId(1);
+        $this->getTorrent()->setClient($client);
+        $this->getTorrent()->remove();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotRemoveItselfWhenNoClientIsSet()
+    {
+        $this->getTorrent()->remove();
+    }
+
     public function statusProvider()
     {
         return array(
