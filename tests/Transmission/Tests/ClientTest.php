@@ -59,7 +59,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 $this->isInstanceOf('Buzz\Message\Request'),
                 $this->isInstanceOf('Buzz\Message\Response')
             )
-            ->will($this->returnCallback(function ($request, $response) {
+            ->will($this->returnCallback(function ($request, $response) use ($this) {
                 $this->assertEquals('POST', $request->getMethod());
                 $this->assertEquals('/transmission/rpc', $request->getResource());
                 $this->assertEquals('http://localhost:9091', $request->getHost());
