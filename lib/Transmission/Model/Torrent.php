@@ -280,18 +280,24 @@ class Torrent extends AbstractModel
                 $this->getStatus() == self::STATUS_SEED_WAIT);
     }
 
-    public function remove()
+    /**
+     * @param boolean $localData
+     */
+    public function remove($localData = false)
     {
         if (!($client = $this->getClient())) {
             return;
         }
 
+        $arguments = array('ids' => array($this->getId()));
+
+        if ($localData) {
+            $arguments['localData'] = true;
+        }
+
         ResponseValidator::validate(
             'torrent-remove',
-            $client->call(
-                'torrent-remove',
-                array('ids' => array($this->getId()))
-            )
+            $client->call('torrent-remove', $arguments)
         );
     }
 
