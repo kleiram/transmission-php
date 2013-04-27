@@ -123,7 +123,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->expects($this->at(0))
             ->method('send')
             ->will($this->returnCallback(function ($request, $response) use ($test) {
-                $this->assertEmpty($request->getHeader('X-Transmission-Session-Id'));
+                $test->assertEmpty($request->getHeader('X-Transmission-Session-Id'));
 
                 $response->addHeader('HTTP/1.1 409 Conflict');
                 $response->addHeader('X-Transmission-Session-Id: foo');
