@@ -11,12 +11,52 @@ class Torrent extends AbstractModel
     /**
      * @var integer
      */
+    const STATUS_STOPPED = 0;
+
+    /**
+     * @var integer
+     */
+    const STATUS_CHECK_WAIT = 1;
+
+    /**
+     * @var integer
+     */
+    const STATUS_CHECK = 2;
+
+    /**
+     * @var integer
+     */
+    const STATUS_DOWNLOAD_WAIT = 3;
+
+    /**
+     * @var integer
+     */
+    const STATUS_DOWNLOAD = 4;
+
+    /**
+     * @var integer
+     */
+    const STATUS_SEED_WAIT = 5;
+
+    /**
+     * @var integer
+     */
+    const STATUS_SEED = 6;
+
+    /**
+     * @var integer
+     */
     protected $id;
 
     /**
      * @var string
      */
     protected $name;
+
+    /**
+     * @var integer
+     */
+    protected $status;
 
     /**
      * @var array
@@ -63,6 +103,22 @@ class Torrent extends AbstractModel
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param integer $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = (integer) $status;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -126,6 +182,41 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @return boolean
+     */
+    public function isStopped()
+    {
+        return $this->getStatus() == self::STATUS_STOPPED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChecking()
+    {
+        return ($this->getStatus() == self::STATUS_CHECK ||
+                $this->getStatus() == self::STATUS_CHECK_WAIT);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDownloading()
+    {
+        return ($this->getStatus() == self::STATUS_DOWNLOAD ||
+                $this->getStatus() == self::STATUS_DOWNLOAD_WAIT);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSeeding()
+    {
+        return ($this->getStatus() == self::STATUS_SEED ||
+                $this->getStatus() == self::STATUS_SEED_WAIT);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getMapping()
@@ -133,6 +224,7 @@ class Torrent extends AbstractModel
         return array(
             'id' => 'id',
             'name' => 'name',
+            'status' => 'status',
             'files' => 'files',
             'peers' => 'peers',
             'trackers' => 'trackers'
