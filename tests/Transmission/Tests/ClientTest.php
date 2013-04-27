@@ -118,10 +118,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldHandle409ResponseWhenMakingAnApiCall()
     {
+        $test   = $this;
         $client = $this->getMock('Buzz\Client\Curl');
         $client->expects($this->at(0))
             ->method('send')
-            ->will($this->returnCallback(function ($request, $response) {
+            ->will($this->returnCallback(function ($request, $response) use ($test) {
                 $this->assertEmpty($request->getHeader('X-Transmission-Session-Id'));
 
                 $response->addHeader('HTTP/1.1 409 Conflict');
