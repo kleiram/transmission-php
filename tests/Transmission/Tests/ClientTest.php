@@ -52,6 +52,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldMakeApiCall()
     {
+        $test   = $this;
         $client = $this->getMock('Buzz\Client\Curl');
         $client->expects($this->once())
             ->method('send')
@@ -59,12 +60,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 $this->isInstanceOf('Buzz\Message\Request'),
                 $this->isInstanceOf('Buzz\Message\Response')
             )
-            ->will($this->returnCallback(function ($request, $response) use ($this) {
-                $this->assertEquals('POST', $request->getMethod());
-                $this->assertEquals('/transmission/rpc', $request->getResource());
-                $this->assertEquals('http://localhost:9091', $request->getHost());
-                $this->assertEmpty($request->getHeader('X-Transmission-Session-Id'));
-                $this->assertEquals('{"method":"foo","arguments":{"bar":"baz"}}', $request->getContent());
+            ->will($this->returnCallback(function ($request, $response) use ($test) {
+                $test->assertEquals('POST', $request->getMethod());
+                $test->assertEquals('/transmission/rpc', $request->getResource());
+                $test->assertEquals('http://localhost:9091', $request->getHost());
+                $test->assertEmpty($request->getHeader('X-Transmission-Session-Id'));
+                $test->assertEquals('{"method":"foo","arguments":{"bar":"baz"}}', $request->getContent());
 
                 $response->addHeader('HTTP/1.1 200 OK');
                 $response->addHeader('Content-Type: application/json');
