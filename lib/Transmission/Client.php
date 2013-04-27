@@ -54,6 +54,11 @@ class Client
     protected $client;
 
     /**
+     * @var string
+     */
+    protected $auth;
+
+    /**
      * Constructor
      *
      * @param string  $host The hostname of the Transmission server
@@ -65,6 +70,15 @@ class Client
         $this->setPort($port ?: self::DEFAULT_PORT);
         $this->setToken(null);
         $this->setClient(new Curl());
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     */
+    public function authenticate($username, $password)
+    {
+        $this->auth = base64_encode($username .':'. $password);
     }
 
     /**
@@ -84,6 +98,10 @@ class Client
         $request->addHeader(sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken()));
         $request->setContent(json_encode($content));
 
+        if (is_string($this->auth)) {
+            $request->addHeader(sprintf('Authentication: Basic %s', $this->auth));
+        }
+
         try {
             $this->getClient()->send($request, $response);
         } catch (\Exception $e) {
@@ -94,8 +112,14 @@ class Client
             );
         }
 
-        if ($response->getStatusCode() != 200 && $response->getStatusCode() != 409) {
+        if ($response->getStatusCode() != 200 &&
+            $response->getStatusCode() != 401 &&
+            $response->getStatusCode() != 409) {
             throw new \RuntimeException('Unexpected response received from Transmission');
+        }
+
+        if ($response->getStatusCode() == 401) {
+            throw new \RuntimeException('Access to Transmission requires authentication');
         }
 
         if ($response->getStatusCode() == 409) {
