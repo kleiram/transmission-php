@@ -281,24 +281,58 @@ class Torrent extends AbstractModel
     }
 
     /**
+     */
+    public function stop()
+    {
+        $this->call(
+            'torrent-stop',
+            array('ids' => array($this->getId()))
+        );
+    }
+
+    /**
+     * @param boolean $now
+     */
+    public function start($now = false)
+    {
+        $this->call(
+            $now ? 'torrent-start-now' : 'torrent-start',
+            array('ids' => array($this->getId()))
+        );
+    }
+
+    /**
+     */
+    public function verify()
+    {
+        $this->call(
+            'torrent-verify',
+            array('ids' => array($this->getId()))
+        );
+    }
+
+    /**
+     */
+    public function reannounce()
+    {
+        $this->call(
+            'torrent-reannounce',
+            array('ids' => array($this->getId()))
+        );
+    }
+
+    /**
      * @param boolean $localData
      */
     public function remove($localData = false)
     {
-        if (!($client = $this->getClient())) {
-            return;
-        }
-
         $arguments = array('ids' => array($this->getId()));
 
         if ($localData) {
             $arguments['localData'] = true;
         }
 
-        ResponseValidator::validate(
-            'torrent-remove',
-            $client->call('torrent-remove', $arguments)
-        );
+        $this->call('torrent-remove', $arguments);
     }
 
     /**
@@ -316,6 +350,22 @@ class Torrent extends AbstractModel
             'files' => 'files',
             'peers' => 'peers',
             'trackers' => 'trackers'
+        );
+    }
+
+    /**
+     * @param string $method
+     * @param array  $arguments
+     */
+    protected function call($method, $arguments)
+    {
+        if (!($client = $this->getClient())) {
+            return;
+        }
+
+        ResponseValidator::validate(
+            $method,
+            $client->call($method, $arguments)
         );
     }
 }

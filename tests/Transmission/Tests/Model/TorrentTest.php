@@ -87,6 +87,106 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldStopDownloading()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-stop', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $this->getTorrent()->setId(1);
+        $this->getTorrent()->setClient($client);
+        $this->getTorrent()->stop();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStartDownloading()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-start', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $this->getTorrent()->setId(1);
+        $this->getTorrent()->setClient($client);
+        $this->getTorrent()->start();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStartDownloadingNow()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-start-now', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $this->getTorrent()->setId(1);
+        $this->getTorrent()->setClient($client);
+        $this->getTorrent()->start(true);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldVerifyTorrent()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-verify', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $this->getTorrent()->setId(1);
+        $this->getTorrent()->setClient($client);
+        $this->getTorrent()->verify();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReannounceTorrent()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-reannounce', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $this->getTorrent()->setId(1);
+        $this->getTorrent()->setClient($client);
+        $this->getTorrent()->reannounce();
+    }
+
+    /**
+     * @test
+     */
     public function shouldBeAbleToRemoveItselfFromTheDownloadQueue()
     {
         $client = $this->getMock('Transmission\Client');
