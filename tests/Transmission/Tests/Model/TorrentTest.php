@@ -32,6 +32,8 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
     {
         $source = (object) array(
             'id' => 1,
+            'eta' => 10,
+            'sizeWhenDone' => 10000,
             'name' => 'foo',
             'status' => 0,
             'isFinished' => false,
@@ -54,6 +56,8 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         PropertyMapper::map($this->getTorrent(), $source);
 
         $this->assertEquals(1, $this->getTorrent()->getId());
+        $this->assertEquals(10, $this->getTorrent()->getEta());
+        $this->assertEquals(10000, $this->getTorrent()->getSize());
         $this->assertEquals('foo', $this->getTorrent()->getName());
         $this->assertEquals(0, $this->getTorrent()->getStatus());
         $this->assertFalse($this->getTorrent()->isFinished());

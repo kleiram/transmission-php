@@ -50,6 +50,16 @@ class Torrent extends AbstractModel
     protected $id;
 
     /**
+     * @var integer
+     */
+    protected $eta;
+
+    /**
+     * @var integer
+     */
+    protected $size;
+
+    /**
      * @var string
      */
     protected $name;
@@ -103,6 +113,38 @@ class Torrent extends AbstractModel
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param integer $eta
+     */
+    public function setEta($eta)
+    {
+        $this->eta = (integer) $eta;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEta()
+    {
+        return $this->eta;
+    }
+
+    /**
+     * @param integer $size
+     */
+    public function setSize($size)
+    {
+        $this->size = (integer) $size;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 
     /**
@@ -342,6 +384,8 @@ class Torrent extends AbstractModel
     {
         return array(
             'id' => 'id',
+            'eta' => 'eta',
+            'sizeWhenDone' => 'size',
             'name' => 'name',
             'status' => 'status',
             'isFinished' => 'finished',
