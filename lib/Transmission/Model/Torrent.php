@@ -85,6 +85,11 @@ class Torrent extends AbstractModel
     protected $downloadRate;
 
     /**
+     * @var double
+     */
+    protected $percentDone;
+
+    /**
      * @var array
      */
     protected $files = array();
@@ -192,7 +197,7 @@ class Torrent extends AbstractModel
      */
     public function isFinished()
     {
-        return $this->finished;
+        return ($this->finished || (int) $this->getPercentDone() == 100);
     }
 
     /**
@@ -225,6 +230,22 @@ class Torrent extends AbstractModel
     public function getDownloadRate()
     {
         return $this->downloadRate;
+    }
+
+    /**
+     * @param double $done
+     */
+    public function setPercentDone($done)
+    {
+        $this->percentDone = (double) $done;
+    }
+
+    /**
+     * @return double
+     */
+    public function getPercentDone()
+    {
+        return $this->percentDone * 100.0;
     }
 
     /**
@@ -391,6 +412,7 @@ class Torrent extends AbstractModel
             'isFinished' => 'finished',
             'uploadRate' => 'uploadRate',
             'downloadRate' => 'downloadRate',
+            'percentDone' => 'percentDone',
             'files' => 'files',
             'peers' => 'peers',
             'trackers' => 'trackers'

@@ -70,6 +70,26 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function shouldBeDoneWhenFinishedFlagIsSet()
+    {
+        $this->getTorrent()->setFinished(true);
+
+        $this->assertTrue($this->getTorrent()->isFinished());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeDoneWhenPercentDoneIs100Percent()
+    {
+        $this->getTorrent()->setPercentDone(1);
+
+        $this->assertTrue($this->getTorrent()->isFinished());
+    }
+
+    /**
+     * @test
      * @dataProvider statusProvider
      */
     public function shouldHaveConvenienceMethods($status, $method)
