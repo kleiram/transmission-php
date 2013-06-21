@@ -101,7 +101,7 @@ class Client
         $request->setContent(json_encode($content));
 
         if (is_string($this->auth)) {
-            $request->addHeader(sprintf('Authentication: Basic %s', $this->auth));
+            $request->addHeader(sprintf('Authorization: Basic %s', $this->auth));
         }
 
         try {
