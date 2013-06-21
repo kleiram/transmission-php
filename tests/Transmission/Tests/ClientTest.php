@@ -99,7 +99,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 $test->assertEquals('/transmission/rpc', $request->getResource());
                 $test->assertEquals('http://localhost:9091', $request->getHost());
                 $test->assertEmpty($request->getHeader('X-Transmission-Session-Id'));
-                $test->assertEquals('Basic '. base64_encode('foo:bar'), $request->getHeader('Authentication'));
+                $test->assertEquals('Basic '. base64_encode('foo:bar'), $request->getHeader('Authorization'));
                 $test->assertEquals('{"method":"foo","arguments":{"bar":"baz"}}', $request->getContent());
 
                 $response->addHeader('HTTP/1.1 200 OK');
