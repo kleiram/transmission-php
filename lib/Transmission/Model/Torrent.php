@@ -65,6 +65,11 @@ class Torrent extends AbstractModel
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $hash;
+
+    /**
      * @var integer
      */
     protected $status;
@@ -166,6 +171,22 @@ class Torrent extends AbstractModel
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = (string) $hash;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
     }
 
     /**
@@ -415,7 +436,8 @@ class Torrent extends AbstractModel
             'percentDone' => 'percentDone',
             'files' => 'files',
             'peers' => 'peers',
-            'trackers' => 'trackers'
+            'trackers' => 'trackers',
+            'hashString' => 'hash'
         );
     }
 
