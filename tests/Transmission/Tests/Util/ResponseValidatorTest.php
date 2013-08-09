@@ -91,6 +91,23 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function shouldThrowNoExceptionOnValidSessionGetResponse()
+    {
+        $response = (object) array(
+            'result' => 'success',
+            'arguments' => (object) array(
+                    'foo' => 'bar'
+            )
+        );
+
+        $expected  = (object) array('foo' => 'bar');
+        $container = $this->getValidator()->validate('session-get', $response);
+        $this->assertEquals($expected, $container);
+    }
+
+    /**
+     * @test
      * @expectedException RuntimeException
      */
     public function shouldThrowExceptionOnMissingArgumentsInTorrentAddResponse()
