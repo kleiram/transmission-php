@@ -98,10 +98,15 @@ class Transmission
         return $torrent;
     }
 
+    /**
+     * Get the Transmission session
+     * 
+     * @return Transmission\Model\Session
+     */
     public function getSession(){
-    	$response = $this->getClient()->call(
+        $response = $this->getClient()->call(
             'session-get',
-            array('fields' => array_keys(Session::getMapping()))
+            array()
         );
 
         return $this->getMapper()->map(

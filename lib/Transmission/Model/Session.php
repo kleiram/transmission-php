@@ -47,12 +47,12 @@ class Session extends AbstractModel
     /**
      * @var string
      */
-    protected $scriptTorrentDoneFilename;
+    protected $torrentDoneScript;
 
     /**
      * @var boolean
      */
-    protected $scriptTorrentDoneEnabled;
+    protected $torrentDoneScriptEnabled;
 
     /**
      * @var double
@@ -77,12 +77,12 @@ class Session extends AbstractModel
     /**
      * @var integer
      */
-    protected $speedLimitDown;
+    protected $downloadSpeedLimit;
 
     /**
      * @var boolean
      */
-    protected $speedLimitDownEnabled;
+    protected $downloadSpeedLimitEnabled;
 
     /**
      * @param integer $speed
@@ -217,7 +217,7 @@ class Session extends AbstractModel
      */
     public function setTorrentDoneScriptEnabled($enabled)
     {
-        $this->scriptTorrentDoneEnabled = (boolean) $enabled;
+        $this->torrentDoneScriptEnabled = (boolean) $enabled;
     }
 
     /**
@@ -225,7 +225,7 @@ class Session extends AbstractModel
      */
     public function isTorrentDoneScriptEnabled()
     {
-        return $this->scriptTorrentDoneEnabled;
+        return $this->torrentDoneScriptEnabled;
     }
 
     /**
@@ -297,7 +297,7 @@ class Session extends AbstractModel
      */
     public function setDownloadSpeedLimit($limit)
     {
-        $this->speedLimitDown = (integer) $limit;
+        $this->downloadSpeedLimit = (integer) $limit;
     }
 
     /**
@@ -305,7 +305,7 @@ class Session extends AbstractModel
      */
     public function getDownloadSpeedLimit()
     {
-        return $this->speedLimitDown;
+        return $this->downloadSpeedLimit;
     }
 
     /**
@@ -313,7 +313,7 @@ class Session extends AbstractModel
      */
     public function setDownloadSpeedLimitEnabled($enabled)
     {
-        $this->speedLimitDownEnabled = (boolean) $enabled;
+        $this->downloadSpeedLimitEnabled = (boolean) $enabled;
     }
 
     /**
@@ -321,7 +321,7 @@ class Session extends AbstractModel
      */
     public function isDownloadSpeedLimitEnabled()
     {
-        return $this->speedLimitDownEnabled;
+        return $this->downloadSpeedLimitEnabled;
     }
 
     /**
@@ -337,15 +337,14 @@ class Session extends AbstractModel
             'download-queue-size' => 'downloadQueueSize',
             'incomplete-dir' => 'incompleteDir',
             'incomplete-dir-enabled' => 'incompleteDirEnabled',
-            'script-torrent-done-filename' => 'scriptTorrentDoneFilename',
-            'script-torrent-done-enabled' => 'scriptTorrentDoneEnabled',
+            'script-torrent-done-filename' => 'torrentDoneScript',
+            'script-torrent-done-enabled' => 'torrentDoneScriptEnabled',
             'seedRatioLimit' => 'seedRatioLimit',
             'seedRatioLimited' => 'seedRatioLimited',
             'seed-queue-size' => 'seedQueueSize',
             'seed-queue-enabled' => 'seedQueueEnabled',
-            'speed-limit-down' => 'speedLimitDown',
-            'speed-limit-down-enabled' => 'speedLimitDownEnabled',
-
+            'speed-limit-down' => 'downloadSpeedLimit',
+            'speed-limit-down-enabled' => 'downloadSpeedLimitEnabled',
         );
     }
 

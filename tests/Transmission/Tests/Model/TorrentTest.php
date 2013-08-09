@@ -35,6 +35,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
             'eta' => 10,
             'sizeWhenDone' => 10000,
             'name' => 'foo',
+            'hashString' => 'bar',
             'status' => 0,
             'isFinished' => false,
             'uploadRate' => 10,
@@ -59,6 +60,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $this->getTorrent()->getEta());
         $this->assertEquals(10000, $this->getTorrent()->getSize());
         $this->assertEquals('foo', $this->getTorrent()->getName());
+        $this->assertEquals('bar', $this->getTorrent()->getHash());
         $this->assertEquals(0, $this->getTorrent()->getStatus());
         $this->assertFalse($this->getTorrent()->isFinished());
         $this->assertEquals(10, $this->getTorrent()->getUploadRate());

@@ -49,13 +49,13 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldGetTorrentById()
     {
-        $test   = $this;
+        $that   = $this;
         $client = $this->getMock('Transmission\Client');
         $client->expects($this->once())
             ->method('call')
             ->with('torrent-get')
-            ->will($this->returnCallback(function ($method, $arguments) use ($test) {
-                $test->assertEquals(1, $arguments['ids'][0]);
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $that->assertEquals(1, $arguments['ids'][0]);
 
                 return (object) array(
                     'result' => 'success',
@@ -102,13 +102,13 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldAddTorrentByFilename()
     {
-        $test   = $this;
+        $that   = $this;
         $client = $this->getMock('Transmission\Client');
         $client->expects($this->once())
             ->method('call')
             ->with('torrent-add')
-            ->will($this->returnCallback(function ($method, $arguments) use ($test) {
-                $test->assertArrayHasKey('filename', $arguments);
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $that->assertArrayHasKey('filename', $arguments);
 
                 return (object) array(
                     'result' => 'success',
@@ -129,13 +129,13 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldAddTorrentByMetainfo()
     {
-        $test   = $this;
+        $that   = $this;
         $client = $this->getMock('Transmission\Client');
         $client->expects($this->once())
             ->method('call')
             ->with('torrent-add')
-            ->will($this->returnCallback(function ($method, $arguments) use ($test) {
-                $test->assertArrayHasKey('metainfo', $arguments);
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $that->assertArrayHasKey('metainfo', $arguments);
 
                 return (object) array(
                     'result' => 'success',
@@ -149,6 +149,31 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
 
         $torrent = $this->getTransmission()->add('foo', true);
         $this->assertInstanceOf('Transmission\Model\Torrent', $torrent);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSession()
+    {
+        $that   = $this;
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('session-get')
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $this->assertEmpty($arguments);
+
+                return (object) array(
+                    'result' => 'success',
+                    'arguments' => (object) array()
+                );
+            }));
+
+        $this->getTransmission()->setClient($client);
+        $session = $this->getTransmission()->getSession();
+
+        $this->assertInstanceOf('Transmission\Model\Session', $session);
     }
 
     /**
