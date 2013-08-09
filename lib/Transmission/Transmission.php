@@ -2,6 +2,7 @@
 namespace Transmission;
 
 use Transmission\Model\Torrent;
+use Transmission\Model\Session;
 use Transmission\Util\PropertyMapper;
 use Transmission\Util\ResponseValidator;
 
@@ -95,6 +96,18 @@ class Transmission
         }
 
         return $torrent;
+    }
+
+    public function getSession(){
+    	$response = $this->getClient()->call(
+            'session-get',
+            array('fields' => array_keys(Session::getMapping()))
+        );
+
+        return $this->getMapper()->map(
+            new Session($this->getClient()),
+            $this->getValidator()->validate('session-get', $response)
+        );
     }
 
     /**
