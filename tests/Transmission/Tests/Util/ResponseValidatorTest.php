@@ -111,23 +111,10 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldThrowNoExceptionOnValidSessionSetResponse()
     {
-        $response = (object) array(
-            'result' => 'success'
-        );
+        $response = (object) array('result' => 'success');
 
         $container = $this->getValidator()->validate('session-set', $response);
         $this->assertEquals('success', $container);
-    }
-
-    /**
-     * @test
-     * @expectedException RuntimeException
-     */
-    public function shouldThrowExceptionOnMissingArgumentsSessionGetResponse()
-    {
-        $response = (object) array('result' => 'success');
-
-        $this->getValidator()->validate('session-set', $response);
     }
 
     /**
