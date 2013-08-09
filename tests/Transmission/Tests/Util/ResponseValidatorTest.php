@@ -106,17 +106,6 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $container);
     }
 
-    /**
-     * @test
-     * @expectedException RuntimeException
-     */
-    public function shouldThrowExceptionOnMissingArgumentsInSessionGetResponse()
-    {
-        $response = (object) array('result' => 'success');
-
-        $this->getValidator()->validate('session-get', $response);
-    }
-
    	/**
      * @test
      */
@@ -126,9 +115,8 @@ class ResponseValidatorTest extends \PHPUnit_Framework_TestCase
             'result' => 'success'
         );
 
-        $expected  = (object) array('foo' => 'bar');
         $container = $this->getValidator()->validate('session-set', $response);
-        $this->assertEquals($expected, $container);
+        $this->assertEquals('success', $container);
     }
 
     /**

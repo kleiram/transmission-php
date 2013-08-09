@@ -74,6 +74,10 @@ class ResponseValidator
     	return $response->arguments;
     }
 
+    /**
+     * @param stdClass $response
+     * @throws RuntimeException
+     */
     public static function validateSessionSetResponse(\stdClass $response)
     {
     	if(!isset($response->result)){
