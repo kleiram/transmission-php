@@ -101,6 +101,22 @@ $transmission = new Transmission();
 $transmission->authenticate('username', 'password');
 ```
 
+Additionally, you can control the actual Transmission setting. This means
+you can modify the global download limit or change the download directory:
+
+```php
+<?php
+use Transmission\Transmission;
+
+$transmission = new Transmission();
+$session = $transmission->getSession();
+
+$session->setDownloadDir('/home/foo/downloads/complete');
+$session->setIncompleteDir('/home/foo/downloads/incomplete');
+$session->setIncompleteDirEnabled(true);
+$session->save();
+```
+
 ## Testing
 
 Testing is done using [PHPUnit](https://github.com/sebastianbergmann/phpunit). To
@@ -137,6 +153,11 @@ $ phpunit --coverage-text
                 - The client now sends an User-Agent header with each request
                 - Added support for starting, stopping, veryfing and
                   requesting a reannounce of torrents
+
+    0.5.0       - Fix a bug in the authentication/authorization mechanism
+                - A whole lot of other stuff including management of the
+                  Transmission session (setting global download speed limit
+                  and toggling the speed limit among others).
 
 ## License
 

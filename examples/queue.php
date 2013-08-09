@@ -2,8 +2,9 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 $transmission = new Transmission\Transmission();
-echo $transmission->getSession()->getDownloadDir();
 $queue = $transmission->all();
+
+echo "Downloading to: {$transmission->getSession()->getDownloadDir()}\n";
 
 foreach ($queue as $torrent) {
     echo "{$torrent->getName()}";
@@ -20,4 +21,8 @@ foreach ($queue as $torrent) {
     }
 }
 
-$transmission->getSession()->setDownloadDir('/var/www/')->setIncompleteDir('/tmp')->save();
+// Change download directories
+// $session = $transmission->getSession();
+// $session->setDownloadDir('/var/www/downloads/complete');
+// $session->setIncompleteDir('/tmp/downloads');
+// $session->save();
