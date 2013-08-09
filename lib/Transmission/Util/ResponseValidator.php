@@ -22,12 +22,15 @@ class ResponseValidator
                 sprintf('An error occured: "%s"', $response->result)
             );
         }
-
         switch ($method) {
             case 'torrent-get':
                 return self::validateGetResponse($response);
             case 'torrent-add':
                 return self::validateAddResponse($response);
+            case 'session-get':
+            	return self::validateSessionGetResponse($response);
+            case 'session-set':
+            	return self::validateSessionSetResponse($response);
         }
     }
 
@@ -64,5 +67,20 @@ class ResponseValidator
         }
 
         return $response->arguments->$torrentField;
+    }
+
+    public static function validateSessionGetResponse(\stdClass $response)
+    {
+    	return $response->arguments;
+    }
+
+    public static function validateSessionSetResponse(\stdClass $response)
+    {
+    	if(!isset($response->result)){
+    		throw new \RuntimeException(
+                'Invalid response received from Transmission'
+            );
+    	}
+    	return $response->result;
     }
 }
