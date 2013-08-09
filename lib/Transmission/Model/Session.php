@@ -1,31 +1,99 @@
 <?php
 namespace Transmission\Model;
 
-use Transmission\Util\PropertyMapper;
 use Transmission\Util\ResponseValidator;
 
+/**
+ * @author Joysen Chellem
+ * @author Ramon Kleiss <ramon@cubilon.nl>
+ */
 class Session extends AbstractModel
 {
+    /**
+     * @var integer
+     */
     protected $altSpeedDown;
+
+    /**
+     * @var boolean
+     */
     protected $altSpeedEnabled;
+
+    /**
+     * @var string
+     */
     protected $downloadDir;
+
+    /**
+     * @var boolean
+     */
     protected $downloadQueueEnabled;
+
+    /**
+     * @var integer
+     */
     protected $downloadQueueSize;
+
+    /**
+     * @var string
+     */
     protected $incompleteDir;
+
+    /**
+     * @var boolean
+     */
     protected $incompleteDirEnabled;
+
+    /**
+     * @var string
+     */
     protected $scriptTorrentDoneFilename;
+
+    /**
+     * @var boolean
+     */
     protected $scriptTorrentDoneEnabled;
+
+    /**
+     * @var double
+     */
     protected $seedRatioLimit;
+
+    /**
+     * @var boolean
+     */
     protected $seedRatioLimited;
+
+    /**
+     * @var integer
+     */
     protected $seedQueueSize;
+
+    /**
+     * @var boolean
+     */
     protected $seedQueueEnabled;
+
+    /**
+     * @var integer
+     */
     protected $speedLimitDown;
+
+    /**
+     * @var boolean
+     */
     protected $speedLimitDownEnabled;
 
     /**
-     * Gets the value of altSpeedDown.
-     *
-     * @return mixed
+     * @param integer $speed
+     */
+    public function setAltSpeedDown($speed)
+    {
+        $this->altSpeedDown = (integer) $speed;
+    }
+
+    /**
+     * @return integer
      */
     public function getAltSpeedDown()
     {
@@ -33,47 +101,31 @@ class Session extends AbstractModel
     }
 
     /**
-     * Sets the value of altSpeedDown.
-     *
-     * @param mixed $altSpeedDown the altSpeedDown
-     *
-     * @return self
+     * @param boolean $enabled
      */
-    public function setAltSpeedDown($altSpeedDown)
+    public function setAltSpeedEnabled($enabled)
     {
-        $this->altSpeedDown = $altSpeedDown;
-
-        return $this;
+        $this->altSpeedEnabled = (boolean) $enabled;
     }
 
     /**
-     * Gets the value of altSpeedEnabled.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getAltSpeedEnabled()
+    public function isAltSpeedEnabled()
     {
         return $this->altSpeedEnabled;
     }
 
     /**
-     * Sets the value of altSpeedEnabled.
-     *
-     * @param mixed $altSpeedEnabled the altSpeedEnabled
-     *
-     * @return self
+     * @param string $downloadDir
      */
-    public function setAltSpeedEnabled($altSpeedEnabled)
+    public function setDownloadDir($downloadDir)
     {
-        $this->altSpeedEnabled = $altSpeedEnabled;
-
-        return $this;
+        $this->downloadDir = (string) $downloadDir;
     }
 
     /**
-     * Gets the value of downloadDir.
-     *
-     * @return mixed
+     * @return string
      */
     public function getDownloadDir()
     {
@@ -81,47 +133,31 @@ class Session extends AbstractModel
     }
 
     /**
-     * Sets the value of downloadDir.
-     *
-     * @param mixed $downloadDir the downloadDir
-     *
-     * @return self
+     * @param boolean $enabled
      */
-    public function setDownloadDir($downloadDir)
+    public function setDownloadQueueEnabled($enabled)
     {
-        $this->downloadDir = $downloadDir;
-
-        return $this;
+        $this->downloadQueueEnabled = (boolean) $enabled;
     }
 
     /**
-     * Gets the value of downloadQueueEnabled.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getDownloadQueueEnabled()
+    public function isDownloadQueueEnabled()
     {
         return $this->downloadQueueEnabled;
     }
 
     /**
-     * Sets the value of downloadQueueEnabled.
-     *
-     * @param mixed $downloadQueueEnabled the downloadQueueEnabled
-     *
-     * @return self
+     * @param integer $size
      */
-    public function setDownloadQueueEnabled($downloadQueueEnabled)
+    public function setDownloadQueueSize($size)
     {
-        $this->downloadQueueEnabled = $downloadQueueEnabled;
-
-        return $this;
+        $this->downloadQueueSize = (integer) $size;
     }
 
     /**
-     * Gets the value of downloadQueueSize.
-     *
-     * @return mixed
+     * @return integer
      */
     public function getDownloadQueueSize()
     {
@@ -129,23 +165,15 @@ class Session extends AbstractModel
     }
 
     /**
-     * Sets the value of downloadQueueSize.
-     *
-     * @param mixed $downloadQueueSize the downloadQueueSize
-     *
-     * @return self
+     * @param string $directory
      */
-    public function setDownloadQueueSize($downloadQueueSize)
+    public function setIncompleteDir($directory)
     {
-        $this->downloadQueueSize = $downloadQueueSize;
-
-        return $this;
+        $this->incompleteDir = (string) $directory;
     }
 
     /**
-     * Gets the value of incompleteDir.
-     *
-     * @return mixed
+     * @return string
      */
     public function getIncompleteDir()
     {
@@ -153,95 +181,63 @@ class Session extends AbstractModel
     }
 
     /**
-     * Sets the value of incompleteDir.
-     *
-     * @param mixed $incompleteDir the incompleteDir
-     *
-     * @return self
+     * @param boolean $enabled
      */
-    public function setIncompleteDir($incompleteDir)
+    public function setIncompleteDirEnabled($enabled)
     {
-        $this->incompleteDir = $incompleteDir;
-
-        return $this;
+        $this->incompleteDirEnabled = (boolean) $enabled;
     }
 
     /**
-     * Gets the value of incompleteDirEnabled.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getIncompleteDirEnabled()
+    public function isIncompleteDirEnabled()
     {
         return $this->incompleteDirEnabled;
     }
 
     /**
-     * Sets the value of incompleteDirEnabled.
-     *
-     * @param mixed $incompleteDirEnabled the incompleteDirEnabled
-     *
-     * @return self
+     * @param string $filename
      */
-    public function setIncompleteDirEnabled($incompleteDirEnabled)
+    public function setTorrentDoneScript($filename)
     {
-        $this->incompleteDirEnabled = $incompleteDirEnabled;
-
-        return $this;
+        $this->torrentDoneScript = (string) $filename;
     }
 
     /**
-     * Gets the value of scriptTorrentDoneFilename.
-     *
-     * @return mixed
+     * @return string
      */
-    public function getScriptTorrentDoneFilename()
+    public function getTorrentDoneScript()
     {
-        return $this->scriptTorrentDoneFilename;
+        return $this->torrentDoneScript;
     }
 
     /**
-     * Sets the value of scriptTorrentDoneFilename.
-     *
-     * @param mixed $scriptTorrentDoneFilename the scriptTorrentDoneFilename
-     *
-     * @return self
+     * @param boolean $enabled
      */
-    public function setScriptTorrentDoneFilename($scriptTorrentDoneFilename)
+    public function setTorrentDoneScriptEnabled($enabled)
     {
-        $this->scriptTorrentDoneFilename = $scriptTorrentDoneFilename;
-
-        return $this;
+        $this->scriptTorrentDoneEnabled = (boolean) $enabled;
     }
 
     /**
-     * Gets the value of scriptTorrentDoneEnabled.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getScriptTorrentDoneEnabled()
+    public function isTorrentDoneScriptEnabled()
     {
         return $this->scriptTorrentDoneEnabled;
     }
 
     /**
-     * Sets the value of scriptTorrentDoneEnabled.
-     *
-     * @param mixed $scriptTorrentDoneEnabled the scriptTorrentDoneEnabled
-     *
-     * @return self
+     * @param double $limit
      */
-    public function setScriptTorrentDoneEnabled($scriptTorrentDoneEnabled)
+    public function setSeedRatioLimit($limit)
     {
-        $this->scriptTorrentDoneEnabled = $scriptTorrentDoneEnabled;
-
-        return $this;
+        $this->seedRatioLimit = (double) $limit;
     }
 
     /**
-     * Gets the value of seedRatioLimit.
-     *
-     * @return mixed
+     * @return double
      */
     public function getSeedRatioLimit()
     {
@@ -249,47 +245,31 @@ class Session extends AbstractModel
     }
 
     /**
-     * Sets the value of seedRatioLimit.
-     *
-     * @param mixed $seedRatioLimit the seedRatioLimit
-     *
-     * @return self
+     * @param boolean $limited
      */
-    public function setSeedRatioLimit($seedRatioLimit)
+    public function setSeedRatioLimited($limited)
     {
-        $this->seedRatioLimit = $seedRatioLimit;
-
-        return $this;
+        $this->seedRatioLimited = (boolean) $limited;
     }
 
     /**
-     * Gets the value of seedRatioLimited.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getSeedRatioLimited()
+    public function isSeedRatioLimited()
     {
         return $this->seedRatioLimited;
     }
 
     /**
-     * Sets the value of seedRatioLimited.
-     *
-     * @param mixed $seedRatioLimited the seedRatioLimited
-     *
-     * @return self
+     * @param integer $size
      */
-    public function setSeedRatioLimited($seedRatioLimited)
+    public function setSeedQueueSize($size)
     {
-        $this->seedRatioLimited = $seedRatioLimited;
-
-        return $this;
+        $this->seedQueueSize = (integer) $size;
     }
 
     /**
-     * Gets the value of seedQueueSize.
-     *
-     * @return mixed
+     * @return integer
      */
     public function getSeedQueueSize()
     {
@@ -297,89 +277,51 @@ class Session extends AbstractModel
     }
 
     /**
-     * Sets the value of seedQueueSize.
-     *
-     * @param mixed $seedQueueSize the seedQueueSize
-     *
-     * @return self
+     * @param boolean $enabled
      */
-    public function setSeedQueueSize($seedQueueSize)
+    public function setSeedQueueEnabled($enabled)
     {
-        $this->seedQueueSize = $seedQueueSize;
-
-        return $this;
+        $this->seedQueueEnabled = (boolean) $enabled;
     }
 
     /**
-     * Gets the value of seedQueueEnabled.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getSeedQueueEnabled()
+    public function isSeedQueueEnabled()
     {
         return $this->seedQueueEnabled;
     }
 
     /**
-     * Sets the value of seedQueueEnabled.
-     *
-     * @param mixed $seedQueueEnabled the seedQueueEnabled
-     *
-     * @return self
+     * @param integer $limit
      */
-    public function setSeedQueueEnabled($seedQueueEnabled)
+    public function setDownloadSpeedLimit($limit)
     {
-        $this->seedQueueEnabled = $seedQueueEnabled;
-
-        return $this;
+        $this->speedLimitDown = (integer) $limit;
     }
 
     /**
-     * Gets the value of speedLimitDown.
-     *
-     * @return mixed
+     * @return integer
      */
-    public function getSpeedLimitDown()
+    public function getDownloadSpeedLimit()
     {
         return $this->speedLimitDown;
     }
 
     /**
-     * Sets the value of speedLimitDown.
-     *
-     * @param mixed $speedLimitDown the speedLimitDown
-     *
-     * @return self
+     * @param boolean $enabled
      */
-    public function setSpeedLimitDown($speedLimitDown)
+    public function setDownloadSpeedLimitEnabled($enabled)
     {
-        $this->speedLimitDown = $speedLimitDown;
-
-        return $this;
+        $this->speedLimitDownEnabled = (boolean) $enabled;
     }
 
     /**
-     * Gets the value of speedLimitDownEnabled.
-     *
-     * @return mixed
+     * @return boolean
      */
-    public function getSpeedLimitDownEnabled()
+    public function isDownloadSpeedLimitEnabled()
     {
         return $this->speedLimitDownEnabled;
-    }
-
-    /**
-     * Sets the value of speedLimitDownEnabled.
-     *
-     * @param mixed $speedLimitDownEnabled the speedLimitDownEnabled
-     *
-     * @return self
-     */
-    public function setSpeedLimitDownEnabled($speedLimitDownEnabled)
-    {
-        $this->speedLimitDownEnabled = $speedLimitDownEnabled;
-
-        return $this;
     }
 
     /**
@@ -388,48 +330,35 @@ class Session extends AbstractModel
     public static function getMapping()
     {
         return array(
-        	'alt-speed-down'=>'altSpeedDown',
-        	'alt-speed-enabled'=>'altSpeedEnabled',
-        	'download-dir'=>'downloadDir',
-        	'download-queue-enabled'=>'downloadQueueEnabled',
-        	'download-queue-size'=>'downloadQueueSize',
-        	'incomplete-dir'=>'incompleteDir',
-        	'incomplete-dir-enabled'=>'incompleteDirEnabled',
-        	'script-torrent-done-filename'=>'scriptTorrentDoneFilename',
-        	'script-torrent-done-enabled'=>'scriptTorrentDoneEnabled',
-        	'seedRatioLimit'=>'seedRatioLimit',
-        	'seedRatioLimited'=>'seedRatioLimited',
-        	'seed-queue-size'=>'seedQueueSize',
-        	'seed-queue-enabled'=>'seedQueueEnabled',
-        	'speed-limit-down'=>'speedLimitDown',
-        	'speed-limit-down-enabled'=>'speedLimitDownEnabled',
+            'alt-speed-down' => 'altSpeedDown',
+            'alt-speed-enabled' => 'altSpeedEnabled',
+            'download-dir' => 'downloadDir',
+            'download-queue-enabled' => 'downloadQueueEnabled',
+            'download-queue-size' => 'downloadQueueSize',
+            'incomplete-dir' => 'incompleteDir',
+            'incomplete-dir-enabled' => 'incompleteDirEnabled',
+            'script-torrent-done-filename' => 'scriptTorrentDoneFilename',
+            'script-torrent-done-enabled' => 'scriptTorrentDoneEnabled',
+            'seedRatioLimit' => 'seedRatioLimit',
+            'seedRatioLimited' => 'seedRatioLimited',
+            'seed-queue-size' => 'seedQueueSize',
+            'seed-queue-enabled' => 'seedQueueEnabled',
+            'speed-limit-down' => 'speedLimitDown',
+            'speed-limit-down-enabled' => 'speedLimitDownEnabled',
 
         );
     }
 
-    /**
-     * @param string $method
-     * @param array  $arguments
-     */
-    protected function call($method, $arguments)
+    public function save()
     {
-        if (!($client = $this->getClient())) {
-            return;
+        $arguments = array();
+        $method    = 'session-set';
+
+        foreach ($this->getMapping() as $key => $value) {
+            $arguments[$key] = $this->$value;
         }
 
-        ResponseValidator::validate(
-            $method,
-            $client->call($method, $arguments)
-        );
-    }
-
-    public function save(){
-    	$arguments=array();
-    	$method='session-set';
-    	foreach (self::getMapping() as $key => $value) {
-    		$arguments[$key]=$this->$value;
-    	}
-    	if (!($client = $this->getClient())) {
+        if (!($client = $this->getClient())) {
             return;
         }
 
