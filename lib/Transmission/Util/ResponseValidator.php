@@ -29,8 +29,6 @@ class ResponseValidator
                 return self::validateAddResponse($response);
             case 'session-get':
             	return self::validateSessionGetResponse($response);
-            case 'session-set':
-            	return self::validateSessionSetResponse($response);
         }
     }
 
@@ -71,16 +69,12 @@ class ResponseValidator
 
     public static function validateSessionGetResponse(\stdClass $response)
     {
-    	return $response->arguments;
-    }
-
-    public static function validateSessionSetResponse(\stdClass $response)
-    {
-    	if(!isset($response->result)){
-    		throw new \RuntimeException(
+        if (!isset($response->arguments)) {
+            throw new \RuntimeException(
                 'Invalid response received from Transmission'
             );
-    	}
-    	return $response->result;
+        }
+
+    	return $response->arguments;
     }
 }
