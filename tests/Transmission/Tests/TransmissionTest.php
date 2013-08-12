@@ -162,7 +162,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
             ->method('call')
             ->with('session-get')
             ->will($this->returnCallback(function ($method, $arguments) use ($that) {
-                $this->assertEmpty($arguments);
+                $that->assertEmpty($arguments);
 
                 return (object) array(
                     'result' => 'success',
