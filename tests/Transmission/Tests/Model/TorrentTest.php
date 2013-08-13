@@ -38,8 +38,8 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
             'hashString' => 'bar',
             'status' => 0,
             'isFinished' => false,
-            'uploadRate' => 10,
-            'downloadRate' => 100,
+            'rateUpload' => 10,
+            'rateDownload' => 100,
             'files' => array(
                 (object) array()
             ),
