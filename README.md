@@ -34,6 +34,9 @@ $torrents = $transmission->all();
 // Getting a specific torrent from the download queue
 $torrent = $transmission->get(1);
 
+// (you can also get a torrent by the hash of the torrent)
+$torrent = $transmission->get(/* torrent hash */);
+
 // Adding a torrent to the download queue
 $torrent = $transmission->add(/* path to torrent */);
 
