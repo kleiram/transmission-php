@@ -240,7 +240,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
             ->method('call')
             ->with(
                 'torrent-remove',
-                array('ids' => array(1), 'localData' => true)
+                array('ids' => array(1), 'delete-local-data' => true)
             )
             ->will($this->returnCallback(function () {
                 return (object) array(

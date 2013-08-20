@@ -413,7 +413,7 @@ class Torrent extends AbstractModel
         $arguments = array('ids' => array($this->getId()));
 
         if ($localData) {
-            $arguments['localData'] = true;
+            $arguments['delete-local-data'] = true;
         }
 
         $this->call('torrent-remove', $arguments);
