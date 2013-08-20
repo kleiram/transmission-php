@@ -154,6 +154,33 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldHandleDuplicateTorrent()
+    {
+        $that   = $this;
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-add')
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $that->assertArrayHasKey('metainfo', $arguments);
+
+                return (object) array(
+                    'result' => 'duplicate torrent',
+                    'arguments' => (object) array(
+                        'torrent-duplicate' => (object) array()
+                    )
+                );
+            }));
+
+        $this->getTransmission()->setClient($client);
+
+        $torrent = $this->getTransmission()->add('foo', true);
+        $this->assertInstanceOf('Transmission\Model\Torrent', $torrent);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetSession()
     {
         $that   = $this;

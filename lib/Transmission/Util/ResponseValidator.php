@@ -17,7 +17,8 @@ class ResponseValidator
             throw new \RuntimeException('Invalid response received from Transmission');
         }
 
-        if ($response->result !== 'success') {
+        if ($response->result !== 'success' &&
+            $response->result !== 'duplicate torrent') {
             throw new \RuntimeException(
                 sprintf('An error occured: "%s"', $response->result)
             );
@@ -54,17 +55,17 @@ class ResponseValidator
      */
     public static function validateAddResponse(\stdClass $response)
     {
-        $torrentField = 'torrent-added';
+        $fields = array('torrent-added', 'torrent-duplicate');
 
-        if (!isset($response->arguments) ||
-            !isset($response->arguments->$torrentField) ||
-            !count($response->arguments->$torrentField)) {
-            throw new \RuntimeException(
-                'Invalid response received from Transmission'
-            );
+        foreach ($fields as $field) {
+            if (isset($response->arguments) &&
+                isset($response->arguments->$field) &&
+                count($response->arguments->$field)) {
+                return $response->arguments->$field;
+            }
         }
 
-        return $response->arguments->$torrentField;
+        throw new \RuntimeException('Invalid response received from Transmission');
     }
 
     public static function validateSessionGetResponse(\stdClass $response)
