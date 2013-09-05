@@ -46,6 +46,11 @@ class Client
     /**
      * @var string
      */
+    protected $path;
+
+    /**
+     * @var string
+     */
     protected $token;
 
     /**
@@ -63,11 +68,13 @@ class Client
      *
      * @param string  $host The hostname of the Transmission server
      * @param integer $port The port the Transmission server is listening on
+     * @param string  $path The path to Transmission server rpc api
      */
-    public function __construct($host = null, $port = null)
+    public function __construct($host = null, $port = null, $path = null)
     {
         $this->setHost($host ?: self::DEFAULT_HOST);
         $this->setPort($port ?: self::DEFAULT_PORT);
+        $this->setPath($path ?: self::DEFAULT_PATH);
         $this->setToken(null);
         $this->setClient(new Curl());
     }
@@ -93,7 +100,7 @@ class Client
      */
     public function call($method, array $arguments)
     {
-        $request = new Request('POST', self::DEFAULT_PATH, $this->getUrl());
+        $request = new Request('POST', $this->getPath(), $this->getUrl());
         $response = new Response();
         $content = array('method' => $method, 'arguments' => $arguments);
 
@@ -185,6 +192,24 @@ class Client
     public function getPort()
     {
         return $this->port;
+    }
+
+    /**
+     * Set the path to Transmission server rpc api
+     *
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        return $this->path = (string) $path;
+    }
+
+    /**
+     * Get the path to Transmission server rpc api
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
