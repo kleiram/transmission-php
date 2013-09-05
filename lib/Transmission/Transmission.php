@@ -31,10 +31,11 @@ class Transmission
      *
      * @param string  $host
      * @param integer $port
+     * @param string  $path
      */
-    public function __construct($host = null, $port = null)
+    public function __construct($host = null, $port = null, $path = null)
     {
-        $this->setClient(new Client($host, $port));
+        $this->setClient(new Client($host, $port, $path));
         $this->setMapper(new PropertyMapper());
         $this->setValidator(new ResponseValidator());
     }
