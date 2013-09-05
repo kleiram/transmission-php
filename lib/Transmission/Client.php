@@ -201,7 +201,7 @@ class Client
      */
     public function setPath($path)
     {
-        return $this->path;
+        return $this->path = (string) $path;
     }
 
     /**
