@@ -98,10 +98,13 @@ authenticate using the `Client` class:
 
 ```php
 <?php
+use Transmission\Client;
 use Transmission\Transmission;
 
+$client = new Client();
+$client->authenticate('username', 'password');
 $transmission = new Transmission();
-$transmission->authenticate('username', 'password');
+$transmission->setClient($client);
 ```
 
 Additionally, you can control the actual Transmission setting. This means
