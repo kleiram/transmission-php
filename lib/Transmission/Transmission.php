@@ -92,7 +92,7 @@ class Transmission
 
         if (!$torrent instanceof Torrent) {
             throw new \RuntimeException(
-                sprintf("Torrent with ID %d not found", $id)
+                sprintf("Torrent with ID %s not found", $id)
             );
         }
 
