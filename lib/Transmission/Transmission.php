@@ -64,33 +64,44 @@ class Transmission
      * @param integer $id
      * @return Transmission\Model\Torrent
      */
-    public function get($id)
-    {
-        $response = $this->getClient()->call(
-            'torrent-get',
-            array(
-                'fields' => array_keys(Torrent::getMapping()),
-                'ids'    => array($id)
-            )
-        );
+	public function get($id = array())
+	{
+		$param = 'ids';
+		if ((is_array($id) && count($id) == 1) || is_numeric($id))
+		{
+			$param = 'id';
+		}
 
-        $torrent = null;
+		if (is_array($id))
+		{
+			$id = reset($id);
+		}
 
-        foreach ($this->getValidator()->validate('torrent-get', $response) as $t) {
-            $torrent = $this->getMapper()->map(
-                new Torrent($this->getClient()),
-                $t
-            );
-        }
+		$response = $this->getClient()->call(
+			'torrent-get',
+			array(
+				'fields' => array_keys(Torrent::getMapping()),
+				$param   => $id
+			)
+		);
 
-        if (!$torrent instanceof Torrent) {
-            throw new \RuntimeException(
-                sprintf("Torrent with ID %d not found", $id)
-            );
-        }
+		$torrent = null;
 
-        return $torrent;
-    }
+		foreach ($this->getValidator()->validate('torrent-get', $response) as $t) {
+			$torrent = $this->getMapper()->map(
+				new Torrent($this->getClient()),
+				$t
+			);
+		}
+
+		if (!$torrent instanceof Torrent) {
+			throw new \RuntimeException(
+				sprintf("Torrent with ID %s not found", $id)
+			);
+		}
+
+		return $torrent;
+	}
 
     /**
      * @param string  $filename
