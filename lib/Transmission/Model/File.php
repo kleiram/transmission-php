@@ -88,4 +88,8 @@ class File extends AbstractModel
             'bytesCompleted' => 'completed'
         );
     }
+
+    public function __toString(){
+        return $this->name;
+    }
 }
