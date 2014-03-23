@@ -169,7 +169,7 @@ $ phpunit --coverage-text
 
 This library is licensed under the BSD 2-clause license.
 
-    Copyright (c) 2013, Ramon Kleiss <ramon@cubilon.n>
+    Copyright (c) 2014, Ramon Kleiss <ramonkleiss@gmail.com>
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
