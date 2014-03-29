@@ -11,6 +11,11 @@ use Transmission\Client;
 abstract class AbstractModel implements ModelInterface
 {
     /**
+     * @var Transmission\Client
+     */
+    protected $client;
+
+    /**
      * Constructor
      *
      * @param Transmission\Client $client
