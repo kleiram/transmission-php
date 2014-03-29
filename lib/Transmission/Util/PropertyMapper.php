@@ -18,7 +18,7 @@ class PropertyMapper
      */
     public static function map(ModelInterface $model, $dto)
     {
-        $accessor = PropertyAccess::getPropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessor();
 
         $mapping  = array_filter($model->getMapping(), function ($value) {
             return !is_null($value);
