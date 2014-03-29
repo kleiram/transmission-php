@@ -1,6 +1,7 @@
 # PHP Transmission API
 
 [![Build Status](https://travis-ci.org/kleiram/transmission-php.png)](https://travis-ci.org/kleiram/transmission-php)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kleiram/transmission-php/badges/quality-score.png?s=21ff8ce00b8b381734360405aeaf2b48875a8137)](https://scrutinizer-ci.com/g/kleiram/transmission-php/)
 
 This library provides an interface to the [Transmission](http://transmissionbt.com)
 bit-torrent downloader. It provides means to get and remove torrents from
