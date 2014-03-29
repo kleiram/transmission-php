@@ -21,8 +21,3 @@ foreach ($queue as $torrent) {
     }
 }
 
-// Change download directories
-// $session = $transmission->getSession();
-// $session->setDownloadDir('/var/www/downloads/complete');
-// $session->setIncompleteDir('/tmp/downloads');
-// $session->save();
