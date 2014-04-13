@@ -137,6 +137,11 @@ $ php composer.phar install
 $ phpunit --coverage-text
 ```
 
+## Integration into frameworks
+
+Currently, there's a [Symfony](https://github.com/chellem/TransmissionBundle)
+bundle in development which allows you to easily use this library within Symfony.
+
 ## Changelog
 
     Version     Changes
