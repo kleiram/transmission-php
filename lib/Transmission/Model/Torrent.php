@@ -274,11 +274,9 @@ class Torrent extends AbstractModel
      */
     public function setFiles(array $files)
     {
-        $this->files = array();
-
-        foreach ($files as $file) {
-            $this->files[] = PropertyMapper::map(new File(), $file);
-        }
+        $this->files = array_map(function ($file) {
+            return PropertyMapper::map(new File(), $file);
+        }, $files);
     }
 
     /**
@@ -294,11 +292,9 @@ class Torrent extends AbstractModel
      */
     public function setPeers(array $peers)
     {
-        $this->peers = array();
-
-        foreach ($peers as $peer) {
-            $this->peers[] = PropertyMapper::map(new Peer(), $peer);
-        }
+        $this->peers = array_map(function ($peer) {
+            return PropertyMapper::map(new Peer(), $peer);
+        }, $peers);
     }
 
     /**
@@ -314,11 +310,9 @@ class Torrent extends AbstractModel
      */
     public function setTrackers(array $trackers)
     {
-        $this->trackers = array();
-
-        foreach ($trackers as $tracker) {
-            $this->trackers[] = PropertyMapper::map(new Tracker(), $tracker);
-        }
+        $this->trackers = array_map(function ($tracker) {
+            return PropertyMapper::map(new Tracker(), $tracker);
+        }, $trackers);
     }
 
     /**
