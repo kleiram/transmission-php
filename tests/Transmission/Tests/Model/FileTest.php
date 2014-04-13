@@ -44,6 +44,17 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->getFile()->isDone());
     }
 
+    /**
+     * @test
+     */
+    public function shouldConvertToString()
+    {
+        $this->getFile()->setName('foo');
+
+        $this->assertInternalType('string', (string) $this->getFile());
+        $this->assertEquals('foo', (string) $this->getFile());
+    }
+
     public function setup()
     {
         $this->file = new File();
