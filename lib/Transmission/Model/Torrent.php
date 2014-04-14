@@ -11,41 +11,6 @@ class Torrent extends AbstractModel
     /**
      * @var integer
      */
-    const STATUS_STOPPED = 0;
-
-    /**
-     * @var integer
-     */
-    const STATUS_CHECK_WAIT = 1;
-
-    /**
-     * @var integer
-     */
-    const STATUS_CHECK = 2;
-
-    /**
-     * @var integer
-     */
-    const STATUS_DOWNLOAD_WAIT = 3;
-
-    /**
-     * @var integer
-     */
-    const STATUS_DOWNLOAD = 4;
-
-    /**
-     * @var integer
-     */
-    const STATUS_SEED_WAIT = 5;
-
-    /**
-     * @var integer
-     */
-    const STATUS_SEED = 6;
-
-    /**
-     * @var integer
-     */
     protected $id;
 
     /**
@@ -189,11 +154,15 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $status
+     * @param integer|Transmission\Model\Status $status
      */
     public function setStatus($status)
     {
-        $this->status = (integer) $status;
+        if ($status instanceof Status) {
+            $this->status = $status;
+        } else {
+            $this->status = new Status($status);
+        }
     }
 
     /**
@@ -201,7 +170,7 @@ class Torrent extends AbstractModel
      */
     public function getStatus()
     {
-        return $this->status;
+        return $this->status->getValue();
     }
 
     /**
@@ -327,7 +296,7 @@ class Torrent extends AbstractModel
      */
     public function isStopped()
     {
-        return $this->status == self::STATUS_STOPPED;
+        return $this->status->isStopped();
     }
 
     /**
@@ -335,8 +304,7 @@ class Torrent extends AbstractModel
      */
     public function isChecking()
     {
-        return ($this->status == self::STATUS_CHECK ||
-                $this->status == self::STATUS_CHECK_WAIT);
+        return $this->status->isChecking();
     }
 
     /**
@@ -344,8 +312,7 @@ class Torrent extends AbstractModel
      */
     public function isDownloading()
     {
-        return ($this->status == self::STATUS_DOWNLOAD ||
-                $this->status == self::STATUS_DOWNLOAD_WAIT);
+        return $this->status->isDownloading();
     }
 
     /**
@@ -353,8 +320,7 @@ class Torrent extends AbstractModel
      */
     public function isSeeding()
     {
-        return ($this->status == self::STATUS_SEED ||
-                $this->status == self::STATUS_SEED_WAIT);
+        return $this->status->isSeeding();
     }
 
     /**
