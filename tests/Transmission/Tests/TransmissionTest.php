@@ -2,6 +2,7 @@
 namespace Transmission\Tests;
 
 use Transmission\Transmission;
+use Transmission\Model\Torrent;
 
 class TransmissionTest extends \PHPUnit_Framework_TestCase
 {
@@ -201,6 +202,167 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
         $session = $this->getTransmission()->getSession();
 
         $this->assertInstanceOf('Transmission\Model\Session', $session);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStartDownload()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-start', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->start($torrent);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStartDownloadImmediately()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-start-now', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->start($torrent, true);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStopDownload()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-stop', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->stop($torrent);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldVerifyDownload()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-verify', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->verify($torrent);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReannounceDownload()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-reannounce', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->reannounce($torrent);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDownloadWithoutRemovingLocalData()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-remove', array('ids' => array(1)))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->remove($torrent);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDownloadWithRemovingLocalData()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('torrent-remove', array('ids' => array(1), 'delete-local-data' => true))
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $torrent = new Torrent();
+        $torrent->setId(1);
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $transmission->remove($torrent, true);
     }
 
     /**

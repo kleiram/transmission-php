@@ -137,6 +137,75 @@ class Transmission
     }
 
     /**
+     * Start the download of a torrent
+     *
+     * @param Transmission\Model\Torrent $torrent
+     * @param Booleam                    $now
+     */
+    public function start(Torrent $torrent, $now = false)
+    {
+        $this->getClient()->call(
+            $now ? 'torrent-start-now' : 'torrent-start',
+            array('ids' => array($torrent->getId()))
+        );
+    }
+
+    /**
+     * Stop the download of a torrent
+     *
+     * @param Transmission\Model\Torrent $torrent
+     */
+    public function stop(Torrent $torrent)
+    {
+        $this->getClient()->call(
+            'torrent-stop',
+            array('ids' => array($torrent->getId()))
+        );
+    }
+
+    /**
+     * Verify the download of a torrent
+     *
+     * @param Transmission\Model\Torrent $torrent
+     */
+    public function verify(Torrent $torrent)
+    {
+        $this->getClient()->call(
+            'torrent-verify',
+            array('ids' => array($torrent->getId()))
+        );
+    }
+
+    /**
+     * Request a reannounce of a torrent
+     *
+     * @param Transmission\Model\Torrent $torrent
+     */
+    public function reannounce(Torrent $torrent)
+    {
+        $this->getClient()->call(
+            'torrent-reannounce',
+            array('ids' => array($torrent->getId()))
+        );
+    }
+
+    /**
+     * Remove a torrent from the download queue
+     *
+     * @param Transmission\Model\Torrent $torrent
+     */
+    public function remove(Torrent $torrent, $localData = false)
+    {
+        $arguments = array('ids' => array($torrent->getId()));
+
+        if ($localData) {
+            $arguments['delete-local-data'] = true;
+        }
+
+        $this->getClient()->call('torrent-remove', $arguments);
+    }
+
+    /**
      * Set the client used to connect to Transmission
      *
      * @param Transmission\Client $client

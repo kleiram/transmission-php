@@ -320,61 +320,6 @@ class Torrent extends AbstractModel
     }
 
     /**
-     */
-    public function stop()
-    {
-        $this->call(
-            'torrent-stop',
-            array('ids' => array($this->getId()))
-        );
-    }
-
-    /**
-     * @param boolean $now
-     */
-    public function start($now = false)
-    {
-        $this->call(
-            $now ? 'torrent-start-now' : 'torrent-start',
-            array('ids' => array($this->getId()))
-        );
-    }
-
-    /**
-     */
-    public function verify()
-    {
-        $this->call(
-            'torrent-verify',
-            array('ids' => array($this->getId()))
-        );
-    }
-
-    /**
-     */
-    public function reannounce()
-    {
-        $this->call(
-            'torrent-reannounce',
-            array('ids' => array($this->getId()))
-        );
-    }
-
-    /**
-     * @param boolean $localData
-     */
-    public function remove($localData = false)
-    {
-        $arguments = array('ids' => array($this->getId()));
-
-        if ($localData) {
-            $arguments['delete-local-data'] = true;
-        }
-
-        $this->call('torrent-remove', $arguments);
-    }
-
-    /**
      * {@inheritDoc}
      */
     public static function getMapping()
