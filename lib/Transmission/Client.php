@@ -242,7 +242,7 @@ class Client
      *
      * @return <Buzz\Message\Request, Buzz\Message\Response>
      */
-    protected function composeRequest($method, $arguments)
+    protected function compose($method, $arguments)
     {
         $request = new Request('POST', $this->getPath(), $this->getUrl());
         $request->addHeader(sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken()));
