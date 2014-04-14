@@ -101,16 +101,7 @@ class Client
      */
     public function call($method, array $arguments)
     {
-        $request = new Request('POST', $this->getPath(), $this->getUrl());
-        $response = new Response();
-        $content = array('method' => $method, 'arguments' => $arguments);
-
-        $request->addHeader(sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken()));
-        $request->setContent(json_encode($content));
-
-        if (is_string($this->auth)) {
-            $request->addHeader(sprintf('Authorization: Basic %s', $this->auth));
-        }
+        list($request, $response) = $this->compose($method, $arguments);
 
         try {
             $this->getClient()->send($request, $response);
@@ -243,6 +234,28 @@ class Client
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @return <Buzz\Message\Request, Buzz\Message\Response>
+     */
+    protected function composeRequest($method, $arguments)
+    {
+        $request = new Request('POST', $this->getPath(), $this->getUrl());
+        $request->addHeader(sprintf('%s: %s', self::TOKEN_HEADER, $this->getToken()));
+        $request->setContent(json_encode(array(
+            'method'    => $method,
+            'arguments' => $arguments
+        )));
+
+        if (is_string($this->auth)) {
+            $request->addHeader(sprintf('Authorization: Basic %s', $this->auth));
+        }
+
+        return array($request, new Response());
     }
 
     /**
