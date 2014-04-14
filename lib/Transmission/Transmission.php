@@ -54,7 +54,10 @@ class Transmission
         );
 
         $torrents = array_map(function ($data) {
-            return $this->getMapper()->map(new Torrent($this->getClient()), $data);
+            return $this->getMapper()->map(
+                new Torrent($this->getClient()),
+                $data
+            );
         }, $this->getValidator()->validate('torrent-get', $response));
 
         return $torrents;
@@ -77,9 +80,15 @@ class Transmission
             )
         );
 
-        $torrent = array_reduce($this->getValidator()->validate('torrent-get', $response), function ($torrent, $data) {
-            return $torrent ? $torrent : $this->getMapper()->map(new Torrent($this->getClient()), $data);
-        });
+        $torrent = array_reduce(
+            $this->getValidator()->validate('torrent-get', $response),
+            function ($torrent, $data) {
+                return $torrent ? $torrent : $this->getMapper()->map(
+                    new Torrent($this->getClient()),
+                    $data
+                );
+            }
+        );
 
         if (!$torrent instanceof Torrent) {
             throw new \RuntimeException(
