@@ -132,11 +132,7 @@ class Client
         }
 
         if ($response->getStatusCode() == 409) {
-            $token = $response->getHeader(self::TOKEN_HEADER);
-
-            if (is_string($response->getHeader(self::TOKEN_HEADER))) {
-                $this->setToken($response->getHeader(self::TOKEN_HEADER));
-            }
+            $this->setToken($response->getHeader(self::TOKEN_HEADER));
 
             return $this->call($method, $arguments);
         }
