@@ -350,6 +350,8 @@ class Session extends AbstractModel
 
     public function save()
     {
+        $arguments = array();
+        
         foreach ($this->getMapping() as $key => $value) {
             $arguments[$key] = $this->{$value};
         }
