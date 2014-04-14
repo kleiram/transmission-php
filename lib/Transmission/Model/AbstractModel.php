@@ -2,6 +2,7 @@
 namespace Transmission\Model;
 
 use Transmission\Client;
+use Transmission\Util\ResponseValidator;
 
 /**
  * Base class for Transmission models
@@ -47,5 +48,19 @@ abstract class AbstractModel implements ModelInterface
     public static function getMapping()
     {
         return array();
+    }
+
+    /**
+     * @param string $method
+     * @param array  $arguments
+     */
+    protected function call($method, $arguments)
+    {
+        if ($this->client) {
+            ResponseValidator::validate(
+                $method,
+                $this->client->call($method, $arguments)
+            );
+        }
     }
 }

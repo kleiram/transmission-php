@@ -2,7 +2,6 @@
 namespace Transmission\Model;
 
 use Transmission\Util\PropertyMapper;
-use Transmission\Util\ResponseValidator;
 
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
@@ -432,22 +431,6 @@ class Torrent extends AbstractModel
             'peers' => 'peers',
             'trackers' => 'trackers',
             'hashString' => 'hash'
-        );
-    }
-
-    /**
-     * @param string $method
-     * @param array  $arguments
-     */
-    protected function call($method, $arguments)
-    {
-        if (!($client = $this->getClient())) {
-            return;
-        }
-
-        ResponseValidator::validate(
-            $method,
-            $client->call($method, $arguments)
         );
     }
 }
