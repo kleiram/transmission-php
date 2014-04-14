@@ -88,6 +88,7 @@ class Client
     public function authenticate($username, $password)
     {
         $this->auth = base64_encode($username .':'. $password);
+
     }
 
     /**
@@ -121,15 +122,7 @@ class Client
             );
         }
 
-        if ($response->getStatusCode() != 200 &&
-            $response->getStatusCode() != 401 &&
-            $response->getStatusCode() != 409) {
-            throw new \RuntimeException('Unexpected response received from Transmission');
-        }
-
-        if ($response->getStatusCode() == 401) {
-            throw new \RuntimeException('Access to Transmission requires authentication');
-        }
+        $this->validateResponse($response);
 
         if ($response->getStatusCode() == 409) {
             $this->setToken($response->getHeader(self::TOKEN_HEADER));
@@ -250,5 +243,22 @@ class Client
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * @param Buzz\Message\Response
+     * @throws RuntimeException
+     */
+    protected function validateResponse($response)
+    {
+        if ($response->getStatusCode() != 200 &&
+            $response->getStatusCode() != 401 &&
+            $response->getStatusCode() != 409) {
+            throw new \RuntimeException('Unexpected response received from Transmission');
+        }
+
+        if ($response->getStatusCode() == 401) {
+            throw new \RuntimeException('Access to Transmission requires authentication');
+        }
     }
 }
