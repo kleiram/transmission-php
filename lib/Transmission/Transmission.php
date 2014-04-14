@@ -53,7 +53,7 @@ class Transmission
             array('fields' => array_keys(Torrent::getMapping()))
         );
 
-        $torrents = array_map(function ($datag) {
+        $torrents = array_map(function ($data) {
             return $this->getMapper()->map(new Torrent($this->getClient()), $data);
         }, $this->getValidator()->validate('torrent-get', $response));
 
@@ -77,14 +77,9 @@ class Transmission
             )
         );
 
-        $torrent = null;
-
-        foreach ($this->getValidator()->validate('torrent-get', $response) as $t) {
-            $torrent = $this->getMapper()->map(
-                new Torrent($this->getClient()),
-                $t
-            );
-        }
+        $torrent = array_reduce($this->getValidator()->validate('torrent-get', $response), function ($torrent, $data) {
+            return $torrent ? $torrent : $this->getMapper()->map(new Torrent($this->getClient()), $data);
+        });
 
         if (!$torrent instanceof Torrent) {
             throw new \RuntimeException(
