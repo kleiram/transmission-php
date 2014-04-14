@@ -158,11 +158,7 @@ class Torrent extends AbstractModel
      */
     public function setStatus($status)
     {
-        if ($status instanceof Status) {
-            $this->status = $status;
-        } else {
-            $this->status = new Status($status);
-        }
+        $this->status = new Status($status);
     }
 
     /**

@@ -42,11 +42,20 @@ class Status extends AbstractModel
     const STATUS_SEED = 6;
 
     /**
-     * @param integer $status
+     * @var integer
+     */
+    protected $status;
+
+    /**
+     * @param integer|Transmission\Model\Status $status
      */
     public function __construct($status)
     {
-        $this->status = (integer) $status;
+        if ($status instanceof self) {
+            $this->status = $status->getValue();
+        } else {
+            $this->status = (integer) $status;
+        }
     }
 
     /**
