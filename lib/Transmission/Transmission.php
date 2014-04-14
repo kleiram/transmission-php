@@ -1,6 +1,7 @@
 <?php
 namespace Transmission;
 
+use Transmission\Client;
 use Transmission\Model\Torrent;
 use Transmission\Model\Session;
 use Transmission\Util\PropertyMapper;
@@ -101,7 +102,7 @@ class Transmission
 
     /**
      * Get the Transmission session
-     * 
+     *
      * @return Transmission\Model\Session
      */
     public function getSession(){
