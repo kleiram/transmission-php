@@ -350,20 +350,15 @@ class Session extends AbstractModel
 
     public function save()
     {
-        $arguments = array();
-        $method    = 'session-set';
-
         foreach ($this->getMapping() as $key => $value) {
-            $arguments[$key] = $this->$value;
+            $arguments[$key] = $this->{$value};
         }
 
-        if (!($client = $this->getClient())) {
-            return;
+        if (!empty($arguments) && $this->getClient()) {
+            ResponseValidator::validate(
+                'session-set',
+                $this->getClient()->call('session-set', $arguments)
+            );
         }
-
-        ResponseValidator::validate(
-            $method,
-            $client->call($method, $arguments)
-        );
     }
 }
