@@ -72,11 +72,12 @@ class Client
      */
     public function __construct($host = null, $port = null, $path = null)
     {
+        $this->token    = null;
+        $this->client   = new Curl();
+
         $this->setHost($host ?: self::DEFAULT_HOST);
         $this->setPort($port ?: self::DEFAULT_PORT);
         $this->setPath($path ?: self::DEFAULT_PATH);
-        $this->setToken(null);
-        $this->setClient(new Curl());
     }
 
     /**
