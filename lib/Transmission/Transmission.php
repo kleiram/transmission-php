@@ -48,13 +48,14 @@ class Transmission
      */
     public function all()
     {
+        $mapper   = $this->getMapper();
         $response = $this->getClient()->call(
             'torrent-get',
             array('fields' => array_keys(Torrent::getMapping()))
         );
 
-        $torrents = array_map(function ($data) {
-            return $this->getMapper()->map(
+        $torrents = array_map(function ($data) use ($mapper) {
+            return $mapper->map(
                 new Torrent($this->getClient()),
                 $data
             );
@@ -72,6 +73,7 @@ class Transmission
      */
     public function get($id)
     {
+        $mapper   = $this->getMapper();
         $response = $this->getClient()->call(
             'torrent-get',
             array(
@@ -82,8 +84,8 @@ class Transmission
 
         $torrent = array_reduce(
             $this->getValidator()->validate('torrent-get', $response),
-            function ($torrent, $data) {
-                return $torrent ? $torrent : $this->getMapper()->map(
+            function ($torrent, $data) use ($mapper) {
+                return $torrent ? $torrent : $mapper->map(
                     new Torrent($this->getClient()),
                     $data
                 );
