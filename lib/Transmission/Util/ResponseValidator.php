@@ -17,12 +17,13 @@ class ResponseValidator
             throw new \RuntimeException('Invalid response received from Transmission');
         }
 
-        if ($response->result !== 'success' &&
-            $response->result !== 'duplicate torrent') {
-            throw new \RuntimeException(
-                sprintf('An error occured: "%s"', $response->result)
-            );
+        if (!in_array($response->result, array('success', 'duplicate torrent'))) {
+            throw new \RuntimeException(sprintf(
+                'An error occured: "%s"', $response->result
+            ));
         }
+
+        
         switch ($method) {
             case 'torrent-get':
                 return self::validateGetResponse($response);
