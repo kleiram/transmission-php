@@ -36,17 +36,17 @@ class Client
     /**
      * @var string
      */
-    protected $host;
+    protected $host = self::DEFAULT_HOST;
 
     /**
      * @var integer
      */
-    protected $port;
+    protected $port = self::DEFAULT_PORT;
 
     /**
      * @var string
      */
-    protected $path;
+    protected $path = self::DEFAULT_PATH;
 
     /**
      * @var string
@@ -75,9 +75,9 @@ class Client
         $this->token    = null;
         $this->client   = new Curl();
 
-        $this->setHost($host ?: self::DEFAULT_HOST);
-        $this->setPort($port ?: self::DEFAULT_PORT);
-        $this->setPath($path ?: self::DEFAULT_PATH);
+        if ($host) $this->setHost($host);
+        if ($port) $this->setPort($port);
+        if ($path) $this->setPath($path);
     }
 
     /**
