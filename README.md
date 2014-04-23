@@ -59,11 +59,11 @@ $files = $torrent->getFiles();
 
 // You can start, stop, verify the torrent and ask the tracker for
 // more peers to connect to
-$torrent->stop();
-$torrent->start();
-$torrent->start(true); // Pass true if you want to start the torrent immediatly
-$torrent->verify();
-$torrent->reannounce();
+$transmission->stop($torrent);
+$transmission->start($torrent);
+$transmission->start($torrent, true); // Pass true if you want to start the torrent immediatly
+$transmission->verify($torrent);
+$transmission->reannounce($torrent);
 ```
 
 To find out which information is contained by the torrent, check
