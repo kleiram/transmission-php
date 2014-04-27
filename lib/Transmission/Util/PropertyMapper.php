@@ -12,8 +12,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class PropertyMapper
 {
     /**
-     * @param Transmission\Model\ModelInterface $model
-     * @param stdClass                          $dto
+     * @param  Transmission\Model\ModelInterface $model
+     * @param  stdClass                          $dto
      * @return Transmission\Model\ModelInterface
      */
     public static function map(ModelInterface $model, $dto)
