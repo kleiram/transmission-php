@@ -335,7 +335,6 @@ class Torrent extends AbstractModel
             'rateDownload' => 'downloadRate',
             'percentDone' => 'percentDone',
             'files' => 'files',
-            'fileStats'=>'files',
             'peers' => 'peers',
             'trackers' => 'trackers',
             'hashString' => 'hash'
