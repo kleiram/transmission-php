@@ -55,7 +55,6 @@ class Transmission
             'torrent-get',
             array('fields' => array_keys(Torrent::getMapping()))
         );
-        print_r($response);
 
         $torrents = array_map(function ($data) use ($mapper, $client) {
             return $mapper->map(
