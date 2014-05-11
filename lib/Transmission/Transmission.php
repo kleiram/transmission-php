@@ -122,7 +122,7 @@ class Transmission
         );
 
         return $this->getMapper()->map(
-            new SessionStats($this->getClient()),
+            new SessionStats(),
             $this->getValidator()->validate('session-stats', $response)
         );
     }
@@ -143,7 +143,7 @@ class Transmission
         );
 
         return $this->getMapper()->map(
-            new FreeSpace($this->getClient()),
+            new FreeSpace(),
             $this->getValidator()->validate('free-space', $response)
         );
     }
