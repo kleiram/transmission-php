@@ -57,14 +57,10 @@ class Session extends AbstractModel
      * Sets the value of activeTorrentCount.
      *
      * @param integer $activeTorrentCount the active torrent count
-     *
-     * @return self
      */
     public function setActiveTorrentCount($activeTorrentCount)
     {
         $this->activeTorrentCount = $activeTorrentCount;
-
-        return $this;
     }
 
     /**
@@ -81,14 +77,10 @@ class Session extends AbstractModel
      * Sets the value of downloadSpeed.
      *
      * @param integer $downloadSpeed the download speed
-     *
-     * @return self
      */
     public function setDownloadSpeed($downloadSpeed)
     {
         $this->downloadSpeed = $downloadSpeed;
-
-        return $this;
     }
 
     /**
@@ -105,14 +97,10 @@ class Session extends AbstractModel
      * Sets the value of pausedTorrentCount.
      *
      * @param integer $pausedTorrentCount the paused torrent count
-     *
-     * @return self
      */
     public function setPausedTorrentCount($pausedTorrentCount)
     {
         $this->pausedTorrentCount = $pausedTorrentCount;
-
-        return $this;
     }
 
     /**
@@ -129,14 +117,10 @@ class Session extends AbstractModel
      * Sets the value of torrentCount.
      *
      * @param integer $torrentCount the torrent count
-     *
-     * @return self
      */
     public function setTorrentCount($torrentCount)
     {
         $this->torrentCount = $torrentCount;
-
-        return $this;
     }
 
     /**
@@ -153,14 +137,10 @@ class Session extends AbstractModel
      * Sets the value of uploadSpeed.
      *
      * @param integer $uploadSpeed the upload speed
-     *
-     * @return self
      */
     public function setUploadSpeed($uploadSpeed)
     {
         $this->uploadSpeed = $uploadSpeed;
-
-        return $this;
     }
 
     /**
@@ -177,14 +157,10 @@ class Session extends AbstractModel
      * Sets the value of cumulative.
      *
      * @param Stats $cumulative the cumulative
-     *
-     * @return self
      */
     public function setCumulative(Stats $cumulative)
     {
         $this->cumulative = $cumulative;
-
-        return $this;
     }
 
     /**
@@ -201,14 +177,10 @@ class Session extends AbstractModel
      * Sets the value of current.
      *
      * @param Stats $current the current
-     *
-     * @return self
      */
     public function setCurrent(Stats $current)
     {
         $this->current = $current;
-
-        return $this;
     }
 
     /**

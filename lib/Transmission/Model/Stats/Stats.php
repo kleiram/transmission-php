@@ -48,14 +48,10 @@ class Stats implements ModelInterface
      * Sets the value of downloadedBytes.
      *
      * @param integer $downloadedBytes the downloaded bytes
-     *
-     * @return self
      */
     public function setDownloadedBytes($downloadedBytes)
     {
         $this->downloadedBytes = $downloadedBytes;
-
-        return $this;
     }
 
     /**
@@ -72,14 +68,10 @@ class Stats implements ModelInterface
      * Sets the value of filesAdded.
      *
      * @param integer $filesAdded the files added
-     *
-     * @return self
      */
     public function setFilesAdded($filesAdded)
     {
         $this->filesAdded = $filesAdded;
-
-        return $this;
     }
 
     /**
@@ -96,14 +88,10 @@ class Stats implements ModelInterface
      * Sets the value of secondsActive.
      *
      * @param integer $secondsActive the seconds active
-     *
-     * @return self
      */
     public function setSecondsActive($secondsActive)
     {
         $this->secondsActive = $secondsActive;
-
-        return $this;
     }
 
     /**
@@ -120,14 +108,10 @@ class Stats implements ModelInterface
      * Sets the value of sessionCount.
      *
      * @param integer $sessionCount the session count
-     *
-     * @return self
      */
     public function setSessionCount($sessionCount)
     {
         $this->sessionCount = $sessionCount;
-
-        return $this;
     }
 
     /**
@@ -144,14 +128,10 @@ class Stats implements ModelInterface
      * Sets the value of uploadedBytes.
      *
      * @param integer $uploadedBytes the uploaded bytes
-     *
-     * @return self
      */
     public function setUploadedBytes($uploadedBytes)
     {
         $this->uploadedBytes = $uploadedBytes;
-
-        return $this;
     }
 
     /**
