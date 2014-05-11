@@ -30,14 +30,10 @@ class FreeSpace extends AbstractModel
      * Sets the value of path.
      *
      * @param string $path the path
-     *
-     * @return self
      */
     public function setPath($path)
     {
         $this->path = $path;
-
-        return $this;
     }
 
     /**
@@ -54,14 +50,10 @@ class FreeSpace extends AbstractModel
      * Sets the value of size.
      *
      * @param integer $size the size
-     *
-     * @return self
      */
     public function setSize($size)
     {
         $this->size = $size;
-
-        return $this;
     }
 
     /**
