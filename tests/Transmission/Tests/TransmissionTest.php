@@ -207,6 +207,31 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldGetSessionStats()
+    {
+        $that   = $this;
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('session-stats')
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $that->assertEmpty($arguments);
+
+                return (object) array(
+                    'result' => 'success',
+                    'arguments' => (object) array()
+                );
+            }));
+
+        $this->getTransmission()->setClient($client);
+        $stats = $this->getTransmission()->getSessionStats();
+
+        $this->assertInstanceOf('Transmission\Model\Stats\Session', $stats);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetFreeSpace()
     {
         $that   = $this;

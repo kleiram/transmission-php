@@ -2,22 +2,22 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 $transmission = new Transmission\Transmission();
-$queue = $transmission->all();
+$queue = $transmission->getSessionStats();
+print_r($queue);
 
-echo "Downloading to: {$transmission->getSession()->getDownloadDir()}\n";
-
-foreach ($queue as $torrent) {
-    echo "{$torrent->getName()}";
-
-    if ($torrent->isFinished()) {
-        echo ": done\n";
-    } else {
-        if ($torrent->isDownloading()) {
-            echo ": {$torrent->getPercentDone()}% ";
-            echo "(eta: ". gmdate("H:i:s", $torrent->getEta()) .")\n";
-        } else{
-            echo ": paused\n";
-        }
-    }
-}
-
+// echo "Downloading to: {$transmission->getSession()->getDownloadDir()}\n";
+//
+// foreach ($queue as $torrent) {
+//     echo "{$torrent->getName()}";
+//
+//     if ($torrent->isFinished()) {
+//         echo ": done\n";
+//     } else {
+//         if ($torrent->isDownloading()) {
+//             echo ": {$torrent->getPercentDone()}% ";
+//             echo "(eta: ". gmdate("H:i:s", $torrent->getEta()) .")\n";
+//         } else{
+//             echo ": paused\n";
+//         }
+//     }
+// }

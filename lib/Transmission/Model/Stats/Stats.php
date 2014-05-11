@@ -4,28 +4,50 @@ namespace Transmission\Model\Stats;
 
 use Transmission\Model\ModelInterface;
 
-class Stats implements ModelInterface{
-
+/**
+ * @author Joysen Chellem
+ */
+class Stats implements ModelInterface
+{
+    /**
+     * @var integer
+     */
     protected $downloadedBytes;
+
+    /**
+     * @var integer
+     */
     protected $filesAdded;
+
+    /**
+     * @var integer
+     */
     protected $secondsActive;
+
+    /**
+     * @var integer
+     */
     protected $sessionCount;
+
+    /**
+     * @var integer
+     */
     protected $uploadedBytes;
 
     /**
      * Gets the value of downloadedBytes.
      *
-     * @return mixed
+     * @return integer
      */
     public function getDownloadedBytes()
     {
         return $this->downloadedBytes;
     }
-    
+
     /**
      * Sets the value of downloadedBytes.
      *
-     * @param mixed $downloadedBytes the downloaded bytes
+     * @param integer $downloadedBytes the downloaded bytes
      *
      * @return self
      */
@@ -39,17 +61,17 @@ class Stats implements ModelInterface{
     /**
      * Gets the value of filesAdded.
      *
-     * @return mixed
+     * @return integer
      */
     public function getFilesAdded()
     {
         return $this->filesAdded;
     }
-    
+
     /**
      * Sets the value of filesAdded.
      *
-     * @param mixed $filesAdded the files added
+     * @param integer $filesAdded the files added
      *
      * @return self
      */
@@ -63,17 +85,17 @@ class Stats implements ModelInterface{
     /**
      * Gets the value of secondsActive.
      *
-     * @return mixed
+     * @return integer
      */
     public function getSecondsActive()
     {
         return $this->secondsActive;
     }
-    
+
     /**
      * Sets the value of secondsActive.
      *
-     * @param mixed $secondsActive the seconds active
+     * @param integer $secondsActive the seconds active
      *
      * @return self
      */
@@ -87,17 +109,17 @@ class Stats implements ModelInterface{
     /**
      * Gets the value of sessionCount.
      *
-     * @return mixed
+     * @return integer
      */
     public function getSessionCount()
     {
         return $this->sessionCount;
     }
-    
+
     /**
      * Sets the value of sessionCount.
      *
-     * @param mixed $sessionCount the session count
+     * @param integer $sessionCount the session count
      *
      * @return self
      */
@@ -111,17 +133,17 @@ class Stats implements ModelInterface{
     /**
      * Gets the value of uploadedBytes.
      *
-     * @return mixed
+     * @return integer
      */
     public function getUploadedBytes()
     {
         return $this->uploadedBytes;
     }
-    
+
     /**
      * Sets the value of uploadedBytes.
      *
-     * @param mixed $uploadedBytes the uploaded bytes
+     * @param integer $uploadedBytes the uploaded bytes
      *
      * @return self
      */
@@ -132,6 +154,9 @@ class Stats implements ModelInterface{
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function getMapping()
     {
         return array(

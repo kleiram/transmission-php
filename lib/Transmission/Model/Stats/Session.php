@@ -8,10 +8,29 @@ use Transmission\Model\AbstractModel;
  */
 class Session extends AbstractModel
 {
+    /**
+     * @var integer
+     */
     private $activeTorrentCount;
+
+    /**
+     * @var integer
+     */
     private $downloadSpeed;
+
+    /**
+     * @var integer
+     */
     private $pausedTorrentCount;
+
+    /**
+     * @var integer
+     */
     private $torrentCount;
+
+    /**
+     * @var integer
+     */
     private $uploadSpeed;
 
     /**
@@ -27,7 +46,7 @@ class Session extends AbstractModel
     /**
      * Gets the value of activeTorrentCount.
      *
-     * @return mixed
+     * @return integer
      */
     public function getActiveTorrentCount()
     {
@@ -37,7 +56,7 @@ class Session extends AbstractModel
     /**
      * Sets the value of activeTorrentCount.
      *
-     * @param mixed $activeTorrentCount the active torrent count
+     * @param integer $activeTorrentCount the active torrent count
      *
      * @return self
      */
@@ -51,7 +70,7 @@ class Session extends AbstractModel
     /**
      * Gets the value of downloadSpeed.
      *
-     * @return mixed
+     * @return integer
      */
     public function getDownloadSpeed()
     {
@@ -61,7 +80,7 @@ class Session extends AbstractModel
     /**
      * Sets the value of downloadSpeed.
      *
-     * @param mixed $downloadSpeed the download speed
+     * @param integer $downloadSpeed the download speed
      *
      * @return self
      */
@@ -75,7 +94,7 @@ class Session extends AbstractModel
     /**
      * Gets the value of pausedTorrentCount.
      *
-     * @return mixed
+     * @return integer
      */
     public function getPausedTorrentCount()
     {
@@ -85,7 +104,7 @@ class Session extends AbstractModel
     /**
      * Sets the value of pausedTorrentCount.
      *
-     * @param mixed $pausedTorrentCount the paused torrent count
+     * @param integer $pausedTorrentCount the paused torrent count
      *
      * @return self
      */
@@ -99,7 +118,7 @@ class Session extends AbstractModel
     /**
      * Gets the value of torrentCount.
      *
-     * @return mixed
+     * @return integer
      */
     public function getTorrentCount()
     {
@@ -109,7 +128,7 @@ class Session extends AbstractModel
     /**
      * Sets the value of torrentCount.
      *
-     * @param mixed $torrentCount the torrent count
+     * @param integer $torrentCount the torrent count
      *
      * @return self
      */
@@ -123,7 +142,7 @@ class Session extends AbstractModel
     /**
      * Gets the value of uploadSpeed.
      *
-     * @return mixed
+     * @return integer
      */
     public function getUploadSpeed()
     {
@@ -133,7 +152,7 @@ class Session extends AbstractModel
     /**
      * Sets the value of uploadSpeed.
      *
-     * @param mixed $uploadSpeed the upload speed
+     * @param integer $uploadSpeed the upload speed
      *
      * @return self
      */
@@ -153,7 +172,7 @@ class Session extends AbstractModel
     {
         return $this->cumulative;
     }
-    
+
     /**
      * Sets the value of cumulative.
      *
@@ -177,7 +196,7 @@ class Session extends AbstractModel
     {
         return $this->current;
     }
-    
+
     /**
      * Sets the value of current.
      *

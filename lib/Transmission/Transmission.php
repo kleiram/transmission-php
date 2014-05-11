@@ -55,6 +55,7 @@ class Transmission
             'torrent-get',
             array('fields' => array_keys(Torrent::getMapping()))
         );
+        print_r($response);
 
         $torrents = array_map(function ($data) use ($mapper, $client) {
             return $mapper->map(
@@ -120,7 +121,6 @@ class Transmission
             array()
         );
 
-
         return $this->getMapper()->map(
             new SessionStats($this->getClient()),
             $this->getValidator()->validate('session-stats', $response)
@@ -129,12 +129,12 @@ class Transmission
 
     /**
      * Get Free space
-     * @param string $path
+     * @param  string                       $path
      * @return Transmission\Model\FreeSpace
      */
     public function getFreeSpace($path=null)
     {
-        if(!$path){
+        if (!$path) {
             $path = $this->getSession()->getDownloadDir();
         }
         $response = $this->getClient()->call(

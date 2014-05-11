@@ -83,6 +83,10 @@ class ResponseValidator
         return $response->arguments;
     }
 
+    /**
+     * @param  stdClass $response
+     * @return stdClass
+     */
     public static function validateSessionStatsGetResponse(\stdClass $response)
     {
         if (!isset($response->arguments)) {
@@ -91,15 +95,18 @@ class ResponseValidator
             );
         }
         $class='Transmission\\Model\\Stats\\Stats';
-        foreach (array('cumulative-stats','current-stats') as $method) {
-            $instance=self::map($response->arguments->$method,$class);
-            $response->arguments->$method=$instance;
+        foreach (array('cumulative-stats','current-stats') as $property) {
+            if (property_exists($response->arguments,$property)) {
+                $instance=self::map($response->arguments->$property,$class);
+                $response->arguments->$property=$instance;
+            }
         }
 
         return $response->arguments;
     }
 
-    private static function map($object,$class){
+    private static function map($object,$class)
+    {
         return PropertyMapper::map(new $class(),$object);
 
     }
