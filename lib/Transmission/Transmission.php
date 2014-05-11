@@ -1,9 +1,10 @@
 <?php
 namespace Transmission;
 
-use Transmission\Client;
 use Transmission\Model\Torrent;
 use Transmission\Model\Session;
+use Transmission\Model\FreeSpace;
+use Transmission\Model\Stats\Session as SessionStats;
 use Transmission\Util\PropertyMapper;
 use Transmission\Util\ResponseValidator;
 
@@ -68,7 +69,7 @@ class Transmission
     /**
      * Get a specific torrent from the download queue
      *
-     * @param integer $id
+     * @param  integer                    $id
      * @return Transmission\Model\Torrent
      * @throws RuntimeException
      */
@@ -99,7 +100,8 @@ class Transmission
      *
      * @return Transmission\Model\Session
      */
-    public function getSession(){
+    public function getSession()
+    {
         $response = $this->getClient()->call(
             'session-get',
             array()
@@ -111,11 +113,45 @@ class Transmission
         );
     }
 
+    public function getSessionStats()
+    {
+        $response = $this->getClient()->call(
+            'session-stats',
+            array()
+        );
+
+        return $this->getMapper()->map(
+            new SessionStats(),
+            $this->getValidator()->validate('session-stats', $response)
+        );
+    }
+
+    /**
+     * Get Free space
+     * @param  string                       $path
+     * @return Transmission\Model\FreeSpace
+     */
+    public function getFreeSpace($path=null)
+    {
+        if (!$path) {
+            $path = $this->getSession()->getDownloadDir();
+        }
+        $response = $this->getClient()->call(
+            'free-space',
+            array('path'=>$path)
+        );
+
+        return $this->getMapper()->map(
+            new FreeSpace(),
+            $this->getValidator()->validate('free-space', $response)
+        );
+    }
+
     /**
      * Add a torrent to the download queue
      *
-     * @param string  $filename
-     * @param boolean $metainfo
+     * @param  string                     $filename
+     * @param  boolean                    $metainfo
      * @return Transmission\Model\Torrent
      */
     public function add($torrent, $metainfo = false)

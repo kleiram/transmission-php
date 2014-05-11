@@ -94,8 +94,8 @@ class Client
     /**
      * Make an API call
      *
-     * @param string $method
-     * @param array  $arguments
+     * @param  string           $method
+     * @param  array            $arguments
      * @return stdClass
      * @throws RuntimeException
      */
@@ -251,9 +251,9 @@ class Client
     }
 
     /**
-     * @param Buzz\Message\Response $response
-     * @param string                $method
-     * @param array                 $arguments
+     * @param  Buzz\Message\Response $response
+     * @param  string                $method
+     * @param  array                 $arguments
      * @return stdClass
      * @throws RuntimeException
      */

@@ -7,8 +7,8 @@ namespace Transmission\Util;
 class ResponseValidator
 {
     /**
-     * @param string   $method
-     * @param stdClass $response
+     * @param  string           $method
+     * @param  stdClass         $response
      * @throws RuntimeException
      */
     public static function validate($method, \stdClass $response)
@@ -23,19 +23,22 @@ class ResponseValidator
             ));
         }
 
-        
         switch ($method) {
             case 'torrent-get':
                 return self::validateGetResponse($response);
             case 'torrent-add':
                 return self::validateAddResponse($response);
             case 'session-get':
-            	return self::validateSessionGetResponse($response);
+                return self::validateSessionGetResponse($response);
+            case 'session-stats':
+                return self::validateSessionStatsGetResponse($response);
+            case 'free-space':
+                return self::validateFreeSpaceGetResponse($response);
         }
     }
 
     /**
-     * @param stdClass $response
+     * @param  stdClass         $response
      * @throws RuntimeException
      */
     public static function validateGetResponse(\stdClass $response)
@@ -51,7 +54,7 @@ class ResponseValidator
     }
 
     /**
-     * @param stdClass $response
+     * @param  stdClass         $response
      * @throws RuntimeException
      */
     public static function validateAddResponse(\stdClass $response)
@@ -77,6 +80,45 @@ class ResponseValidator
             );
         }
 
-    	return $response->arguments;
+        return $response->arguments;
+    }
+
+    /**
+     * @param  stdClass $response
+     * @return stdClass
+     */
+    public static function validateSessionStatsGetResponse(\stdClass $response)
+    {
+        if (!isset($response->arguments)) {
+            throw new \RuntimeException(
+                'Invalid response received from Transmission'
+            );
+        }
+        $class='Transmission\\Model\\Stats\\Stats';
+        foreach (array('cumulative-stats','current-stats') as $property) {
+            if (property_exists($response->arguments,$property)) {
+                $instance=self::map($response->arguments->$property,$class);
+                $response->arguments->$property=$instance;
+            }
+        }
+
+        return $response->arguments;
+    }
+
+    private static function map($object,$class)
+    {
+        return PropertyMapper::map(new $class(),$object);
+
+    }
+
+    public static function validateFreeSpaceGetResponse(\stdClass $response)
+    {
+        if (!isset($response->arguments)) {
+            throw new \RuntimeException(
+                'Invalid response received from Transmission'
+            );
+        }
+
+        return $response->arguments;
     }
 }
