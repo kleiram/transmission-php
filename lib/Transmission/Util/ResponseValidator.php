@@ -90,8 +90,18 @@ class ResponseValidator
                 'Invalid response received from Transmission'
             );
         }
+        $class='Transmission\\Model\\Stats\\Stats';
+        foreach (array('cumulative-stats','current-stats') as $method) {
+            $instance=self::map($response->arguments->$method,$class);
+            $response->arguments->$method=$instance;
+        }
 
         return $response->arguments;
+    }
+
+    private static function map($object,$class){
+        return PropertyMapper::map(new $class(),$object);
+
     }
 
     public static function validateFreeSpaceGetResponse(\stdClass $response)

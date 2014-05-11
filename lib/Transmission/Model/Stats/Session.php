@@ -13,8 +13,16 @@ class Session extends AbstractModel
     private $pausedTorrentCount;
     private $torrentCount;
     private $uploadSpeed;
-    private $cumulativeStats;
-    private $currentStats;
+
+    /**
+     * @var Stats
+     */
+    private $cumulative;
+
+    /**
+     * @var Stats
+     */
+    private $current;
 
     /**
      * Gets the value of activeTorrentCount.
@@ -137,49 +145,49 @@ class Session extends AbstractModel
     }
 
     /**
-     * Gets the value of cumulativeStats.
+     * Gets the value of cumulative.
      *
-     * @return mixed
+     * @return Stats
      */
-    public function getCumulativeStats()
+    public function getCumulative()
     {
-        return $this->cumulativeStats;
+        return $this->cumulative;
     }
-
+    
     /**
-     * Sets the value of cumulativeStats.
+     * Sets the value of cumulative.
      *
-     * @param mixed $cumulativeStats the cumulative stats
+     * @param Stats $cumulative the cumulative
      *
      * @return self
      */
-    public function setCumulativeStats($cumulativeStats)
+    public function setCumulative(Stats $cumulative)
     {
-        $this->cumulativeStats = $cumulativeStats;
+        $this->cumulative = $cumulative;
 
         return $this;
     }
 
     /**
-     * Gets the value of currentStats.
+     * Gets the value of current.
      *
-     * @return mixed
+     * @return Stats
      */
-    public function getCurrentStats()
+    public function getCurrent()
     {
-        return $this->currentStats;
+        return $this->current;
     }
-
+    
     /**
-     * Sets the value of currentStats.
+     * Sets the value of current.
      *
-     * @param mixed $currentStats the current stats
+     * @param Stats $current the current
      *
      * @return self
      */
-    public function setCurrentStats($currentStats)
+    public function setCurrent(Stats $current)
     {
-        $this->currentStats = $currentStats;
+        $this->current = $current;
 
         return $this;
     }
@@ -195,8 +203,8 @@ class Session extends AbstractModel
             'pausedTorrentCount' => 'pausedTorrentCount',
             'torrentCount' => 'torrentCount',
             'uploadSpeed' => 'uploadSpeed',
-            'cumulative-stats'=>'cumulativeStats',
-            'current-stats' => 'currentStats',
+            'cumulative-stats'=>'cumulative',
+            'current-stats' => 'current',
         );
     }
 }

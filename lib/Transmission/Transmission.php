@@ -120,17 +120,26 @@ class Transmission
             array()
         );
 
+
         return $this->getMapper()->map(
             new SessionStats($this->getClient()),
             $this->getValidator()->validate('session-stats', $response)
         );
     }
 
-    public function getFreeSpace()
+    /**
+     * Get Free space
+     * @param string $path
+     * @return Transmission\Model\FreeSpace
+     */
+    public function getFreeSpace($path=null)
     {
+        if(!$path){
+            $path = $this->getSession()->getDownloadDir();
+        }
         $response = $this->getClient()->call(
             'free-space',
-            array('path'=>$this->getSession()->getDownloadDir())
+            array('path'=>$path)
         );
 
         return $this->getMapper()->map(

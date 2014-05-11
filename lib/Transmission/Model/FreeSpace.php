@@ -6,7 +6,14 @@ namespace Transmission\Model;
  */
 class FreeSpace extends AbstractModel
 {
+    /**
+     * @var string
+     */
     private $path;
+
+    /**
+     * @var integer
+     */
     private $size;
 
     /**
@@ -57,6 +64,9 @@ class FreeSpace extends AbstractModel
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function getMapping()
     {
         return array(

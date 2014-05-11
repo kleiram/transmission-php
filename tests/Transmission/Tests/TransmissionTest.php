@@ -207,6 +207,30 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldGetFreeSpace()
+    {
+        $that   = $this;
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('free-space')
+            ->will($this->returnCallback(function ($method, $arguments) use ($that) {
+                $that->assertArrayHasKey('path', $arguments);
+
+                return (object) array(
+                    'result' => 'success',
+                    'arguments' => (object) array()
+                );
+            }));
+
+        $this->getTransmission()->setClient($client);
+        $freeSpace = $this->getTransmission()->getFreeSpace('/');
+        $this->assertInstanceOf('Transmission\Model\FreeSpace', $freeSpace);
+    }
+
+    /**
+     * @test
+     */
     public function shouldStartDownload()
     {
         $client = $this->getMock('Transmission\Client');
