@@ -44,10 +44,10 @@ $torrent = $transmission->add(/* path to torrent */);
 
 // Removing a torrent from the download queue
 $torrent = $transmission->get(1);
-$torrent->remove();
+$transmission->remove($torrent);
 
 // Or if you want to delete all local data too
-$torrent->remove(true);
+$transmission->remove($torrent, true);
 
 // You can also get the Trackers that the torrent currently uses
 // These are instances of the Transmission\Model\Tracker class
