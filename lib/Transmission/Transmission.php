@@ -152,6 +152,7 @@ class Transmission
      *
      * @param  string                     $filename
      * @param  boolean                    $metainfo
+     * @param  string                     $savepath
      * @return Transmission\Model\Torrent
      */
     public function add($torrent, $metainfo = false, $savepath = null)
@@ -164,7 +165,7 @@ class Transmission
 
         $response = $this->getClient()->call(
             'torrent-add',
-            $parameters)
+            $parameters
         );
 
         return $this->getMapper()->map(
