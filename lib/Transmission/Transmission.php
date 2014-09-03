@@ -156,13 +156,16 @@ class Transmission
      */
     public function add($torrent, $metainfo = false, $savepath = null)
     {
-       $parameters = array($metainfo ? 'metainfo' : 'filename' => $torrent);
-			
-		if ($savepath !== null) {
-				$parameters['download-dir'] = (string) $savepath;
-			}
+	$parameters = array($metainfo ? 'metainfo' : 'filename' => $torrent);
 
-			$response = $this->getClient()->call('torrent-add', $parameters);
+	if ($savepath !== null) {
+		$parameters['download-dir'] = (string) $savepath;
+	}
+
+	$response = $this->getClient()->call(
+		'torrent-add',
+		$parameters
+	);
 
         return $this->getMapper()->map(
             new Torrent($this->getClient()),
