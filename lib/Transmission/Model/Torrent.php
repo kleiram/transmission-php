@@ -74,6 +74,11 @@ class Torrent extends AbstractModel
     protected $trackers = array();
 
     /**
+     * @var double
+     */
+    protected $uploadRatio;
+
+    /**
      * @param integer $id
      */
     public function setId($id)
@@ -288,6 +293,22 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @param double $ratio
+     */
+    public function setUploadRatio($ratio)
+    {
+        $this->uploadRatio = (double) $ratio;
+    }
+
+    /**
+     * @return double
+     */
+    public function getUploadRatio()
+    {
+        return $this->uploadRatio;
+    }
+
+    /**
      * @return boolean
      */
     public function isStopped()
@@ -337,6 +358,7 @@ class Torrent extends AbstractModel
             'files' => 'files',
             'peers' => 'peers',
             'trackers' => 'trackers',
+            'uploadRatio' => 'uploadRatio',
             'hashString' => 'hash'
         );
     }
