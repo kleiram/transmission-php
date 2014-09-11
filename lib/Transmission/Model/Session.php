@@ -83,6 +83,16 @@ class Session extends AbstractModel
      * @var boolean
      */
     protected $downloadSpeedLimitEnabled;
+    
+    /**
+     * @var integer
+     */
+    protected $uploadSpeedLimit;
+
+    /**
+     * @var boolean
+     */
+    protected $uploadSpeedLimitEnabled;
 
     /**
      * @param integer $speed
@@ -325,6 +335,38 @@ class Session extends AbstractModel
     }
 
     /**
+     * @param integer $limit
+     */
+    public function setUploadSpeedLimit($limit)
+    {
+        $this->uploadSpeedLimit = (integer) $limit;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUploadSpeedLimit()
+    {
+        return $this->uploadSpeedLimit;
+    }
+
+    /**
+     * @param boolean $enabled
+     */
+    public function setUploadSpeedLimitEnabled($enabled)
+    {
+        $this->uploadSpeedLimitEnabled = (boolean) $enabled;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isUploadSpeedLimitEnabled()
+    {
+        return $this->uploadSpeedLimitEnabled;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public static function getMapping()
@@ -345,6 +387,8 @@ class Session extends AbstractModel
             'seed-queue-enabled' => 'seedQueueEnabled',
             'speed-limit-down' => 'downloadSpeedLimit',
             'speed-limit-down-enabled' => 'downloadSpeedLimitEnabled',
+            'speed-limit-up' => 'uploadSpeedLimit',
+            'speed-limit-up-enabled' => 'uploadSpeedLimitEnabled',
         );
     }
 
