@@ -46,6 +46,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             'seed-queue-enabled' => true,
             'speed-limit-down' => 100,
             'speed-limit-down-enabled' => true,
+            'speed-limit-up' => 100,
+            'speed-limit-up-enabled' => true
         );
 
         PropertyMapper::map($this->getSession(), $source);
@@ -65,6 +67,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->getSession()->isSeedQueueEnabled());
         $this->assertEquals(100, $this->getSession()->getDownloadSpeedLimit());
         $this->assertTrue($this->getSession()->isDownloadSpeedLimitEnabled());
+        $this->assertEquals(100, $this->getSession()->getUploadSpeedLimit());
+        $this->assertTrue($this->getSession()->isUploadSpeedLimitEnabled());
     }
 
     /**
@@ -87,7 +91,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             'seed-queue-size' => 5,
             'seed-queue-enabled' => true,
             'speed-limit-down' => 100,
-            'speed-limit-down-enabled' => true
+            'speed-limit-down-enabled' => true,
+            'speed-limit-up' => 100,
+            'speed-limit-up-enabled' => true
         );
 
         PropertyMapper::map($this->getSession(), (object) $expected);
