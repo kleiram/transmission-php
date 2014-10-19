@@ -59,7 +59,18 @@ class ResponseValidator
      */
     public static function validateAddResponse(\stdClass $response)
     {
-        $fields = array('torrent-added', 'torrent-duplicate');
+        // fix for issue #35
+        if ($response -> result == 'success' &&
+			isset ($response->arguments -> {torrent-added}) &&
+			count($response->arguments -> {torrent-added}))
+		{
+			return $response->arguments -> {torrent-added};
+		}
+		if ($response -> result == 'duplicate torrent')
+			return $response -> result;
+		
+		
+        /*$fields = array('torrent-added', 'torrent-duplicate');
 
         foreach ($fields as $field) {
             if (isset($response->arguments) &&
@@ -67,7 +78,7 @@ class ResponseValidator
                 count($response->arguments->$field)) {
                 return $response->arguments->$field;
             }
-        }
+        }*/
 
         throw new \RuntimeException('Invalid response received from Transmission');
     }
