@@ -53,6 +53,16 @@ $transmission->remove($torrent, true);
 // These are instances of the Transmission\Model\Tracker class
 $trackers = $torrent->getTrackers();
 
+// You can also get the Trackers statistics and info that the torrent currently has
+// These are instances of the Transmission\Model\trackerStats class
+$trackerStats = $torrent->getTrackerStats();
+
+// To get the start date/time of the torrent in UNIX Timestamp format
+$startTime = $torrent -> getStartDate();
+
+// To get the number of peers connected
+$connectedPeers = $torrent -> getPeersConnected();
+
 // Getting the files downloaded by the torrent are available too
 // These are instances of Transmission\Model\File
 $files = $torrent->getFiles();
