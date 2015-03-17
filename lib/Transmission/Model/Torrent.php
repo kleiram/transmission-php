@@ -46,12 +46,21 @@ class Torrent extends AbstractModel
     /**
      * @var integer
      */
+    protected $startDate;
+    /**
+     * @var integer
+     */
     protected $uploadRate;
 
     /**
      * @var integer
      */
     protected $downloadRate;
+
+    /**
+     * @var integer
+     */
+    protected $peersConnected;
 
     /**
      * @var double
@@ -72,6 +81,11 @@ class Torrent extends AbstractModel
      * @var array
      */
     protected $trackers = array();
+
+    /**
+     * @var array
+     */
+    protected $trackerStats = array();
 
     /**
      * @var double
@@ -191,6 +205,21 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @var integer $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = (integer) $startDate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+    /**
      * @var integer $rate
      */
     public function setUploadRate($rate)
@@ -212,6 +241,22 @@ class Torrent extends AbstractModel
     public function setDownloadRate($rate)
     {
         $this->downloadRate = (integer) $rate;
+    }
+	
+	/**
+     * @param integer $peersConnected
+     */
+    public function setPeersConnected($peersConnected)
+    {
+        $this->peersConnected = (integer) $peersConnected;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getPeersConnected()
+    {
+        return $this->peersConnected;
     }
 
     /**
@@ -272,6 +317,23 @@ class Torrent extends AbstractModel
     public function getPeers()
     {
         return $this->peers;
+    }
+    /**
+     * @param array $trackerStats
+     */
+    public function setTrackerStats(array $trackerStats)
+    {
+        $this->trackerStats = array_map(function ($trackerStats) {
+            return PropertyMapper::map(new trackerStats(), $trackerStats);
+        }, $trackerStats);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTrackerStats()
+    {
+        return $this->trackerStats;
     }
 
     /**
@@ -357,7 +419,10 @@ class Torrent extends AbstractModel
             'percentDone' => 'percentDone',
             'files' => 'files',
             'peers' => 'peers',
+            'peersConnected' => 'peersConnected',
             'trackers' => 'trackers',
+            'trackerStats' => 'trackerStats',
+            'startDate' => 'startDate',
             'uploadRatio' => 'uploadRatio',
             'hashString' => 'hash'
         );
