@@ -4,7 +4,7 @@ namespace Transmission\Model;
 /**
  * @author Bilal Ghouri <bilalghouri@live.com>
  */
-class trackerStats extends AbstractModel
+class TrackerStats extends AbstractModel
 {
     /**
      * @var string
