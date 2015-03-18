@@ -47,6 +47,7 @@ class Torrent extends AbstractModel
      * @var integer
      */
     protected $startDate;
+    
     /**
      * @var integer
      */
@@ -324,7 +325,7 @@ class Torrent extends AbstractModel
     public function setTrackerStats(array $trackerStats)
     {
         $this->trackerStats = array_map(function ($trackerStats) {
-            return PropertyMapper::map(new trackerStats(), $trackerStats);
+            return PropertyMapper::map(new TrackerStats(), $trackerStats);
         }, $trackerStats);
     }
 
