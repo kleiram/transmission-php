@@ -47,7 +47,14 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
                 (object) array(),
                 (object) array()
             ),
+            'peersConnected' => 10,
+            'startDate' => 1427583510,
             'trackers' => array(
+                (object) array(),
+                (object) array(),
+                (object) array()
+            ),
+            'trackerStats' => array(
                 (object) array(),
                 (object) array(),
                 (object) array()
