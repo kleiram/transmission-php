@@ -77,6 +77,11 @@ class Torrent extends AbstractModel
      * @var double
      */
     protected $uploadRatio;
+    
+    /**
+	 * @var string
+	 */
+	protected $downloadDir;
 
     /**
      * @param integer $id
@@ -339,6 +344,22 @@ class Torrent extends AbstractModel
     {
         return $this->status->isSeeding();
     }
+    
+    /**
+	 * @return string
+	 */
+	public function getDownloadDir()
+	{
+		return $this->downloadDir;
+	}
+
+	/**
+	 * @param string $downloadDir
+	 */
+	public function setDownloadDir($downloadDir)
+	{
+		$this->downloadDir = $downloadDir;
+	}
 
     /**
      * {@inheritDoc}
@@ -359,7 +380,8 @@ class Torrent extends AbstractModel
             'peers' => 'peers',
             'trackers' => 'trackers',
             'uploadRatio' => 'uploadRatio',
-            'hashString' => 'hash'
+            'hashString' => 'hash',
+            'downloadDir' => 'downloadDir'
         );
     }
 }
