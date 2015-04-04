@@ -244,6 +244,20 @@ class Transmission
     }
 
     /**
+    * Move torrent files to a new location
+    *
+    * @param Transmission\Model\Torrent $torrent
+    * @param string $location
+    * @param boolean $move
+    */
+    public function move(Torrent $torrent, $location, $move = true)
+    {
+        $arguments = array('ids' => array($torrent->getId()), 'location' => $location, 'move' => $move);
+
+        $this->getClient()->call('torrent-set-location', $arguments);
+    }
+
+    /**
      * Set the client used to connect to Transmission
      *
      * @param Transmission\Client $client
