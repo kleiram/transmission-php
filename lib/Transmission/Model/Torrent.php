@@ -61,6 +61,11 @@ class Torrent extends AbstractModel
     /**
      * @var integer
      */
+    protected $secondsSeeding;
+
+    /**
+     * @var integer
+     */
     protected $peersConnected;
 
     /**
@@ -243,6 +248,22 @@ class Torrent extends AbstractModel
     {
         $this->downloadRate = (integer) $rate;
     }
+
+    /**
+     * @param integer $seconds
+     */
+    public function setSecondsSeeding($seconds)
+    {
+        $this->secondsSeeding = $seconds;
+    }
+
+    /**
+     * @return integer $secondsSeeding
+     */
+    public function getSecondsSeeding()
+    {
+        return $this->secondsSeeding;
+    }
 	
 	/**
      * @param integer $peersConnected
@@ -417,6 +438,7 @@ class Torrent extends AbstractModel
             'isFinished' => 'finished',
             'rateUpload' => 'uploadRate',
             'rateDownload' => 'downloadRate',
+            'secondsSeeding' => 'secondsSeeding',
             'percentDone' => 'percentDone',
             'files' => 'files',
             'peers' => 'peers',
