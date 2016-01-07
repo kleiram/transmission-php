@@ -106,7 +106,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
     public function shouldHaveConvenienceMethods($status, $method)
     {
         $methods = array('stopped', 'checking', 'downloading', 'seeding');
-        $accessor = PropertyAccess::getPropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessor();
         $this->getTorrent()->setStatus($status);
 
         $methods = array_filter($methods, function ($value) use ($method) {
