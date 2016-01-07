@@ -94,9 +94,9 @@ class Torrent extends AbstractModel
     protected $uploadRatio;
     
     /**
-	 * @var string
-	 */
-	protected $downloadDir;
+     * @var string
+     */
+    protected $downloadDir;
 
     /**
      * @param integer $id
@@ -248,8 +248,8 @@ class Torrent extends AbstractModel
     {
         $this->downloadRate = (integer) $rate;
     }
-	
-	/**
+
+    /**
      * @param integer $peersConnected
      */
     public function setPeersConnected($peersConnected)
@@ -409,20 +409,20 @@ class Torrent extends AbstractModel
     }
     
     /**
-	 * @return string
-	 */
-	public function getDownloadDir()
-	{
-		return $this->downloadDir;
-	}
+     * @return string
+     */
+    public function getDownloadDir()
+    {
+        return $this->downloadDir;
+    }
 
-	/**
-	 * @param string $downloadDir
-	 */
-	public function setDownloadDir($downloadDir)
-	{
-		$this->downloadDir = $downloadDir;
-	}
+    /**
+     * @param string $downloadDir
+     */
+    public function setDownloadDir($downloadDir)
+    {
+        $this->downloadDir = $downloadDir;
+    }
 
     /**
      * {@inheritDoc}
