@@ -94,9 +94,19 @@ class Torrent extends AbstractModel
     protected $uploadRatio;
     
     /**
-	 * @var string
-	 */
-	protected $downloadDir;
+     * @var string
+     */
+    protected $downloadDir;
+
+    /**
+     * @var integer
+     */
+    protected $downloadedEver;
+
+    /**
+     * @var integer
+     */
+    protected $uploadedEver;
 
     /**
      * @param integer $id
@@ -248,8 +258,8 @@ class Torrent extends AbstractModel
     {
         $this->downloadRate = (integer) $rate;
     }
-	
-	/**
+
+    /**
      * @param integer $peersConnected
      */
     public function setPeersConnected($peersConnected)
@@ -409,20 +419,48 @@ class Torrent extends AbstractModel
     }
     
     /**
-	 * @return string
-	 */
-	public function getDownloadDir()
-	{
-		return $this->downloadDir;
-	}
+     * @return string
+     */
+    public function getDownloadDir()
+    {
+        return $this->downloadDir;
+    }
 
-	/**
-	 * @param string $downloadDir
-	 */
-	public function setDownloadDir($downloadDir)
-	{
-		$this->downloadDir = $downloadDir;
-	}
+    /**
+     * @param string $downloadDir
+     */
+    public function setDownloadDir($downloadDir)
+    {
+        $this->downloadDir = $downloadDir;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloadedEver() {
+        return $this->downloadedEver;
+    }
+
+    /**
+     * @param int $downloadedEver
+     */
+    public function setDownloadedEver($downloadedEver) {
+        $this->downloadedEver = $downloadedEver;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUploadedEver() {
+        return $this->uploadedEver;
+    }
+
+    /**
+     * @param int $uploadedEver
+     */
+    public function setUploadedEver($uploadedEver) {
+        $this->uploadedEver = $uploadedEver;
+    }
 
     /**
      * {@inheritDoc}
@@ -447,7 +485,9 @@ class Torrent extends AbstractModel
             'startDate' => 'startDate',
             'uploadRatio' => 'uploadRatio',
             'hashString' => 'hash',
-            'downloadDir' => 'downloadDir'
+            'downloadDir' => 'downloadDir',
+            'downloadedEver' => 'downloadedEver',
+            'uploadedEver' => 'uploadedEver'
         );
     }
 }
