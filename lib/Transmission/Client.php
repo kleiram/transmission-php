@@ -54,7 +54,7 @@ class Client
     protected $token;
 
     /**
-     * @var Buzz\Client\ClientInterface
+     * @var ClientInterface
      */
     protected $client;
 
@@ -96,8 +96,8 @@ class Client
      *
      * @param  string           $method
      * @param  array            $arguments
-     * @return stdClass
-     * @throws RuntimeException
+     * @return \stdClass
+     * @throws \RuntimeException
      */
     public function call($method, array $arguments)
     {
@@ -211,7 +211,7 @@ class Client
     /**
      * Set the Buzz client used to connect to Transmission
      *
-     * @param Buzz\Client\ClientInterface $client
+     * @param ClientInterface $client
      */
     public function setClient(ClientInterface $client)
     {
@@ -221,7 +221,7 @@ class Client
     /**
      * Get the Buzz client used to connect to Transmission
      *
-     * @return Buzz\Client\ClientInterface
+     * @return ClientInterface
      */
     public function getClient()
     {
@@ -230,9 +230,8 @@ class Client
 
     /**
      * @param string $method
-     * @param array  $arguments
-     *
-     * @return <Buzz\Message\Request, Buzz\Message\Response>
+     * @param array $arguments
+     * @return array|Request[]|Response[]
      */
     protected function compose($method, $arguments)
     {
@@ -251,11 +250,11 @@ class Client
     }
 
     /**
-     * @param  Buzz\Message\Response $response
+     * @param  Response $response
      * @param  string                $method
      * @param  array                 $arguments
-     * @return stdClass
-     * @throws RuntimeException
+     * @return \stdClass
+     * @throws \RuntimeException
      */
     protected function validateResponse($response, $method, $arguments)
     {

@@ -7,9 +7,9 @@ namespace Transmission\Util;
 class ResponseValidator
 {
     /**
-     * @param  string           $method
-     * @param  stdClass         $response
-     * @throws RuntimeException
+     * @param  string    $method
+     * @param  \stdClass $response
+     * @return \stdClass
      */
     public static function validate($method, \stdClass $response)
     {
@@ -38,8 +38,8 @@ class ResponseValidator
     }
 
     /**
-     * @param  stdClass         $response
-     * @throws RuntimeException
+     * @param  \stdClass         $response
+     * @throws \RuntimeException
      */
     public static function validateGetResponse(\stdClass $response)
     {
@@ -54,8 +54,8 @@ class ResponseValidator
     }
 
     /**
-     * @param  stdClass         $response
-     * @throws RuntimeException
+     * @param  \stdClass         $response
+     * @throws \RuntimeException
      */
     public static function validateAddResponse(\stdClass $response)
     {
@@ -84,8 +84,8 @@ class ResponseValidator
     }
 
     /**
-     * @param  stdClass $response
-     * @return stdClass
+     * @param  \stdClass $response
+     * @return \stdClass
      */
     public static function validateSessionStatsGetResponse(\stdClass $response)
     {

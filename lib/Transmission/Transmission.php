@@ -14,17 +14,17 @@ use Transmission\Util\ResponseValidator;
 class Transmission
 {
     /**
-     * @var Transmission\Client
+     * @var Client
      */
     protected $client;
 
     /**
-     * @var Transmission\Util\ResponseValidator
+     * @var ResponseValidator
      */
     protected $validator;
 
     /**
-     * @var Transmission\Util\PropertyMapper
+     * @var PropertyMapper
      */
     protected $mapper;
 
@@ -45,7 +45,7 @@ class Transmission
     /**
      * Get all the torrents in the download queue
      *
-     * @return array
+     * @return Torrent[]
      */
     public function all()
     {
@@ -70,8 +70,8 @@ class Transmission
      * Get a specific torrent from the download queue
      *
      * @param  integer                    $id
-     * @return Transmission\Model\Torrent
-     * @throws RuntimeException
+     * @return Torrent
+     * @throws \RuntimeException
      */
     public function get($id)
     {
@@ -98,7 +98,7 @@ class Transmission
     /**
      * Get the Transmission session
      *
-     * @return Transmission\Model\Session
+     * @return Session
      */
     public function getSession()
     {
@@ -113,6 +113,9 @@ class Transmission
         );
     }
 
+    /**
+     * @return SessionStats
+     */
     public function getSessionStats()
     {
         $response = $this->getClient()->call(
@@ -128,8 +131,8 @@ class Transmission
 
     /**
      * Get Free space
-     * @param  string                       $path
-     * @return Transmission\Model\FreeSpace
+     * @param  string $path
+     * @return FreeSpace
      */
     public function getFreeSpace($path=null)
     {
@@ -150,10 +153,10 @@ class Transmission
     /**
      * Add a torrent to the download queue
      *
-     * @param  string                     $filename
-     * @param  boolean                    $metainfo
-     * @param  string                     $savepath
-     * @return Transmission\Model\Torrent
+     * @param  string   $torrent
+     * @param  boolean  $metainfo
+     * @param  string   $savepath
+     * @return Torrent
      */
     public function add($torrent, $metainfo = false, $savepath = null)
     {
@@ -177,8 +180,8 @@ class Transmission
     /**
      * Start the download of a torrent
      *
-     * @param Transmission\Model\Torrent $torrent
-     * @param Booleam                    $now
+     * @param Torrent $torrent
+     * @param bool    $now
      */
     public function start(Torrent $torrent, $now = false)
     {
@@ -191,7 +194,7 @@ class Transmission
     /**
      * Stop the download of a torrent
      *
-     * @param Transmission\Model\Torrent $torrent
+     * @param Torrent $torrent
      */
     public function stop(Torrent $torrent)
     {
@@ -204,7 +207,7 @@ class Transmission
     /**
      * Verify the download of a torrent
      *
-     * @param Transmission\Model\Torrent $torrent
+     * @param Torrent $torrent
      */
     public function verify(Torrent $torrent)
     {
@@ -217,7 +220,7 @@ class Transmission
     /**
      * Request a reannounce of a torrent
      *
-     * @param Transmission\Model\Torrent $torrent
+     * @param Torrent $torrent
      */
     public function reannounce(Torrent $torrent)
     {
@@ -230,7 +233,7 @@ class Transmission
     /**
      * Remove a torrent from the download queue
      *
-     * @param Transmission\Model\Torrent $torrent
+     * @param Torrent $torrent
      */
     public function remove(Torrent $torrent, $localData = false)
     {
@@ -246,7 +249,7 @@ class Transmission
     /**
      * Set the client used to connect to Transmission
      *
-     * @param Transmission\Client $client
+     * @param Client $client
      */
     public function setClient(Client $client)
     {
@@ -256,7 +259,7 @@ class Transmission
     /**
      * Get the client used to connect to Transmission
      *
-     * @return Transmission\Client
+     * @return Client
      */
     public function getClient()
     {
@@ -270,7 +273,7 @@ class Transmission
      */
     public function setHost($host)
     {
-        return $this->getClient()->setHost($host);
+        $this->getClient()->setHost($host);
     }
 
     /**
@@ -290,7 +293,7 @@ class Transmission
      */
     public function setPort($port)
     {
-        return $this->getClient()->setPort($port);
+        $this->getClient()->setPort($port);
     }
 
     /**
@@ -306,7 +309,7 @@ class Transmission
     /**
      * Set the mapper used to map responses from Transmission to models
      *
-     * @param Transmission\Util\PropertyMapper $mapper
+     * @param PropertyMapper $mapper
      */
     public function setMapper(PropertyMapper $mapper)
     {
@@ -316,7 +319,7 @@ class Transmission
     /**
      * Get the mapper used to map responses from Transmission to models
      *
-     * @return Transmission\Util\PropertyMapper
+     * @return PropertyMapper
      */
     public function getMapper()
     {
@@ -326,7 +329,7 @@ class Transmission
     /**
      * Set the validator used to validate Transmission responses
      *
-     * @param Transmission\Util\ResponseValidator $validator
+     * @param ResponseValidator $validator
      */
     public function setValidator(ResponseValidator $validator)
     {
@@ -336,7 +339,7 @@ class Transmission
     /**
      * Get the validator used to validate Transmission responses
      *
-     * @return Transmission\Util\ResponseValidator
+     * @return ResponseValidator
      */
     public function getValidator()
     {
