@@ -53,7 +53,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function shouldMakeApiCall()
     {
         $test   = $this;
-        $client = $this->getMock('Buzz\Client\Curl');
+        $client = $this->createMock('Buzz\Client\Curl');
         $client->expects($this->once())
             ->method('send')
             ->with(
@@ -87,7 +87,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function shouldAuthenticate()
     {
         $test   = $this;
-        $client = $this->getMock('Buzz\Client\Curl');
+        $client = $this->createMock('Buzz\Client\Curl');
         $client->expects($this->once())
             ->method('send')
             ->with(
@@ -123,7 +123,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldThrowExceptionOnExceptionDuringApiCall()
     {
-        $client = $this->getMock('Buzz\Client\Curl');
+        $client = $this->createMock('Buzz\Client\Curl');
         $client->expects($this->once())
             ->method('send')
             ->will($this->throwException(new \Exception()));
@@ -138,7 +138,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldThrowExceptionOnUnexpectedStatusCode()
     {
-        $client = $this->getMock('Buzz\Client\Curl');
+        $client = $this->createMock('Buzz\Client\Curl');
         $client->expects($this->once())
             ->method('send')
             ->will($this->returnCallback(function ($request, $response) {
@@ -155,7 +155,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldThrowExceptionOnAccessDenied()
     {
-        $client = $this->getMock('Buzz\Client\Curl');
+        $client = $this->createMock('Buzz\Client\Curl');
         $client->expects($this->once())
             ->method('send')
             ->will($this->returnCallback(function ($request, $response) {
@@ -172,7 +172,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function shouldHandle409ResponseWhenMakingAnApiCall()
     {
         $test   = $this;
-        $client = $this->getMock('Buzz\Client\Curl');
+        $client = $this->createMock('Buzz\Client\Curl');
         $client->expects($this->at(0))
             ->method('send')
             ->will($this->returnCallback(function ($request, $response) use ($test) {
