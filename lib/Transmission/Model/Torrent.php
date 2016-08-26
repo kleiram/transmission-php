@@ -69,7 +69,7 @@ class Torrent extends AbstractModel
     protected $percentDone;
 
     /**
-     * @var array
+     * @var File[]
      */
     protected $files = array();
 
@@ -79,7 +79,7 @@ class Torrent extends AbstractModel
     protected $peers = array();
 
     /**
-     * @var array
+     * @var Tracker[]
      */
     protected $trackers = array();
 
@@ -107,6 +107,11 @@ class Torrent extends AbstractModel
      * @var integer
      */
     protected $uploadedEver;
+
+    /**
+     * @var  FileStatus[]
+     */
+    protected $fileStatus;
 
     /**
      * @param integer $id
@@ -310,7 +315,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * @return File[]
      */
     public function getFiles()
     {
@@ -328,7 +333,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * @return Peer[]
      */
     public function getPeers()
     {
@@ -345,7 +350,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * @return TrackerStats[]
      */
     public function getTrackerStats()
     {
@@ -363,7 +368,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * @return Tracker[]
      */
     public function getTrackers()
     {
@@ -463,6 +468,24 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @return FileStatus[]
+     */
+    public function getFileStatus()
+    {
+        return $this->fileStatus;
+    }
+
+    /**
+     * @param array $fileStatus
+     */
+    public function setFileStatus($fileStatus)
+    {
+        $this->fileStatus = array_map(function ($tracker) {
+            return PropertyMapper::map(new FileStatus(), $tracker);
+        }, $fileStatus);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public static function getMapping()
@@ -487,7 +510,8 @@ class Torrent extends AbstractModel
             'hashString' => 'hash',
             'downloadDir' => 'downloadDir',
             'downloadedEver' => 'downloadedEver',
-            'uploadedEver' => 'uploadedEver'
+            'uploadedEver' => 'uploadedEver',
+            'fileStatus' => 'fileStatus'
         );
     }
 }
