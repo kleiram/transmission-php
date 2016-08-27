@@ -4,7 +4,7 @@ namespace Transmission\Model;
 /**
  * @author DnAp <dnlebedev@gmail.com>
  */
-class FileStatus extends AbstractModel
+class FileStats extends AbstractModel
 {
     /**
      * @var int

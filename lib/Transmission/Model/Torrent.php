@@ -109,9 +109,9 @@ class Torrent extends AbstractModel
     protected $uploadedEver;
 
     /**
-     * @var  FileStatus[]
+     * @var  FileStats[]
      */
-    protected $fileStatus;
+    protected $fileStats;
 
     /**
      * @param integer $id
@@ -468,21 +468,21 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return FileStatus[]
+     * @return FileStats[]
      */
-    public function getFileStatus()
+    public function getFileStats()
     {
-        return $this->fileStatus;
+        return $this->fileStats;
     }
 
     /**
-     * @param array $fileStatus
+     * @param array $fileStats
      */
-    public function setFileStatus($fileStatus)
+    public function setFileStats($fileStats)
     {
-        $this->fileStatus = array_map(function ($tracker) {
-            return PropertyMapper::map(new FileStatus(), $tracker);
-        }, $fileStatus);
+        $this->fileStats = array_map(function ($tracker) {
+            return PropertyMapper::map(new FileStats(), $tracker);
+        }, $fileStats);
     }
 
     /**
@@ -511,7 +511,7 @@ class Torrent extends AbstractModel
             'downloadDir' => 'downloadDir',
             'downloadedEver' => 'downloadedEver',
             'uploadedEver' => 'uploadedEver',
-            'fileStatus' => 'fileStatus'
+            'fileStats' => 'fileStats'
         );
     }
 }
