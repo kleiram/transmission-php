@@ -34,7 +34,7 @@ class Torrent extends AbstractModel
     protected $hash;
 
     /**
-     * @var integer
+     * @var Status
      */
     protected $status;
 
@@ -189,7 +189,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer|Transmission\Model\Status $status
+     * @param integer|Status $status
      */
     public function setStatus($status)
     {

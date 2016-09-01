@@ -12,9 +12,9 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class PropertyMapper
 {
     /**
-     * @param  Transmission\Model\ModelInterface $model
-     * @param  stdClass                          $dto
-     * @return Transmission\Model\ModelInterface
+     * @param  ModelInterface $model
+     * @param  \stdClass                          $dto
+     * @return ModelInterface
      */
     public static function map(ModelInterface $model, $dto)
     {
