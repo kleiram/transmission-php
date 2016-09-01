@@ -156,11 +156,15 @@ class Transmission
      * @param  string   $torrent
      * @param  boolean  $metainfo
      * @param  string   $savepath
+     * @param  bool     $paused
      * @return Torrent
      */
-    public function add($torrent, $metainfo = false, $savepath = null)
+    public function add($torrent, $metainfo = false, $savepath = null, $paused = false)
     {
-        $parameters = array($metainfo ? 'metainfo' : 'filename' => $torrent);
+        $parameters = array(
+            $metainfo ? 'metainfo' : 'filename' => $torrent,
+            'paused' => (bool) $paused
+        );
 
         if ($savepath !== null) {
             $parameters['download-dir'] = (string) $savepath;
