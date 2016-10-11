@@ -6,7 +6,7 @@ use Transmission\Util\PropertyMapper;
 /**
  * @author Ramon Kleiss <ramon@cubilon.nl>
  */
-class Torrent extends AbstractModel
+class Torrent extends AbstractModel implements TorrentInterface
 {
     /**
      * @var integer
@@ -47,7 +47,7 @@ class Torrent extends AbstractModel
      * @var integer
      */
     protected $startDate;
-    
+
     /**
      * @var integer
      */
@@ -92,7 +92,7 @@ class Torrent extends AbstractModel
      * @var double
      */
     protected $uploadRatio;
-    
+
     /**
      * @var string
      */
@@ -109,7 +109,7 @@ class Torrent extends AbstractModel
     protected $uploadedEver;
 
     /**
-     * @param integer $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -117,7 +117,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getId()
     {
@@ -125,7 +125,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $eta
+     * {@inheritDoc}
      */
     public function setEta($eta)
     {
@@ -133,7 +133,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getEta()
     {
@@ -141,7 +141,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $size
+     * {@inheritDoc}
      */
     public function setSize($size)
     {
@@ -149,7 +149,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getSize()
     {
@@ -157,7 +157,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * {@inheritDoc}
      */
     public function setName($name)
     {
@@ -165,7 +165,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -173,7 +173,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param string $hash
+     * {@inheritDoc}
      */
     public function setHash($hash)
     {
@@ -181,7 +181,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getHash()
     {
@@ -189,7 +189,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer|Status $status
+     * {@inheritDoc}
      */
     public function setStatus($status)
     {
@@ -197,7 +197,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getStatus()
     {
@@ -205,7 +205,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param boolean $finished
+     * {@inheritDoc}
      */
     public function setFinished($finished)
     {
@@ -213,7 +213,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isFinished()
     {
@@ -221,7 +221,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @var integer $startDate
+     * {@inheritDoc}
      */
     public function setStartDate($startDate)
     {
@@ -229,14 +229,15 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getStartDate()
     {
         return $this->startDate;
     }
+
     /**
-     * @var integer $rate
+     * {@inheritDoc}
      */
     public function setUploadRate($rate)
     {
@@ -244,7 +245,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getUploadRate()
     {
@@ -252,7 +253,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $rate
+     * {@inheritDoc}
      */
     public function setDownloadRate($rate)
     {
@@ -260,7 +261,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer $peersConnected
+     * {@inheritDoc}
      */
     public function setPeersConnected($peersConnected)
     {
@@ -268,7 +269,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getPeersConnected()
     {
@@ -276,7 +277,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return integer
+     * {@inheritDoc}
      */
     public function getDownloadRate()
     {
@@ -284,7 +285,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param double $done
+     * {@inheritDoc}
      */
     public function setPercentDone($done)
     {
@@ -292,7 +293,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return double
+     * {@inheritDoc}
      */
     public function getPercentDone()
     {
@@ -300,7 +301,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param array $files
+     * {@inheritDoc}
      */
     public function setFiles(array $files)
     {
@@ -310,7 +311,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getFiles()
     {
@@ -318,7 +319,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param array $peers
+     * {@inheritDoc}
      */
     public function setPeers(array $peers)
     {
@@ -328,14 +329,15 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getPeers()
     {
         return $this->peers;
     }
+
     /**
-     * @param array $trackerStats
+     * {@inheritDoc}
      */
     public function setTrackerStats(array $trackerStats)
     {
@@ -345,7 +347,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getTrackerStats()
     {
@@ -353,7 +355,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param array $trackers
+     * {@inheritDoc}
      */
     public function setTrackers(array $trackers)
     {
@@ -363,7 +365,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getTrackers()
     {
@@ -371,7 +373,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param double $ratio
+     * {@inheritDoc}
      */
     public function setUploadRatio($ratio)
     {
@@ -379,7 +381,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return double
+     * {@inheritDoc}
      */
     public function getUploadRatio()
     {
@@ -387,7 +389,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isStopped()
     {
@@ -395,7 +397,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isChecking()
     {
@@ -403,7 +405,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isDownloading()
     {
@@ -411,15 +413,15 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isSeeding()
     {
         return $this->status->isSeeding();
     }
-    
+
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getDownloadDir()
     {
@@ -427,7 +429,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param string $downloadDir
+     * {@inheritDoc}
      */
     public function setDownloadDir($downloadDir)
     {
@@ -435,30 +437,34 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
-    public function getDownloadedEver() {
+    public function getDownloadedEver()
+    {
         return $this->downloadedEver;
     }
 
     /**
-     * @param int $downloadedEver
+     * {@inheritDoc}
      */
-    public function setDownloadedEver($downloadedEver) {
+    public function setDownloadedEver($downloadedEver)
+    {
         $this->downloadedEver = $downloadedEver;
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
-    public function getUploadedEver() {
+    public function getUploadedEver()
+    {
         return $this->uploadedEver;
     }
 
     /**
-     * @param int $uploadedEver
+     * {@inheritDoc}
      */
-    public function setUploadedEver($uploadedEver) {
+    public function setUploadedEver($uploadedEver)
+    {
         $this->uploadedEver = $uploadedEver;
     }
 
