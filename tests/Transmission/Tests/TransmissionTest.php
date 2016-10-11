@@ -417,6 +417,48 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldTellIfTransmissionRpcIsAvailable()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('', array())
+            ->will($this->returnCallback(function () {
+                return (object) array(
+                    'result' => 'success'
+                );
+            }));
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $availability = $transmission->isAvailable();
+
+        $this->assertTrue($availability);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTellIfTransmissionRpcIsUnavailable()
+    {
+        $client = $this->getMock('Transmission\Client');
+        $client->expects($this->once())
+            ->method('call')
+            ->with('', array())
+            ->will($this->returnCallback(function () {
+                throw new \RuntimeException();
+            }));
+
+        $transmission = new Transmission();
+        $transmission->setClient($client);
+        $availability = $transmission->isAvailable();
+
+        $this->assertFalse($availability);
+    }
+
+    /**
+     * @test
+     */
     public function shouldHaveDefaultPort()
     {
         $this->assertEquals(9091, $this->getTransmission()->getClient()->getPort());
