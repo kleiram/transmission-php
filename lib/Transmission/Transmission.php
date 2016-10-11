@@ -254,7 +254,7 @@ class Transmission
     public function isAvailable()
     {
         try {
-            $this->getClient()->call('', []);
+            $this->getClient()->call('', array());
 
             return true;
         } catch (\RuntimeException $e) {

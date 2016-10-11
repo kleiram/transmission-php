@@ -422,7 +422,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
         $client = $this->getMock('Transmission\Client');
         $client->expects($this->once())
             ->method('call')
-            ->with('', [])
+            ->with('', array())
             ->will($this->returnCallback(function () {
                 return (object) array(
                     'result' => 'success'
@@ -444,7 +444,7 @@ class TransmissionTest extends \PHPUnit_Framework_TestCase
         $client = $this->getMock('Transmission\Client');
         $client->expects($this->once())
             ->method('call')
-            ->with('', [])
+            ->with('', array())
             ->will($this->returnCallback(function () {
                 throw new \RuntimeException();
             }));
