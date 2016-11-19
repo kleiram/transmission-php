@@ -109,6 +109,11 @@ class Torrent extends AbstractModel
     protected $uploadedEver;
 
     /**
+     * @var double
+     */
+    protected $metadataPercentComplete;
+
+    /**
      * @param integer $id
      */
     public function setId($id)
@@ -463,31 +468,46 @@ class Torrent extends AbstractModel
     }
 
     /**
+     * @return double
+     */
+    public function getMetadataPercentComplete() {
+        return $this->metadataPercentComplete;
+    }
+
+    /**
+     * @param double $metadataPercentComplete
+     */
+    public function setMetadataPercentComplete($metadataPercentComplete) {
+        $this->metadataPercentComplete = $metadataPercentComplete;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public static function getMapping()
     {
         return array(
-            'id' => 'id',
-            'eta' => 'eta',
-            'sizeWhenDone' => 'size',
-            'name' => 'name',
-            'status' => 'status',
-            'isFinished' => 'finished',
-            'rateUpload' => 'uploadRate',
-            'rateDownload' => 'downloadRate',
-            'percentDone' => 'percentDone',
-            'files' => 'files',
-            'peers' => 'peers',
-            'peersConnected' => 'peersConnected',
-            'trackers' => 'trackers',
-            'trackerStats' => 'trackerStats',
-            'startDate' => 'startDate',
-            'uploadRatio' => 'uploadRatio',
-            'hashString' => 'hash',
-            'downloadDir' => 'downloadDir',
-            'downloadedEver' => 'downloadedEver',
-            'uploadedEver' => 'uploadedEver'
+            'id'                      => 'id',
+            'eta'                     => 'eta',
+            'sizeWhenDone'            => 'size',
+            'name'                    => 'name',
+            'status'                  => 'status',
+            'isFinished'              => 'finished',
+            'rateUpload'              => 'uploadRate',
+            'rateDownload'            => 'downloadRate',
+            'percentDone'             => 'percentDone',
+            'metadataPercentComplete' => 'metadataPercentComplete',
+            'files'                   => 'files',
+            'peers'                   => 'peers',
+            'peersConnected'          => 'peersConnected',
+            'trackers'                => 'trackers',
+            'trackerStats'            => 'trackerStats',
+            'startDate'               => 'startDate',
+            'uploadRatio'             => 'uploadRatio',
+            'hashString'              => 'hash',
+            'downloadDir'             => 'downloadDir',
+            'downloadedEver'          => 'downloadedEver',
+            'uploadedEver'            => 'uploadedEver'
         );
     }
 }
