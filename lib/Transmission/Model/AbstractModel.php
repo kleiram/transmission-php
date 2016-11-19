@@ -12,14 +12,14 @@ use Transmission\Util\ResponseValidator;
 abstract class AbstractModel implements ModelInterface
 {
     /**
-     * @var Transmission\Client
+     * @var Client
      */
     protected $client;
 
     /**
      * Constructor
      *
-     * @param Transmission\Client $client
+     * @param Client $client
      */
     public function __construct(Client $client = null)
     {
@@ -27,7 +27,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @param Transmission\Client $client
+     * @param Client $client
      */
     public function setClient(Client $client)
     {
@@ -35,7 +35,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @return Transmission\Client
+     * @return Client
      */
     public function getClient()
     {

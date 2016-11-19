@@ -47,7 +47,7 @@ class Status extends AbstractModel
     protected $status;
 
     /**
-     * @param integer|Transmission\Model\Status $status
+     * @param integer|Status $status
      */
     public function __construct($status)
     {

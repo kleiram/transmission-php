@@ -34,7 +34,7 @@ class Torrent extends AbstractModel
     protected $hash;
 
     /**
-     * @var integer
+     * @var Status
      */
     protected $status;
 
@@ -92,6 +92,21 @@ class Torrent extends AbstractModel
      * @var double
      */
     protected $uploadRatio;
+    
+    /**
+     * @var string
+     */
+    protected $downloadDir;
+
+    /**
+     * @var integer
+     */
+    protected $downloadedEver;
+
+    /**
+     * @var integer
+     */
+    protected $uploadedEver;
 
     /**
      * @param integer $id
@@ -174,7 +189,7 @@ class Torrent extends AbstractModel
     }
 
     /**
-     * @param integer|Transmission\Model\Status $status
+     * @param integer|Status $status
      */
     public function setStatus($status)
     {
@@ -243,8 +258,8 @@ class Torrent extends AbstractModel
     {
         $this->downloadRate = (integer) $rate;
     }
-	
-	/**
+
+    /**
      * @param integer $peersConnected
      */
     public function setPeersConnected($peersConnected)
@@ -402,6 +417,50 @@ class Torrent extends AbstractModel
     {
         return $this->status->isSeeding();
     }
+    
+    /**
+     * @return string
+     */
+    public function getDownloadDir()
+    {
+        return $this->downloadDir;
+    }
+
+    /**
+     * @param string $downloadDir
+     */
+    public function setDownloadDir($downloadDir)
+    {
+        $this->downloadDir = $downloadDir;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloadedEver() {
+        return $this->downloadedEver;
+    }
+
+    /**
+     * @param int $downloadedEver
+     */
+    public function setDownloadedEver($downloadedEver) {
+        $this->downloadedEver = $downloadedEver;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUploadedEver() {
+        return $this->uploadedEver;
+    }
+
+    /**
+     * @param int $uploadedEver
+     */
+    public function setUploadedEver($uploadedEver) {
+        $this->uploadedEver = $uploadedEver;
+    }
 
     /**
      * {@inheritDoc}
@@ -425,7 +484,10 @@ class Torrent extends AbstractModel
             'trackerStats' => 'trackerStats',
             'startDate' => 'startDate',
             'uploadRatio' => 'uploadRatio',
-            'hashString' => 'hash'
+            'hashString' => 'hash',
+            'downloadDir' => 'downloadDir',
+            'downloadedEver' => 'downloadedEver',
+            'uploadedEver' => 'uploadedEver'
         );
     }
 }

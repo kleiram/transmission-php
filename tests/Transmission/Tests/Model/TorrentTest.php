@@ -40,6 +40,9 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
             'isFinished' => false,
             'rateUpload' => 10,
             'rateDownload' => 100,
+            'downloadDir' => '/home/foo',
+            'downloadedEver' => 1024000000,
+            'uploadedEver' => 1024000000000, // 1 Tb
             'files' => array(
                 (object) array()
             ),
@@ -72,6 +75,9 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->getTorrent()->isFinished());
         $this->assertEquals(10, $this->getTorrent()->getUploadRate());
         $this->assertEquals(100, $this->getTorrent()->getDownloadRate());
+        $this->assertEquals('/home/foo', $this->getTorrent()->getDownloadDir());
+        $this->assertEquals(1024000000, $this->getTorrent()->getDownloadedEver());
+        $this->assertEquals(1024000000000, $this->getTorrent()->getUploadedEver());
         $this->assertCount(1, $this->getTorrent()->getFiles());
         $this->assertCount(2, $this->getTorrent()->getPeers());
         $this->assertCount(3, $this->getTorrent()->getTrackers());
@@ -104,7 +110,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
     public function shouldHaveConvenienceMethods($status, $method)
     {
         $methods = array('stopped', 'checking', 'downloading', 'seeding');
-        $accessor = PropertyAccess::getPropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessor();
         $this->getTorrent()->setStatus($status);
 
         $methods = array_filter($methods, function ($value) use ($method) {
