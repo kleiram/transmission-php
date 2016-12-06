@@ -54,7 +54,7 @@ class Transmission
         $mapper   = $this->getMapper();
         $response = $this->getClient()->call(
             'torrent-get',
-            array('fields' => array_keys($fields)
+            array('fields' => array_keys($fields))
         );
       
         $torrents = array_map(function ($data) use ($mapper, $client) {
