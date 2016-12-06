@@ -43,6 +43,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
             'downloadDir' => '/home/foo',
             'downloadedEver' => 1024000000,
             'uploadedEver' => 1024000000000, // 1 Tb
+            'metadataPercentComplete' => 100,
             'files' => array(
                 (object) array()
             ),
@@ -78,6 +79,7 @@ class TorrentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/home/foo', $this->getTorrent()->getDownloadDir());
         $this->assertEquals(1024000000, $this->getTorrent()->getDownloadedEver());
         $this->assertEquals(1024000000000, $this->getTorrent()->getUploadedEver());
+        $this->assertEquals(100, $this->getTorrent()->getMetadataPercentComplete());
         $this->assertCount(1, $this->getTorrent()->getFiles());
         $this->assertCount(2, $this->getTorrent()->getPeers());
         $this->assertCount(3, $this->getTorrent()->getTrackers());

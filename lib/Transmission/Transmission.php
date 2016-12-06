@@ -47,15 +47,16 @@ class Transmission
      *
      * @return Torrent[]
      */
-    public function all()
+    public function all($customFields = null)
     {
+        $fields   = isset($customFields) ? $customFields : Torrent::getMapping();
         $client   = $this->getClient();
         $mapper   = $this->getMapper();
         $response = $this->getClient()->call(
             'torrent-get',
-            array('fields' => array_keys(Torrent::getMapping()))
+            array('fields' => array_keys($fields))
         );
-
+      
         $torrents = array_map(function ($data) use ($mapper, $client) {
             return $mapper->map(
                 new Torrent($client),
