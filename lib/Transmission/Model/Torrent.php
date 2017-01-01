@@ -47,7 +47,7 @@ class Torrent extends AbstractModel
      * @var integer
      */
     protected $startDate;
-    
+
     /**
      * @var integer
      */
@@ -92,7 +92,7 @@ class Torrent extends AbstractModel
      * @var double
      */
     protected $uploadRatio;
-    
+
     /**
      * @var string
      */
@@ -201,7 +201,10 @@ class Torrent extends AbstractModel
      */
     public function getStatus()
     {
-        return $this->status->getValue();
+        if ($this->status !== null) {
+            return $this->status->getValue();
+        }
+        return null;
     }
 
     /**
@@ -417,7 +420,7 @@ class Torrent extends AbstractModel
     {
         return $this->status->isSeeding();
     }
-    
+
     /**
      * @return string
      */
