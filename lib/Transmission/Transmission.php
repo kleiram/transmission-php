@@ -233,11 +233,24 @@ class Transmission
     /**
      * Remove a torrent from the download queue
      *
-     * @param Torrent $torrent
+     * @param array[Torrent]|Torrent $torrent
+     * @throws \RuntimeException
      */
-    public function remove(Torrent $torrent, $localData = false)
+    public function remove($torrent, $localData = false)
     {
-        $arguments = array('ids' => array($torrent->getId()));
+        if (is_array($torrent)) {
+            $torrent = array_map(function (Torrent $item) {
+                return $item->getId();
+            }, $torrent);
+
+            $arguments = array('ids' => $torrent);
+        } else {
+            if (! $torrent instanceof Torrent) {
+                throw new \RuntimeException("Torrent parameter must be instance of Torrent");
+            }
+
+            $arguments = array('ids' => array($torrent->getId()));
+        }
 
         if ($localData) {
             $arguments['delete-local-data'] = true;

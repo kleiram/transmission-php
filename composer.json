@@ -18,5 +18,8 @@
         "psr-0": {
             "Transmission": "lib/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
     }
 }
