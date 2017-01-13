@@ -34,7 +34,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldHaveClientIfSetByUser()
     {
-        $client = $this->getMock('Transmission\Client');
+        $client = $this->createMock('Transmission\Client');
 
         $this->getModel()->setClient($client);
         $this->assertEquals($client, $this->getModel()->getClient());

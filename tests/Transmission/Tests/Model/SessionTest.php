@@ -98,7 +98,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         PropertyMapper::map($this->getSession(), (object) $expected);
 
-        $client = $this->getMock('Transmission\Client');
+        $client = $this->createMock('Transmission\Client');
         $client->expects($this->once())
             ->method('call')
             ->with('session-set', $expected)
