@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "kriswallsmith/buzz": ">=0.9",
+        "kriswallsmith/buzz": "0.15.2",
         "symfony/property-access": ">=2.2.1"
     },
     "autoload": {
