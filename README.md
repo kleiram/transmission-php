@@ -26,6 +26,8 @@ Using the library is as easy as installing it:
 
 ```php
 <?php
+include_once './vendor/autoload.php';
+
 use Transmission\Transmission;
 
 $transmission = new Transmission();
@@ -85,6 +87,7 @@ connect to another host or post you can pass those to the constructor of the
 
 ```php
 <?php
+include_once './vendor/autoload.php';
 use Transmission\Transmission;
 
 $transmission = new Transmission('example.com', 33);
@@ -110,6 +113,7 @@ authenticate using the `Client` class:
 
 ```php
 <?php
+include_once './vendor/autoload.php';
 use Transmission\Client;
 use Transmission\Transmission;
 
@@ -124,6 +128,7 @@ you can modify the global download limit or change the download directory:
 
 ```php
 <?php
+include_once './vendor/autoload.php';
 use Transmission\Transmission;
 
 $transmission = new Transmission();
