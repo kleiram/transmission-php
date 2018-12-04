@@ -26,8 +26,8 @@ Using the library is as easy as installing it:
 
 ```php
 <?php
-include_once './vendor/autoload.php';
 
+include_once './vendor/autoload.php';
 use Transmission\Transmission;
 
 $transmission = new Transmission();
