@@ -1,5 +1,5 @@
 {
-    "name": "kleiram/transmission-php",
+    "name": "bauhuynhdev/transmission-php",
     "description": "PHP Transmission client",
     "keywords": ["transmission", "torrent", "download"],
     "type": "library",
